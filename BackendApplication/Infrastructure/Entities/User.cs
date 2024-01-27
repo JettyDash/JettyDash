@@ -1,26 +1,17 @@
-using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Infrastructure.Entities;
 
-[Table(Constants.Database.UserTable, Schema = Constants.Database.Schema)]
-public class User : BaseEntity
+public class User
 {
     public int UserId { get; set; } // Primary key
     public string Username { get; set; }
     public string Password { get; set; }
-
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Email { get; set; }
-    public string Iban { get; set; }
-    public string Role { get; set; } // (Admin or Personnel)
     public int PasswordRetryCount { get; set; }
     public bool IsActive { get; set; } = true;
-    public DateTime LastActivityDateTime { get; set; }
-
-    public virtual ICollection<Expense> ExpenseRequests { get; set; }
+    public virtual ICollection<HostConnection> HostConnections { get; set; }
+    public virtual ICollection<UrlConnection> UrlConnections { get; set; }
 }
 
 public class UserConfiguration : IEntityTypeConfiguration<User>
@@ -34,29 +25,17 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(u => u.Password).IsRequired().HasMaxLength(255);
 
-        builder.Property(u => u.FirstName).IsRequired().HasMaxLength(50);
-
-        builder.Property(u => u.LastName).IsRequired().HasMaxLength(50);
-
-        builder.Property(u => u.Email).IsRequired().HasMaxLength(255);
-        builder.HasIndex(u => u.Email).IsUnique();
-
-        builder.Property(u => u.Iban).IsRequired().HasMaxLength(34);
-        builder.HasIndex(u => u.Iban).IsUnique();
-
-        builder.Property(u => u.Role).IsRequired().HasMaxLength(30);
-
         builder.Property(u => u.PasswordRetryCount).IsRequired();
 
         builder.Property(u => u.IsActive).IsRequired();
         
-        builder.Property(u => u.LastActivityDateTime).IsRequired();
+        builder.HasMany(u => u.HostConnections)
+            .WithOne(h => h.User)
+            .HasForeignKey(h => h.UserId);
         
-        
-        builder.HasMany(u => u.ExpenseRequests)
-            .WithOne(e => e.User)
-            .HasForeignKey(e => e.UserId);
-
+        builder.HasMany(u => u.UrlConnections)
+            .WithOne(h => h.User)
+            .HasForeignKey(h => h.UserId);
 
     }
 }
