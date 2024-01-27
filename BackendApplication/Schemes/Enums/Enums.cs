@@ -1,6 +1,13 @@
 namespace Schemes.Enums;
 
-public class Enums
+
+public enum DatabaseType
 {
-    
+    MySql,
+    Postgres,
+    SqlServer,
+    Oracle,
+    Firebase,
+    Firestore,
+    MongoDB
 }
