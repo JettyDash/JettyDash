@@ -5,5 +5,10 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-
+    <ItemGroup>
+        <Using Include="Schemes.Constants;" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Schemes\Schemes.csproj" />
+    </ItemGroup>
 </Project>
