@@ -1,7 +1,10 @@
+using Business.Services;
 using Infrastructure.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-
+using Schemes.Vault;
+using VaultSharp;
+using VaultSharp.V1.AuthMethods.Token;
 namespace Api;
 
 public class Startup
@@ -15,13 +18,24 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
+    
+        // Vault
+        VaultConfig? vaultConfig = Configuration.GetSection("Vault").Get<VaultConfig>();
         
+        VaultClientSettings vaultClientSettings = new VaultClientSettings(vaultConfig.Address, new TokenAuthMethodInfo(vaultConfig.Token));
+        IVaultClient vaultClient = new VaultClient(vaultClientSettings);
+        services.AddSingleton(vaultClient);
         
+        services.AddScoped<IVaultService, VaultService>();
+        
+
+        // Database yapılandırması        
         services.AddDbContext<BackendDbContext>(options =>
         {
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
         });
         
+
         // // MediatR
         // foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         // {
