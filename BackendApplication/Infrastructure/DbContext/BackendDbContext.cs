@@ -10,15 +10,12 @@ public class BackendDbContext : Microsoft.EntityFrameworkCore.DbContext
     }
 
     public DbSet<User> Users { get; set; }
-    public DbSet<HostConnection> HostConnections { get; set; }
-    public DbSet<UrlConnection> UrlConnections { get; set; }
+    public DbSet<Connection> Connections { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfiguration(new UserConfiguration());
-        modelBuilder.ApplyConfiguration(new HostConnectionConfiguration());
-        modelBuilder.ApplyConfiguration(new UrlConnectionConfiguration());
-        
+        modelBuilder.ApplyConfiguration(new ConnectionConfiguration());
         base.OnModelCreating(modelBuilder);
 
     }
