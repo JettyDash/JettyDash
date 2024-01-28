@@ -1,4 +1,4 @@
-using Newtonsoft.Json;
+using System.Text.Json;
 using Schemes.Exceptions;
 
 namespace Api.Middlewares;
@@ -49,6 +49,6 @@ public class ErrorDetails
 
     public override string ToString()
     {
-        return JsonConvert.SerializeObject(this);
+        return JsonSerializer.Serialize(this);
     }
 }
