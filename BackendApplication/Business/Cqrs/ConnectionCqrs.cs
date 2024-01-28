@@ -4,14 +4,16 @@ using Schemes.Dtos;
 namespace Business.Cqrs;
 
 
-// Connection Respose base responsetan kalıtım alacak apiresponse parametrelerini eklersin
-public record CreateUrlConnectionCommand(CreateUrlConnectionRequest Model) : IRequest<ConnectionResponse>;
-public record CreateHostConnectionCommand(CreateHostConnectionRequest Model) : IRequest<ConnectionResponse>;
+// TODO: Save etmeden önce mutlaka test endpointini çalıştır.
 
-public record UpdateUrlConnectionCommand(int ConnectionId, UpdateUrlConnectionRequest Model) : IRequest<ConnectionResponse>;
-public record UpdateHostConnectionCommand(int ConnectionId, UpdateHostConnectionRequest Model) : IRequest<ConnectionResponse>;
+public record TestConnectionCommand(int ConnectionId) : IRequest<ApiResponse<ConnectionResponse>>;
+public record CreateUrlConnectionCommand(CreateUrlConnectionRequest Model) : IRequest<ApiResponse<ConnectionResponse>>;
+public record CreateHostConnectionCommand(CreateHostConnectionRequest Model) : IRequest<ApiResponse<ConnectionResponse>>;
 
-public record DeleteConnectionCommand(int ConnectionId) : IRequest<ConnectionResponse>;
+public record UpdateUrlConnectionCommand(int ConnectionId, UpdateUrlConnectionRequest Model) : IRequest<ApiResponse<ConnectionResponse>>;
+public record UpdateHostConnectionCommand(int ConnectionId, UpdateHostConnectionRequest Model) : IRequest<ApiResponse<ConnectionResponse>>;
 
-public record GetAllConnectionQuery() : IRequest<List<ConnectionResponse>>;
+public record DeleteConnectionCommand(int ConnectionId) : IRequest<ApiResponse<ConnectionResponse>>;
+
+public record GetAllConnectionQuery() : IRequest<ApiResponse<List<ConnectionResponse>>>;
 
