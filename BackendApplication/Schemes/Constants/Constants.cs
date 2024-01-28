@@ -2,6 +2,19 @@ namespace Schemes.Constants;
 
 public static class Constants
 {
+
+    public static class Roles
+    {
+        public const string Admin = "Admin";
+        public const string Personnel = "Personnel";
+        public const string Guest = "Guest";
+        public const string AdminOrPersonnel = "Admin, Personnel";
+        public const string AdminOrPersonnelOrGuest = "Admin, Personnel, Guest";
+    }
+    public static class ContentType
+    {
+        public const string Json = "application/json";
+    }
     public static class ClaimTypes
     {
         public const string UserId = "UserId";
@@ -11,6 +24,9 @@ public static class Constants
 
     public static class ErrorMessages
     {
+        public const string UserIdNotFound = "UserId not found";
+        public const string RoleNotFound = "Role not found";
+        public const string IdLessThanZero = "Id must be greater than zero";
         public const string CredentialNotFound = "Credential not found";
         public const string InvalidUserInformation = "Invalid user information";
         public const string ContactAdministrator = "Please contact your administrator, your account is locked";
