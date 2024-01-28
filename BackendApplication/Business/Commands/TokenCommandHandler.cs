@@ -1,14 +1,13 @@
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Business.Cqrs;
+using Business.Services;
 using Infrastructure.DbContext;
 using Infrastructure.Entities;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Schemes.Dtos;
 using Schemes.Exceptions;
 using Schemes.Token;
@@ -19,18 +18,17 @@ public class TokenCommandHandler :
     IRequestHandler<CreateTokenCommand, TokenResponse>
 {
     private readonly BackendDbContext dbContext;
-    private readonly JwtConfig jwtConfig;
-
-    public TokenCommandHandler(BackendDbContext dbContext, IOptionsMonitor<JwtConfig> jwtConfig)
+    private readonly ITokenService tokenService;
+    public TokenCommandHandler(BackendDbContext dbContext, ITokenService tokenService)
     {
         this.dbContext = dbContext;
-        this.jwtConfig = jwtConfig.CurrentValue;
+        this.tokenService = tokenService;
     }
 
     public async Task<TokenResponse> Handle(CreateTokenCommand request, CancellationToken cancellationToken)
     {
         string hashString = string.Empty;
-        var user = await dbContext.Set<User>().Where(x => x.Username == request.Model.UserName)
+        var user = await dbContext.Set<User>().Where(x => x.Username.Equals(request.Model.Username))
             .FirstOrDefaultAsync(cancellationToken);
             
         if (user == null)
@@ -68,43 +66,8 @@ public class TokenCommandHandler :
         user.PasswordRetryCount = 0;
         await dbContext.SaveChangesAsync(cancellationToken);
 
-        string token = Token(user);
+        var response = tokenService.CreateTokenResponse(user);
 
-        return new TokenResponse()
-        {
-            Username = user.Username,
-            Token = token,
-            ExpireDate = DateTime.Now.AddMinutes(jwtConfig.AccessTokenExpiration)
-        };
-    }
-
-    private string Token(User user)
-    {
-        Claim[] claims = GetClaims(user);
-        var secret = Encoding.ASCII.GetBytes(jwtConfig.Secret);
-
-        var jwtToken = new JwtSecurityToken(
-            jwtConfig.Issuer,
-            jwtConfig.Audience,
-            claims,
-            expires: DateTime.Now.AddMinutes(jwtConfig.AccessTokenExpiration),
-            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(secret),
-                SecurityAlgorithms.HmacSha256Signature)
-        );
-
-        string accessToken = new JwtSecurityTokenHandler().WriteToken(jwtToken);
-        return accessToken;
-    }
-
-    private Claim[] GetClaims(User user)
-    {
-        var claims = new[]
-        {
-            new Claim(Constants.ClaimTypes.UserId, user.UserId.ToString()),
-            new Claim(Constants.ClaimTypes.Username, user.Username),
-            new Claim(Constants.ClaimTypes.Role, user.Role.ToString()),
-        };
-
-        return claims;
+        return response;
     }
 }
