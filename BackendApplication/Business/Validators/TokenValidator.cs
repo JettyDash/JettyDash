@@ -1,5 +1,4 @@
 using FluentValidation;
-using Infrastructure.Dtos;
 using Schemes.Dtos;
 
 namespace Business.Validators;
