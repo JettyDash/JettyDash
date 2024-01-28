@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace Schemes.Dtos;
 
-public class BaseResponse<T>(T content)
+public class ApiResponse<T>(T content)
 {
     public DateTime ServerDate { get; set; } = DateTime.UtcNow;
     public Guid ReferenceNo { get; set; } = Guid.NewGuid();
