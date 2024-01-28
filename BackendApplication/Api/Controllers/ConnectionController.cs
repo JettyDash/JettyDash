@@ -1,12 +1,11 @@
-using System.ComponentModel.DataAnnotations;
+using Azure.Core;
 using Business.Cqrs;
 using Microsoft.AspNetCore.Authorization;
 using Schemes.Dtos;
-namespace Api.Controllers;
-
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
+
+namespace Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -19,83 +18,65 @@ public class ConnectionController : ControllerBase
         _mediator = mediator;
     }
 
-    // Create Expense
-    [HttpPost]
-    [Authorize(Roles = Constants.Roles.AdminOrPersonnel)]
-    public async Task<IActionResult> CreateExpense([FromBody] CreateExpenseRequest request)
+    [HttpPost("[action]")]
+    [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
+    public async Task<IActionResult> TestConnection([FromBody] CreateUrlConnectionRequest request)
     {
-        var command = new CreateExpenseCommand(request);
-        var result = await _mediator.Send(command);
-        return Ok(result);
-    }
-
-    // Update Expense
-    [HttpPut("{expenseRequestId}")]
-    [Authorize(Roles = Constants.Roles.Admin)]
-
-    public async Task<IActionResult> UpdateExpense(int expenseRequestId, [FromBody] UpdateExpenseRequest request)
-    {
-        var command = new UpdateExpenseCommand(expenseRequestId, request);
-        var result = await _mediator.Send(command);
-        return Ok(result);
-    }
-
-    // Delete Expense
-    [HttpDelete("{expenseRequestId}")]
-    [Authorize(Roles = Constants.Roles.Admin)]
-    public async Task<IActionResult> DeleteExpense(int expenseRequestId)
-    {
-        var command = new DeleteExpenseCommand(expenseRequestId);
+        var command = new CreateUrlConnectionCommand(request);
         var result = await _mediator.Send(command);
         return Ok(result);
     }
     
-    // Approve Expense
-    [HttpPatch("Approve/{expenseRequestId}")]
-    [Authorize(Roles = Constants.Roles.Admin)]
-    public async Task<IActionResult> ApproveExpense(int expenseRequestId)
+    [HttpPost("[action]")]
+    [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
+    public async Task<IActionResult> SaveUrlConnection([FromBody] CreateUrlConnectionRequest request)
     {
-        var command = new ApproveExpenseCommand(expenseRequestId);
+        var command = new CreateUrlConnectionCommand(request);
         var result = await _mediator.Send(command);
         return Ok(result);
     }
     
-    // Reject Expense
-    [HttpPatch("Reject/{expenseRequestId}")]
-    [Authorize(Roles = Constants.Roles.Admin)]
-    public async Task<IActionResult> RejectExpense(int expenseRequestId, [FromBody, MaxLength(255)] string? paymentDescription)
+    [HttpPost("[action]")]
+    [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
+    public async Task<IActionResult> SaveHostConnection([FromBody] CreateHostConnectionRequest request)
     {
-        var command = new RejectExpenseCommand(expenseRequestId, paymentDescription);
+        var command = new CreateHostConnectionCommand(request);
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+    
+    [HttpPut($"[action]/{{connectionId}}")]
+    [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
+    public async Task<IActionResult> EditUrlConnection(int connectionId, [FromBody] UpdateUrlConnectionRequest request)
+    {
+        var command = new UpdateUrlConnectionCommand(connectionId, request);
         var result = await _mediator.Send(command);
         return Ok(result);
     }
 
-    // Get all Expenses
-    [HttpGet]
-    [Authorize(Roles = Constants.Roles.Admin)]
-    public async Task<IActionResult> GetAllExpenses()
+    [HttpPut($"[action]/{{connectionId}}")]
+    [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
+    public async Task<IActionResult> EditHostConnection(int connectionId, [FromBody] UpdateHostConnectionRequest request)
     {
-        var query = new GetAllExpenseQuery();
-        var result = await _mediator.Send(query);
-        return Ok(result);
-    }
-
-    // Get Expense by Id
-    [HttpGet("{expenseRequestId}")]
-    [Authorize(Roles = Constants.Roles.Admin)]
-    public async Task<IActionResult> GetExpenseById(int expenseRequestId)
-    {
-        var query = new GetExpenseByIdQuery(expenseRequestId);
-        var result = await _mediator.Send(query);
+        var command = new UpdateHostConnectionCommand(connectionId, request);
+        var result = await _mediator.Send(command);
         return Ok(result);
     }
     
-    // Get Expense by UserId
-    [HttpGet("ByUser/")]
-    [Authorize(Roles = Constants.Roles.AdminOrPersonnel)]
-    public async Task<IActionResult> GetExpenseByParameterQuery([FromQuery] GetExpenseByParameterRequest request)
+    [HttpDelete("{{connectionId}}")]
+    [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
+    public async Task<IActionResult> DeleteConnection(int connectionId)
     {
-        var query = new GetExpenseByParameterQuery(request);
+        var command = new DeleteConnectionCommand(connectionId);
+        var result = await _mediator.Send(command);
+        return Ok(result);
+    }
+
+    [HttpGet("[action]")]
+    [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
+    public async Task<IActionResult> GetAllConnections()
+    {
+        var query = new GetAllConnectionQuery();
         var result = await _mediator.Send(query);
         return Ok(result);
     }
