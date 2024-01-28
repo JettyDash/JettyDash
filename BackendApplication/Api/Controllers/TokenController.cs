@@ -1,5 +1,4 @@
 using Business.Cqrs;
-using Infrastructure.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Schemes.Dtos;
@@ -20,10 +19,11 @@ public class TokenController : ControllerBase
     
             
     [HttpPost]
-    public async Task<TokenResponse> Post([FromBody] TokenRequest request)
+    public async Task<TokenResponse> CreateToken([FromBody] TokenRequest request)
     {
         var operation = new CreateTokenCommand(request);
         var result = await mediator.Send(operation);
         return result;
     }
+    
 }
