@@ -17,7 +17,17 @@ services:
     networks:
       - mssql-networks
 
-
+  vault:
+    image: hashicorp/vault
+    container_name: vault
+    ports:
+      - ${VAULT_PORT}:${VAULT_PORT}
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_DEV_ROOT_TOKEN_ID}
+      VAULT_ADDR: ${VAULT_DEV_LISTEN_ADDRESS}
+    restart: always
+    
+    
 volumes:
   mssql-volume:
 
