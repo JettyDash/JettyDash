@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Business.Cqrs;
 using Infrastructure.DbContext;
@@ -17,10 +18,10 @@ namespace Business.Commands;
 public class TokenCommandHandler :
     IRequestHandler<CreateTokenCommand, TokenResponse>
 {
-    private readonly ExpenseDbContext dbContext;
+    private readonly BackendDbContext dbContext;
     private readonly JwtConfig jwtConfig;
 
-    public TokenCommandHandler(ExpenseDbContext dbContext, IOptionsMonitor<JwtConfig> jwtConfig)
+    public TokenCommandHandler(BackendDbContext dbContext, IOptionsMonitor<JwtConfig> jwtConfig)
     {
         this.dbContext = dbContext;
         this.jwtConfig = jwtConfig.CurrentValue;
@@ -28,6 +29,7 @@ public class TokenCommandHandler :
 
     public async Task<TokenResponse> Handle(CreateTokenCommand request, CancellationToken cancellationToken)
     {
+        string hashString = string.Empty;
         var user = await dbContext.Set<User>().Where(x => x.Username == request.Model.UserName)
             .FirstOrDefaultAsync(cancellationToken);
             
@@ -41,8 +43,15 @@ public class TokenCommandHandler :
             throw new HttpException(Constants.ErrorMessages.ContactAdministrator, 403);
         }
 
-        string hash = MD5Extensions.ToMD5(request.Model.Password.Trim());
-        if (hash != user.Password)
+        using (SHA256 sha256 = SHA256.Create())
+        {
+            byte[] data = Encoding.UTF8.GetBytes(request.Model.Password.Trim());
+            byte[] hashBytest = sha256.ComputeHash(data);
+            hashString = BitConverter.ToString(hashBytest).Replace("-", "");
+
+        }
+
+        if (hashString != user.Password)
         {
             user.LastActivityDateTime = DateTime.UtcNow;
             user.PasswordRetryCount++;
@@ -63,7 +72,7 @@ public class TokenCommandHandler :
 
         return new TokenResponse()
         {
-            Email = user.Email,
+            Username = user.Username,
             Token = token,
             ExpireDate = DateTime.Now.AddMinutes(jwtConfig.AccessTokenExpiration)
         };
@@ -91,10 +100,9 @@ public class TokenCommandHandler :
     {
         var claims = new[]
         {
-            new Claim(Constants.Credentials.Id, user.UserId.ToString()),
-            new Claim(Constants.Credentials.Email, user.Email),
-            new Claim(Constants.Credentials.Username, user.Username),
-            new Claim(ClaimTypes.Role, user.Role),
+            new Claim(Constants.ClaimTypes.UserId, user.UserId.ToString()),
+            new Claim(Constants.ClaimTypes.Username, user.Username),
+            new Claim(Constants.ClaimTypes.Role, user.Role.ToString()),
         };
 
         return claims;
