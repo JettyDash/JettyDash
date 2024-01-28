@@ -9,7 +9,7 @@ public interface IUserService
 {
     string? GetUserRole();
     
-    string? GetUserEmail();
+    // string? GetUserEmail();
     
     int GetUserId();
     
@@ -30,25 +30,25 @@ public class UserService(IHttpContextAccessor httpContextAccessor) : IUserServic
         return role;
     }
 
-    public string GetUserEmail()
-    {
-        var email = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
-        
-        if (email == null)
-        {
-            throw new HttpException(Constants.ErrorMessages.EmailNotFound, 404);
-        }
-
-        return email;
-    }
+    // public string GetUserEmail()
+    // {
+    //     var email = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
+    //     
+    //     if (email == null)
+    //     {
+    //         throw new HttpException(Constants.ErrorMessages.EmailNotFound, 404);
+    //     }
+    //
+    //     return email;
+    // }
     
     public int GetUserId()
     {
-        var userId = httpContextAccessor.HttpContext?.User.FindFirst(Constants.Credentials.Id)?.Value;
+        var userId = httpContextAccessor.HttpContext?.User.FindFirst(Constants.ClaimTypes.UserId)?.Value;
         
         if (userId == null)
         {
-            throw new HttpException(Constants.ErrorMessages.UserNotFound, 404);
+            throw new HttpException(Constants.ErrorMessages.UserIdNotFound, 404);
         }
         return int.Parse(userId);
     }
