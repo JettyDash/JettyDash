@@ -11,27 +11,27 @@ public class ConnectionRequestBase
     public string? Password { get; set; }
 }
 
-public abstract class CreateUrlConnectionRequest : ConnectionRequestBase
+public class CreateUrlConnectionRequest : ConnectionRequestBase
 {
     public string? Url { get; set; }
 }
 
-public abstract class CreateHostConnectionRequest : ConnectionRequestBase
+public class CreateHostConnectionRequest : ConnectionRequestBase
 {
     public string? Host { get; set; }
     public int? Port { get; set; }
     public string? DatabaseOrSchema { get; set; }
 }
 
-public abstract class UpdateUrlConnectionRequest : CreateUrlConnectionRequest
+public class UpdateUrlConnectionRequest : CreateUrlConnectionRequest
 {
 }
 
-public abstract class UpdateHostConnectionRequest : CreateHostConnectionRequest
+public class UpdateHostConnectionRequest : CreateHostConnectionRequest
 {
 }
 
-public class ConnectionResponseBase
+public class ConnectionResponse
 {
     public string ConnectionType { get; set; }
     public int UserId { get; set; }
@@ -42,5 +42,3 @@ public class ConnectionResponseBase
     public DateTime CreationDate { get; set; }
     public DateTime LastUpdateTime { get; set; }
 }
-
-public abstract class ConnectionResponse(ConnectionResponseBase content) : BaseResponse<ConnectionResponseBase>(content);
