@@ -2,6 +2,26 @@ namespace Schemes.Constants;
 
 public static class Constants
 {
+    public static class ClaimTypes
+    {
+        public const string UserId = "UserId";
+        public const string Username = "Username";
+        public const string Role = "Role";
+    }
+
+    public static class ErrorMessages
+    {
+        public const string CredentialNotFound = "Credential not found";
+        public const string InvalidUserInformation = "Invalid user information";
+        public const string ContactAdministrator = "Please contact your administrator, your account is locked";
+    }
+
+    public static class ValidationMessages
+    {
+        public const string RequiredMessage = "{0} is required.";
+        public static string Required(string fieldName) => string.Format(RequiredMessage, fieldName);
+    }
+
     public static class DateFormats
     {
         public const string DateFormat = "dd/MM/yyyy";
