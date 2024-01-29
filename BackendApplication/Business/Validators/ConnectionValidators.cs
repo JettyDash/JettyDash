@@ -12,16 +12,10 @@ public class ConnectionRequestBaseValidator<T> : AbstractValidator<T> where T : 
         // check enum working as expecrted
         // if canNullable is true, then skip validation if value is null
         // if canNullable is false, then run all validations even if value is null
-
-        RuleFor(x => x.ConnectionType)
-            .NotEmpty().WithMessage("ConnectionType is required")
-            .When(x => !canNullable) // if canNullable is true, then skip validation if value is null
-            .IsEnumName(typeof(ConnectionType))
-            .WithMessage("ConnectionType must be either Host or Url");
-
+        
         RuleFor(x => x.DatabaseName)
             .NotEmpty().WithMessage("Database name is required")
-            .When(x => !canNullable)
+            .When(x => canNullable)
             .MaximumLength(255).WithMessage("Database name must be less than 255 characters");
 
         RuleFor(x => x.DatabaseType)
