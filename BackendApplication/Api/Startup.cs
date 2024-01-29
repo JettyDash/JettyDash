@@ -47,6 +47,8 @@ public class Startup
             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
         });
 
+        // Dapper
+        services.AddTransient<IDapperService, DapperService>();
 
         // MediatR
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
@@ -127,7 +129,8 @@ public class Startup
 
         // FluentValidation
         services.AddFluentValidationAutoValidation();
-        ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
+        // TODO: Open this when fe is ready
+        // ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
 
         services.AddScoped<IHandlerValidator, HandlerValidator>();
         services.AddScoped<IValidator<CreateUrlConnectionRequest>, CreateUrlConnectionRequestValidator>();
