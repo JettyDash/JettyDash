@@ -7,11 +7,12 @@ namespace Infrastructure.Entities;
 public class Connection
 {
     public int ConnectionId { get; set; }
+    
+    public string VaultIdentifier { get; set; }
     public ConnectionType ConnectionType { get; set; }
     public int UserId { get; set; }
     public string DatabaseName { get; set; }
     public DatabaseType DatabaseType { get; set; }
-
     public ConnectionStatus Status { get; set; }
     public DateTime CreationDate { get; set; }
     public DateTime LastUpdateTime { get; set; }
@@ -26,6 +27,8 @@ public class ConnectionConfiguration : IEntityTypeConfiguration<Connection>
         builder.HasKey(e => e.ConnectionId);
         
         builder.Property(e => e.UserId).IsRequired();
+        
+        builder.Property(e => e.VaultIdentifier).IsRequired().HasMaxLength(255);
 
         builder.Property(e => e.ConnectionType).IsRequired().HasConversion<string>();
 
