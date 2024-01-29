@@ -3,8 +3,7 @@ namespace Schemes.Dtos;
 
 
 public class ConnectionRequestBase
-{
-    public string? ConnectionType { get; set; }
+{ 
     public string? DatabaseName { get; set; }
     public string? DatabaseType { get; set; }
     public string? Username { get; set; }
