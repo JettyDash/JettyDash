@@ -5,33 +5,54 @@ using Schemes.Enums;
 
 namespace Business.Validators;
 
-public class ConnectionRequestBaseValidator<T> : AbstractValidator<T> where T : ConnectionRequestBase
+public class CreateConnectionRequestBaseValidator<T> : AbstractValidator<T> where T : CreateConnectionRequestBase
 {
-    public ConnectionRequestBaseValidator(bool canNullable = false)
+    public CreateConnectionRequestBaseValidator()
     {
-        // check enum working as expecrted
-        // if canNullable is true, then skip validation if value is null
-        // if canNullable is false, then run all validations even if value is null
-        
         RuleFor(x => x.DatabaseName)
             .NotEmpty().WithMessage("Database name is required")
-            .When(x => canNullable)
             .MaximumLength(255).WithMessage("Database name must be less than 255 characters");
 
         RuleFor(x => x.DatabaseType)
             .NotEmpty().WithMessage("DatabaseType is required")
-            .When(x => !canNullable)
             .IsEnumName(typeof(ConnectionType))
             .WithMessage($"DatabaseType must be either {string.Join(", ", Enum.GetNames(typeof(DatabaseType)))}");
 
         RuleFor(x => x.Username)
             .NotEmpty().WithMessage("Username is required")
-            .When(x => !canNullable);
-
+            .MaximumLength(255).WithMessage("Username must be less than 255 characters");
 
         RuleFor(x => x.Password)
             .NotEmpty().WithMessage("Password is required")
-            .When(x => !canNullable);
+            .MaximumLength(255).WithMessage("Password be less than 255 characters");
+
+    }
+}
+
+
+public class UpdateConnectionRequestBaseValidator<T> : AbstractValidator<T> where T : UpdateConnectionRequestBase
+{
+    public UpdateConnectionRequestBaseValidator()
+    {
+        // check enum working as expecrted
+        // if value is not null then run validations if null then its ok        
+        // TODO: Make Update nullable
+        RuleFor(x => x.DatabaseName)
+            // .NotEmpty().WithMessage("Database name is required")
+            .MaximumLength(255).WithMessage("Database name must be less than 255 characters");
+
+        RuleFor(x => x.DatabaseType)
+            // .NotEmpty().WithMessage("DatabaseType is required")
+            .IsEnumName(typeof(ConnectionType))
+            .WithMessage($"DatabaseType must be either {string.Join(", ", Enum.GetNames(typeof(DatabaseType)))}");
+
+        RuleFor(x => x.Username)
+            // .NotEmpty().WithMessage("Username is required")
+            .MaximumLength(255).WithMessage("Username must be less than 255 characters");
+
+        RuleFor(x => x.Password)
+            // .NotEmpty().WithMessage("Password is required")
+            .MaximumLength(255).WithMessage("Password be less than 255 characters");
     }
 }
 
@@ -39,7 +60,7 @@ public class CreateUrlConnectionRequestValidator : AbstractValidator<CreateUrlCo
 {
     public CreateUrlConnectionRequestValidator()
     {
-        Include(new ConnectionRequestBaseValidator<CreateUrlConnectionRequest>(canNullable: false));
+        Include(new CreateConnectionRequestBaseValidator<CreateUrlConnectionRequest>());
 
         RuleFor(x => x.Url)
             .NotEmpty().WithMessage("Url is required")
@@ -47,11 +68,11 @@ public class CreateUrlConnectionRequestValidator : AbstractValidator<CreateUrlCo
     }
 }
 
-public class CreateHostConnectionRequestValidator : ConnectionRequestBaseValidator<CreateHostConnectionRequest>
+public class CreateHostConnectionRequestValidator : AbstractValidator<CreateHostConnectionRequest>
 {
     public CreateHostConnectionRequestValidator()
     {
-        Include(new ConnectionRequestBaseValidator<CreateHostConnectionRequest>(canNullable: false));
+        Include(new CreateConnectionRequestBaseValidator<CreateHostConnectionRequest>());
 
         RuleFor(x => x.Host)
             .NotEmpty().WithMessage("Host is required")
@@ -71,7 +92,7 @@ public class UpdateUrlConnectionRequestValidator : AbstractValidator<UpdateUrlCo
 {
     public UpdateUrlConnectionRequestValidator()
     {
-        Include(new ConnectionRequestBaseValidator<UpdateUrlConnectionRequest>(canNullable: true));
+        Include(new UpdateConnectionRequestBaseValidator<UpdateUrlConnectionRequest>());
 
         RuleFor(x => x.Url)
             .NotEmpty().WithMessage("Url is required")
@@ -84,7 +105,7 @@ public class UpdateHostConnectionRequestValidator : AbstractValidator<UpdateHost
 {
     public UpdateHostConnectionRequestValidator()
     {
-        Include(new ConnectionRequestBaseValidator<UpdateHostConnectionRequest>(canNullable: true));
+        Include(new UpdateConnectionRequestBaseValidator<UpdateHostConnectionRequest>());
 
         RuleFor(x => x.Host)
             .NotEmpty().WithMessage("Host is required")
