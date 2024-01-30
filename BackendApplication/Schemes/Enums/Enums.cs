@@ -10,13 +10,10 @@ public enum Role
 
 public enum DatabaseType
 {
-    MySql,
-    Postgres,
-    SqlServer,
-    Oracle,
-    Firebase,
-    Firestore,
-    MongoDb
+    MySql=3306,
+    PostgreSql=5432,
+    SqlServer=1433,
+    Oracle=1521,
 }
 
 public enum ConnectionType
