@@ -18,7 +18,7 @@ public class ConnectionCommandHandler(
     IVaultService vaultService,
     IUserService userService,
     IMediator mediator,
-    IDapperService dapperService) :
+    IDapperServiceFactory dapperServiceFactory) :
     IRequestHandler<TestConnectionCommand, ApiResponse<ConnectionResponse>>,
     IRequestHandler<CreateUrlConnectionCommand, ApiResponse<ConnectionResponse>>,
     IRequestHandler<CreateHostConnectionCommand, ApiResponse<ConnectionResponse>>,
@@ -30,7 +30,7 @@ public class ConnectionCommandHandler(
     public async Task<ApiResponse<ConnectionResponse>> Handle(TestConnectionCommand request,
         CancellationToken cancellationToken)
     {
-        DapperService connection = dapperService.Create(request.ConnectionString, request.DatabaseType);
+        var connection = dapperServiceFactory.Create(request.ConnectionString, request.DatabaseType);
       
         bool result = await connection.TestConnection(cancellationToken);
         
