@@ -1,30 +1,66 @@
 using System.Data;
+using System.Data.Common;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.Extensions.Options;
+using MySqlConnector;
+using Npgsql;
+using Oracle.ManagedDataAccess.Client;
+using Schemes.Enums;
 
 namespace Business.Services;
+
+// public class DapperServiceFactory
+// {
+//     private readonly DapperService _dapperService;
+//     public DapperServiceFactory(IOptions<LabelGenOptions> options)
+//     {
+//         var value = options.Value;
+//         _dapperService = new(value.Prefix, value.Suffix);
+//     }
+//     public DapperService GetDapperService() => _dapperService;
+// }
+//
+// public static class DapperServiceFactory
+// {
+//     public static IDapperService CreateDapperService(string connectionString, DatabaseType providerName)
+//     {
+//         var dapperService = new DapperService(connectionString, providerName);
+//         return dapperService;
+//     }
+// }
+
 
 public class DapperService : IDapperService
 {
     // make connection string changeable
 
     private string _connectionString;
-    
-    
-    public DapperService Create(string connectionString)
-    {
-        return new DapperService(connectionString);
-    }
-    
-    public DapperService()
-    {
-        _connectionString = "";
-    }
-    
-    private DapperService(string connectionString)
+    private DatabaseType _providerName;
+
+    private DapperService(string connectionString, DatabaseType providerName)
     {
         _connectionString = connectionString;
+        _providerName = providerName;
     }
+    
+    public DapperService Create(string connectionString, DatabaseType providerName)
+    {
+        return new DapperService(connectionString, providerName);
+    }
+
+    private Task<DbConnection> CreateConnectionAsync(DatabaseType providerName)
+    {
+        return providerName switch
+        {
+            DatabaseType.SqlServer => Task.FromResult<DbConnection>(new SqlConnection(_connectionString)),
+            DatabaseType.MySql => Task.FromResult<DbConnection>(new MySqlConnection(_connectionString)),
+            DatabaseType.PostgreSql => Task.FromResult<DbConnection>(new NpgsqlConnection(_connectionString)),
+            DatabaseType.Oracle => Task.FromResult<DbConnection>(new OracleConnection(_connectionString)),
+            _ => throw new ArgumentOutOfRangeException(nameof(providerName), providerName, null)
+        };
+    }
+    
     
     /// <summary>
     /// Test connection 
@@ -32,25 +68,19 @@ public class DapperService : IDapperService
     /// <returns></returns>
     public async Task<bool> TestConnection(CancellationToken cancellationToken = default)
     {
-        using (var connection = await CreateConnection())
+        try
         {
-            try
+            using (var connection = CreateConnectionAsync(_providerName))
             {
                 // OpenAsync with cancellation support
-                await connection.OpenAsync(cancellationToken);
+                await connection.Result.OpenAsync(cancellationToken).ConfigureAwait(false);
                 return true;
             }
-            catch (SqlException)
-            {
-                return false;
-            }
         }
-    }
-
-    private Task<SqlConnection> CreateConnection()
-    {
-        var connection = new SqlConnection(_connectionString);
-        return Task.FromResult(connection);
+        catch
+        {
+            return false;
+        }
     }
 
     /// <summary>
@@ -58,7 +88,7 @@ public class DapperService : IDapperService
     /// </summary>
     public async Task<List<T>> Query<T>(string sql, object parameters = null)
     {
-        using (var connection = await CreateConnection())
+        using (var connection = await CreateConnectionAsync(_providerName))
         {
             var result = await connection.QueryAsync<T>(sql, parameters);
             return result.ToList();
@@ -70,7 +100,7 @@ public class DapperService : IDapperService
     /// </summary>
     public async Task<T?> QueryFirstOrDefault<T>(string sql, object parameters = null)
     {
-        using (var connection = await CreateConnection())
+        using (var connection = await CreateConnectionAsync(_providerName))
         {
             return connection.QueryFirstOrDefault<T>(sql, parameters);
         }
@@ -81,7 +111,7 @@ public class DapperService : IDapperService
     /// </summary>
     public async Task<T?> QuerySingleOrDefault<T>(string sql, object parameters = null)
     {
-        using (var connection = await CreateConnection())
+        using (var connection = await CreateConnectionAsync(_providerName))
         {
             return await connection.QuerySingleOrDefaultAsync<T>(sql, parameters);
         }
@@ -92,7 +122,7 @@ public class DapperService : IDapperService
     /// </summary>
     public async Task<IEnumerable<T>> QueryMultiple<T>(string sql, object parameters = null)
     {
-        using (var connection = await CreateConnection())
+        using (var connection = await CreateConnectionAsync(_providerName))
         {
             return await connection.QueryAsync<T>(sql, parameters);
         }
@@ -107,7 +137,7 @@ public class DapperService : IDapperService
         var offset = (page - 1) * pageSize;
         sql = $"{sql} OFFSET {offset} ROWS FETCH NEXT {pageSize} ROWS ONLY";
 
-        using (var connection = await CreateConnection())
+        using (var connection = await CreateConnectionAsync(_providerName))
         {
             return await connection.QueryAsync<T>(sql, parameters);
         }
@@ -116,7 +146,8 @@ public class DapperService : IDapperService
 
 public interface IDapperService
 {
-    DapperService Create(string connectionString);
+    
+    DapperService Create(string connectionString, DatabaseType providerName);
     Task<bool> TestConnection(CancellationToken cancellationToken = default);
     Task<T?> QueryFirstOrDefault<T>(string sql, object parameters = null);
 
