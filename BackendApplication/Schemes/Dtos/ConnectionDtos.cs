@@ -2,7 +2,15 @@ namespace Schemes.Dtos;
 
 
 
-public class ConnectionRequestBase
+public class CreateConnectionRequestBase
+{ 
+    public string DatabaseName { get; set; }
+    public string DatabaseType { get; set; }
+    public string Username { get; set; }
+    public string Password { get; set; }
+}
+
+public class UpdateConnectionRequestBase
 { 
     public string? DatabaseName { get; set; }
     public string? DatabaseType { get; set; }
@@ -10,24 +18,29 @@ public class ConnectionRequestBase
     public string? Password { get; set; }
 }
 
-public class CreateUrlConnectionRequest : ConnectionRequestBase
+public class CreateUrlConnectionRequest : CreateConnectionRequestBase
 {
-    public string? Url { get; set; }
+    public string Url { get; set; }
 }
 
-public class CreateHostConnectionRequest : ConnectionRequestBase
+public class CreateHostConnectionRequest : CreateConnectionRequestBase
+{
+    public string Host { get; set; }
+    public int Port { get; set; }
+    public string DatabaseOrSchema { get; set; }
+}
+
+public class UpdateUrlConnectionRequest : UpdateConnectionRequestBase
+{
+    public string? Url { get; set; }
+
+}
+
+public class UpdateHostConnectionRequest : UpdateConnectionRequestBase
 {
     public string? Host { get; set; }
     public int? Port { get; set; }
     public string? DatabaseOrSchema { get; set; }
-}
-
-public class UpdateUrlConnectionRequest : CreateUrlConnectionRequest
-{
-}
-
-public class UpdateHostConnectionRequest : CreateHostConnectionRequest
-{
 }
 
 public class ConnectionResponse
