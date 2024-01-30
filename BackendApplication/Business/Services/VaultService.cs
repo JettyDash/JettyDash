@@ -25,7 +25,7 @@ public class VaultService : IVaultService
     // $"users/{username}/databases{databaseId}"
     public async Task SaveOrUpdateCredentials<T>(string path, T values)
     {
-        await vaultClient.V1.Secrets.KeyValue.V1.WriteSecretAsync(path, values);
+        var result = await vaultClient.V1.Secrets.KeyValue.V1.WriteSecretAsync(path, values);
     }
     
     // $"users/{username}/databases{databaseId}"
