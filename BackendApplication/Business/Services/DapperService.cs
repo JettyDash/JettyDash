@@ -30,6 +30,18 @@ namespace Business.Services;
 //     }
 // }
 
+public interface IDapperServiceFactory
+{
+    IDapperService Create(string connectionString, DatabaseType providerName);
+}
+
+public class DapperServiceFactory : IDapperServiceFactory
+{
+    public IDapperService Create(string connectionString, DatabaseType providerName)
+    {
+        return DapperService.CreateDapperService(connectionString, providerName);
+    }
+}
 
 public class DapperService : IDapperService
 {
@@ -44,11 +56,15 @@ public class DapperService : IDapperService
         _providerName = providerName;
     }
     
-    public DapperService Create(string connectionString, DatabaseType providerName)
+    // public DapperService Create(string connectionString, DatabaseType providerName)
+    // {
+    //     return new DapperService(connectionString, providerName);
+    // }
+
+    public static IDapperService CreateDapperService(string connectionString, DatabaseType providerName)
     {
         return new DapperService(connectionString, providerName);
     }
-
     private Task<DbConnection> CreateConnectionAsync(DatabaseType providerName)
     {
         return providerName switch
@@ -147,7 +163,7 @@ public class DapperService : IDapperService
 public interface IDapperService
 {
     
-    DapperService Create(string connectionString, DatabaseType providerName);
+    // DapperService Create(string connectionString, DatabaseType providerName);
     Task<bool> TestConnection(CancellationToken cancellationToken = default);
     Task<T?> QueryFirstOrDefault<T>(string sql, object parameters = null);
 
