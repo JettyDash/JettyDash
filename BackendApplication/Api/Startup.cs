@@ -48,7 +48,8 @@ public class Startup
         });
 
         // Dapper
-        services.AddScoped<IDapperService, DapperService>();
+        // services.AddScoped<IDapperService, DapperService>();
+        services.AddSingleton<IDapperServiceFactory, DapperServiceFactory>();
 
         // MediatR
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
