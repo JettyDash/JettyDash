@@ -7,7 +7,6 @@ namespace Infrastructure.Entities;
 public class Connection
 {
     public int ConnectionId { get; set; }
-    
     public string VaultIdentifier { get; set; }
     public ConnectionType ConnectionType { get; set; }
     public int UserId { get; set; }
