@@ -11,6 +11,11 @@ public static class Constants
         public const string AdminOrPersonnel = "Admin, Personnel";
         public const string AdminOrPersonnelOrGuest = "Admin, Personnel, Guest";
     }
+
+    public static class VaultPath
+    {
+        public static readonly string Database = "users/{0}/databases/{1}";
+    }
     public static class ContentType
     {
         public const string Json = "application/json";
