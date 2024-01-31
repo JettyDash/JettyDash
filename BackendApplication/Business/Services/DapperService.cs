@@ -1,34 +1,12 @@
-using System.Data;
 using System.Data.Common;
 using Dapper;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Options;
 using MySqlConnector;
 using Npgsql;
 using Oracle.ManagedDataAccess.Client;
 using Schemes.Enums;
 
 namespace Business.Services;
-
-// public class DapperServiceFactory
-// {
-//     private readonly DapperService _dapperService;
-//     public DapperServiceFactory(IOptions<LabelGenOptions> options)
-//     {
-//         var value = options.Value;
-//         _dapperService = new(value.Prefix, value.Suffix);
-//     }
-//     public DapperService GetDapperService() => _dapperService;
-// }
-//
-// public static class DapperServiceFactory
-// {
-//     public static IDapperService CreateDapperService(string connectionString, DatabaseType providerName)
-//     {
-//         var dapperService = new DapperService(connectionString, providerName);
-//         return dapperService;
-//     }
-// }
 
 public interface IDapperServiceFactory
 {
@@ -52,8 +30,6 @@ public class DapperServiceFactory : IDapperServiceFactory
 
 public class DapperService : IDapperService
 {
-    // make connection string changeable
-
     private string _connectionString;
     private DatabaseType _providerName;
 
@@ -62,11 +38,6 @@ public class DapperService : IDapperService
         _connectionString = connectionString;
         _providerName = providerName;
     }
-    
-    // public DapperService Create(string connectionString, DatabaseType providerName)
-    // {
-    //     return new DapperService(connectionString, providerName);
-    // }
 
     public static IDapperService CreateDapperService(string connectionString, DatabaseType providerName)
     {
@@ -95,7 +66,6 @@ public class DapperService : IDapperService
         {
             using (var connection = CreateConnectionAsync(_providerName))
             {
-                // OpenAsync with cancellation support
                 await connection.Result.OpenAsync(cancellationToken).ConfigureAwait(false);
                 return (true, "Connection established successfully");
             }
@@ -107,9 +77,6 @@ public class DapperService : IDapperService
         }
     }
 
-    /// <summary>
-    /// Executes a query and returns a list of results.
-    /// </summary>
     public async Task<List<T>> Query<T>(string sql, object parameters = null)
     {
         using (var connection = await CreateConnectionAsync(_providerName))
@@ -119,9 +86,6 @@ public class DapperService : IDapperService
         }
     }
 
-    /// <summary>
-    /// Executes a query and returns the first result or default.
-    /// </summary>
     public async Task<T?> QueryFirstOrDefault<T>(string sql, object parameters = null)
     {
         using (var connection = await CreateConnectionAsync(_providerName))
@@ -129,10 +93,7 @@ public class DapperService : IDapperService
             return connection.QueryFirstOrDefault<T>(sql, parameters);
         }
     }
-
-    /// <summary>
-    /// Executes a query and returns a single result or default.
-    /// </summary>
+    
     public async Task<T?> QuerySingleOrDefault<T>(string sql, object parameters = null)
     {
         using (var connection = await CreateConnectionAsync(_providerName))
@@ -140,10 +101,7 @@ public class DapperService : IDapperService
             return await connection.QuerySingleOrDefaultAsync<T>(sql, parameters);
         }
     }
-
-    /// <summary>
-    /// Executes a query and returns multiple results.
-    /// </summary>
+    
     public async Task<IEnumerable<T>> QueryMultiple<T>(string sql, object parameters = null)
     {
         using (var connection = await CreateConnectionAsync(_providerName))
@@ -152,10 +110,7 @@ public class DapperService : IDapperService
         }
     }
 
-
-    /// <summary>
-    /// Executes a query with paging and returns a subset of results.
-    /// </summary>
+    
     public async Task<IEnumerable<T>> QueryWithPaging<T>(string sql, int page, int pageSize, object parameters = null)
     {
         var offset = (page - 1) * pageSize;
@@ -171,7 +126,6 @@ public class DapperService : IDapperService
 public interface IDapperService
 {
     
-    // DapperService Create(string connectionString, DatabaseType providerName);
     Task<(bool, string Message)> TestConnection(CancellationToken cancellationToken = default);
     Task<T?> QueryFirstOrDefault<T>(string sql, object parameters = null);
 
@@ -183,52 +137,3 @@ public interface IDapperService
 
     Task<IEnumerable<T>> QueryWithPaging<T>(string sql, int page, int pageSize, object parameters = null);
 }
-
-
-/*/// <summary>
-/// Executes a transaction with the provided action.
-/// (Command)
-/// </summary>
-public void ExecuteTransaction(Action<IDbConnection, IDbTransaction> action)
-{
-    using (var connection = CreateConnection())
-    {
-        connection.Open();
-        using (var transaction = connection.BeginTransaction())
-        {
-            try
-            {
-                action(connection, transaction);
-                transaction.Commit();
-            }
-            catch
-            {
-                transaction.Rollback();
-                throw;
-            }
-        }
-    }
-}*/
-
-/*/// <summary>
-/// Executes a non-query SQL statement and returns the number of affected rows.
-/// (Command)
-/// </summary>
-public int Execute(string sql, object parameters = null)
-{
-    using (var connection = CreateConnection())
-    {
-        return connection.Execute(sql, parameters);
-    }
-}*/
-
-/*/// <summary>
-/// Executes a scalar query and returns the result.
-/// </summary>
-public T ExecuteScalar<T>(string sql, object parameters = null)
-{
-    using (var connection = CreateConnection())
-    {
-        return connection.ExecuteScalar<T>(sql, parameters);
-    }
-}*/
