@@ -1,12 +1,16 @@
 using System.Text;
 using Api.Middlewares;
 using AutoMapper;
+using Business.Cqrs;
 using Business.Mapper;
+using Business.Preprocessor;
 using Business.Services;
 using Business.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using Infrastructure.DbContext;
+using MediatR;
+using MediatR.Pipeline;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -54,10 +58,22 @@ public class Startup
         // services.AddScoped<IDapperService, DapperService>();
         services.AddSingleton<IDapperServiceFactory, DapperServiceFactory>();
 
+
         // MediatR
         foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
         {
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblies(assembly));
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblies(assembly);
+                cfg.AddBehavior(typeof(IPipelineBehavior<, >),typeof(CreateHostConnectionCommandPreprocessor1<, >));
+                cfg.AddBehavior(typeof(IPipelineBehavior<, >),typeof(CreateHostConnectionCommandPreprocessor2<, >));
+                
+                /* Without using where TRequest : CreateHostConnectionCommand
+                cfg.AddBehavior(typeof(IPipelineBehavior<CreateHostConnectionCommand, ApiResponse<ConnectionResponse>>),typeof(CreateHostConnectionCommandPreprocessor3<CreateHostConnectionCommand, ApiResponse<ConnectionResponse>>));
+                */
+
+
+            });
         }
 
         // AutoMapper
