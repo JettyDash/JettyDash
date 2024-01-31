@@ -15,6 +15,7 @@ using Schemes.Dtos;
 using Schemes.Token;
 using Schemes.Vault;
 using VaultSharp;
+using VaultSharp.V1.AuthMethods;
 using VaultSharp.V1.AuthMethods.Token;
 
 namespace Api;
@@ -31,13 +32,15 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         // Vault
-        VaultConfig? vaultConfig = Configuration.GetSection("VaultConfig").Get<VaultConfig>();
+        VaultConfig vaultConfig = Configuration.GetSection("VaultConfig").Get<VaultConfig>();
+        services.Configure<VaultConfig>(Configuration.GetSection("VaultConfig"));
 
-        VaultClientSettings vaultClientSettings =
-            new VaultClientSettings(vaultConfig.Address, new TokenAuthMethodInfo(vaultConfig.Token));
+        // Vault Authenticate
+        IAuthMethodInfo authMethod = new TokenAuthMethodInfo(vaultConfig.Token);
+        VaultClientSettings vaultClientSettings = new VaultClientSettings(vaultConfig.Address, authMethod);
         IVaultClient vaultClient = new VaultClient(vaultClientSettings);
+        
         services.AddSingleton(vaultClient);
-
         services.AddScoped<IVaultService, VaultService>();
 
 
