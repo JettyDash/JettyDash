@@ -1,3 +1,6 @@
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
+
 namespace Schemes.Dtos;
 
 
@@ -27,7 +30,6 @@ public class CreateHostConnectionRequest : CreateConnectionRequestBase
 {
     public string Host { get; set; }
     public int Port { get; set; }
-    public string DatabaseOrSchema { get; set; }
 }
 
 public class UpdateUrlConnectionRequest : UpdateConnectionRequestBase
