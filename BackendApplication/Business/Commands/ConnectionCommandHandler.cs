@@ -48,6 +48,10 @@ public class ConnectionCommandHandler(
     public async Task<ApiResponse<ConnectionResponse>> Handle(CreateHostConnectionCommand request,
         CancellationToken cancellationToken)
     {
+    
+        // TODO: ReAD :https://www.jimmybogard.com/sharing-context-in-mediatr-pipelines/
+        // başarılı olursa  connected olmazsa kaydetme hiçbir yere
+        // check credentials in vault and  CreateConnectionStringFromUrl
         /*
          * check null and enum
          * User can only create connection for himself
@@ -60,9 +64,8 @@ public class ConnectionCommandHandler(
 
         //create connection string
         string connectionString = CreateConnectionStringFromUrl(model: request.Model, databaseType: databaseType);
-
+        
         // test connection
-
         var testConnectionCommand = new TestConnectionCommand(connectionString, databaseType);
         var result = await mediator.Send(testConnectionCommand, cancellationToken);
 
@@ -70,12 +73,13 @@ public class ConnectionCommandHandler(
         {
             throw new HttpException(result.Message, 400);
         }
-
+        
         // save vault
-        // "users/" + userId + "/databases/" + vaultIdentifier
+        await vaultService.GetCredentialByPath(path:"DatabaseCredentials", mountPoint: "secret");
 
         await vaultService.SaveOrUpdateCredentials(
             path: vaultConfig.Value.DatabaseSecretsPath,
+            // "users/" + userId + "/databases/" + vaultIdentifier
             values: CreateCredentialDictionary(userId, vaultIdentifier, connectionString),
             mountPoint: vaultConfig.Value.Mount
         );
@@ -87,11 +91,6 @@ public class ConnectionCommandHandler(
         // save db
         await dbContext.Connections.AddAsync(entity, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
-
-        // if success save once vault sonra db
-        // if false save db
-
-        // başarılı olursa  connected olmazsa kaydetme hiçbir yere
 
         var response = mapper.Map<ConnectionResponse>(entity);
 
