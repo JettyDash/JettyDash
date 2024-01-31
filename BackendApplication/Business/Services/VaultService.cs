@@ -1,16 +1,15 @@
-
 using System.Reflection.Metadata;
 using Schemes.Exceptions;
 using VaultSharp;
+using VaultSharp.V1.Commons;
 
 namespace Business.Services;
 
 public interface IVaultService
 {
-    Task SaveOrUpdateCredentials<T>(string path, T values);
+    Task SaveOrUpdateCredentials<T>(string path, T values, string mountPoint);
     Task<object> GetCredentialByPath(string path);
     Task<string[]> GetAllCredentials(string path);
-
 }
 
 public class VaultService : IVaultService
@@ -23,21 +22,22 @@ public class VaultService : IVaultService
     }
 
     // $"users/{username}/databases{databaseId}"
-    public async Task SaveOrUpdateCredentials<T>(string path, T values)
+    public async Task SaveOrUpdateCredentials<T>(string path, T values, string mountPoint)
     {
-        var result = await vaultClient.V1.Secrets.KeyValue.V1.WriteSecretAsync(path, values);
+        await vaultClient.V1.Secrets.KeyValue.V2.WriteSecretAsync(path, values, mountPoint: mountPoint)
+            .ConfigureAwait(false);
     }
-    
+
     // $"users/{username}/databases{databaseId}"
     public async Task<object> GetCredentialByPath(string path)
     {
         var secret = await vaultClient.V1.Secrets.KeyValue.V1.ReadSecretAsync(path);
-        
+
         if (secret == null)
         {
             throw new HttpException(Constants.ErrorMessages.CredentialNotFound, 404);
         }
-        
+
         return secret.Data;
     }
     // $"users/{username}/databases"
@@ -50,7 +50,7 @@ public class VaultService : IVaultService
         {
             throw new HttpException(Constants.ErrorMessages.CredentialNotFound, 404);
         }
+
         return secret.Data.Keys.ToArray();
     }
-    
 }
