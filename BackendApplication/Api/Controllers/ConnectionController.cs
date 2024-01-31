@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Schemes.Dtos;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Schemes.Enums;
 
 namespace Api.Controllers;
 
@@ -20,9 +21,9 @@ public class ConnectionController : ControllerBase
 
     [HttpPost("[action]")]
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
-    public async Task<IActionResult> TestConnection([FromBody] CreateUrlConnectionRequest request)
+    public async Task<IActionResult> TestConnection([FromBody] string connectionString, DatabaseType databaseType)
     {
-        var command = new CreateUrlConnectionCommand(request);
+        var command = new TestConnectionCommand(connectionString, databaseType);
         var result = await _mediator.Send(command);
         return Ok(result);
     }
