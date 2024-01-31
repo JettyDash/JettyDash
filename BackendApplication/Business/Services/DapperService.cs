@@ -37,6 +37,13 @@ public interface IDapperServiceFactory
 
 public class DapperServiceFactory : IDapperServiceFactory
 {
+
+    /* *******************  STARRED ********************* */
+    /*    En önemli kısım burası burada DapperService değil
+     * IDapperService döndürüyoruz ve bu sayede runtime içerisinde
+     * istediğimiz servisi döndürebiliyoruz. Sadece DapperService değil
+     * https://code-maze.com/dotnet-factory-pattern-dependency-injection/
+     */
     public IDapperService Create(string connectionString, DatabaseType providerName)
     {
         return DapperService.CreateDapperService(connectionString, providerName);
@@ -82,7 +89,7 @@ public class DapperService : IDapperService
     /// Test connection 
     /// </summary>
     /// <returns></returns>
-    public async Task<bool> TestConnection(CancellationToken cancellationToken = default)
+    public async Task<(bool, string Message)> TestConnection(CancellationToken cancellationToken = default)
     {
         try
         {
@@ -90,12 +97,13 @@ public class DapperService : IDapperService
             {
                 // OpenAsync with cancellation support
                 await connection.Result.OpenAsync(cancellationToken).ConfigureAwait(false);
-                return true;
+                return (true, "Connection established successfully");
             }
         }
-        catch
+        catch (Exception e)
         {
-            return false;
+            
+            return (false, e.Message);
         }
     }
 
@@ -164,7 +172,7 @@ public interface IDapperService
 {
     
     // DapperService Create(string connectionString, DatabaseType providerName);
-    Task<bool> TestConnection(CancellationToken cancellationToken = default);
+    Task<(bool, string Message)> TestConnection(CancellationToken cancellationToken = default);
     Task<T?> QueryFirstOrDefault<T>(string sql, object parameters = null);
 
     Task<List<T>> Query<T>(string sql, object parameters = null);
