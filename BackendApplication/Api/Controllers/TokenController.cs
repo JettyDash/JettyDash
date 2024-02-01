@@ -19,10 +19,10 @@ public class TokenController : ControllerBase
     
             
     [HttpPost]
-    public async Task<TokenResponse> CreateToken([FromBody] TokenRequest request)
+    public async Task<TokenResponse> CreateToken([FromBody] TokenRequest request, CancellationToken cancellationToken)
     {
         var operation = new CreateTokenCommand(request);
-        var result = await mediator.Send(operation);
+        var result = await mediator.Send(operation, cancellationToken);
         return result;
     }
     

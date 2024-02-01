@@ -1,4 +1,3 @@
-using Azure.Core;
 using Business.Cqrs;
 using Microsoft.AspNetCore.Authorization;
 using Schemes.Dtos;
@@ -21,64 +20,64 @@ public class ConnectionController : ControllerBase
 
     [HttpPost("[action]")]
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
-    public async Task<IActionResult> TestConnection([FromBody] string connectionString, DatabaseType databaseType)
+    public async Task<IActionResult> TestConnection([FromBody] string connectionString, DatabaseType databaseType, CancellationToken cancellationToken)
     {
         var command = new TestConnectionCommand(connectionString, databaseType);
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(command, cancellationToken);
         return Ok(result);
     }
     
     [HttpPost("[action]")]
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
-    public async Task<IActionResult> SaveUrlConnection([FromBody] CreateUrlConnectionRequest request)
+    public async Task<IActionResult> SaveUrlConnection([FromBody] CreateUrlConnectionRequest request, CancellationToken cancellationToken)
     {
         var command = new CreateUrlConnectionCommand(request);
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(command, cancellationToken);
         return Ok(result);
     }
     
     [HttpPost("[action]")]
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
-    public async Task<IActionResult> SaveHostConnection([FromBody] CreateHostConnectionRequest request)
+    public async Task<IActionResult> SaveHostConnection([FromBody] CreateHostConnectionRequest request, CancellationToken cancellationToken)
     {
         var command = new CreateHostConnectionCommand(request);
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(command, cancellationToken);
         return Ok(result);
     }
     
     [HttpPut($"[action]/{{connectionId}}")]
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
-    public async Task<IActionResult> EditUrlConnection(int connectionId, [FromBody] UpdateUrlConnectionRequest request)
+    public async Task<IActionResult> EditUrlConnection(int connectionId, [FromBody] UpdateUrlConnectionRequest request, CancellationToken cancellationToken)
     {
         var command = new UpdateUrlConnectionCommand(connectionId, request);
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(command, cancellationToken);
         return Ok(result);
     }
 
     [HttpPut($"[action]/{{connectionId}}")]
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
-    public async Task<IActionResult> EditHostConnection(int connectionId, [FromBody] UpdateHostConnectionRequest request)
+    public async Task<IActionResult> EditHostConnection(int connectionId, [FromBody] UpdateHostConnectionRequest request, CancellationToken cancellationToken)
     {
         var command = new UpdateHostConnectionCommand(connectionId, request);
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(command, cancellationToken);
         return Ok(result);
     }
     
     [HttpDelete("{{connectionId}}")]
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
-    public async Task<IActionResult> DeleteConnection(int connectionId)
+    public async Task<IActionResult> DeleteConnection(int connectionId, CancellationToken cancellationToken)
     {
         var command = new DeleteConnectionCommand(connectionId);
-        var result = await _mediator.Send(command);
+        var result = await _mediator.Send(command, cancellationToken);
         return Ok(result);
     }
 
     [HttpGet("[action]")]
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
-    public async Task<IActionResult> GetAllConnections()
+    public async Task<IActionResult> GetAllConnections(CancellationToken cancellationToken)
     {
         var query = new GetAllConnectionQuery();
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(query, cancellationToken);
         return Ok(result);
     }
 }
