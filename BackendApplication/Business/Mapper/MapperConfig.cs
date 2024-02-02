@@ -19,7 +19,19 @@ public class MapperConfig : Profile
     
         CreateMap<Connection, ConnectionResponse>();
         
-        
+        CreateMap<CreateUserRequest, User>()
+            .ForMember(dest => dest.PasswordRetryCount,
+                opt => opt.MapFrom(src => 0))
+            .ForMember(dest => dest.IsActive,
+                opt => opt.MapFrom(src => true))
+            .ForMember(dest => dest.LastActivityDateTime,
+                opt => opt.MapFrom(src => DateTime.UtcNow));
+
+        CreateMap<User, UserResponse>()
+            .ForMember(dest => dest.IsActive,
+                opt => opt.MapFrom(src => src.IsActive ? Constants.UserStatus.Active : Constants.UserStatus.Inactive))
+            .ForMember(src => src.LastActivityDateTime,
+                opt => opt.MapFrom(src => src.LastActivityDateTime.ToString(Constants.DateFormats.DateTimeFormat)));
 
     }
 }
