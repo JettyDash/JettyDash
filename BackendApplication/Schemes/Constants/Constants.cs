@@ -29,6 +29,7 @@ public static class Constants
 
     public static class ErrorMessages
     {
+        public const string NoRecordFound = "No record found";
         public const string UserIdNotFound = "UserId not found";
         public const string RoleNotFound = "Role not found";
         public const string IdLessThanZero = "Id must be greater than zero";
