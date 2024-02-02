@@ -42,42 +42,11 @@ public class ConnectionCommandHandler(
     public async Task<ApiResponse<ConnectionResponse>> Handle(CreateHostConnectionCommand request,
         CancellationToken cancellationToken)
     {
-        /* Context sharing, tamam
-         pipeline behavior,  tamam
-         contextinitializer, tamam, string to enum tamam
-         common: dbtransactionbehaviour
-         atomic transaction(openbehavior) and rollback  dbtransactionbehaviour https://www.youtube.com/watch?v=kamcg-KreJE&ab_channel=Codewrinkles
-        
-        */
-        
-    
-        // başarılı olursa  connected olmazsa kaydetme hiçbir yere
-        // check credentials in vault and  CreateConnectionStringFromUrl
-        /*
-         * check null and enum
-         * User can only create connection for himself
-         * create unique db id and use it for fluentvalidation also
-         */
-
-        
+        // Check if connection string is unique NOT IMPLEMENTED
         // save vault
-        // await vaultService.GetCredentialByPath(path:"DatabaseCredentials", mountPoint: "secret");
-
-        await vaultService.SaveOrUpdateCredentials(
-            path: vaultConfig.Value.DatabaseSecretsPath,
-            values: CreateCredentialDictionary(request.Context.UserId, request.Context.VaultIdentifier, request.Context.ConnectionString),
-            mountPoint: vaultConfig.Value.Mount
-        );
-
-        var entity = mapper.Map<Connection>(request.Model);
-        entity.VaultIdentifier = request.Context.VaultIdentifier;
-        entity.UserId = request.Context.UserId;
-
-        // save db
-        await dbContext.Connections.AddAsync(entity, cancellationToken);
-        await dbContext.SaveChangesAsync(cancellationToken);
-
-        var response = mapper.Map<ConnectionResponse>(entity);
+        await SaveConnectionToVault(request);
+        // save database
+        var response = await SaveConnectionToDatabase(request, cancellationToken);
 
         return new ApiResponse<ConnectionResponse>(response);
     }
@@ -97,15 +66,40 @@ public class ConnectionCommandHandler(
     public async Task<ApiResponse<ConnectionResponse>> Handle(DeleteConnectionCommand request,
         CancellationToken cancellationToken)
     {
+        // Check if connection exists if exists delete from vault and database
         throw new NotImplementedException();
     }
     
-    private Dictionary<string, string> CreateCredentialDictionary(int userId, string vaultIdentifier,
-        string connectionString)
+    private async Task SaveConnectionToVault(CreateHostConnectionCommand request)
     {
-        string credentialKey = string.Format(Constants.VaultPath.Database, userId, vaultIdentifier);
-        Dictionary<string, string> values = new() { { credentialKey, connectionString } };
+        var credentialKey = string.Format(Constants.VaultPath.Database,
+            request.Context.UserId,
+            request.Context.VaultIdentifier);
+            
+        Dictionary<string, string> values = new()
+        {
+            { credentialKey, request.Context.ConnectionString }
+        };
+        
+        await vaultService.SaveOrUpdateCredentials(
+            path: vaultConfig.Value.DatabaseSecretsPath,
+            values: values,
+            mountPoint: vaultConfig.Value.Mount
+        );
 
-        return values;
+    }
+    
+    // SaveConnectionToDatabase
+    private async Task<ConnectionResponse> SaveConnectionToDatabase(CreateHostConnectionCommand request, CancellationToken cancellationToken)
+    {
+        var entity = mapper.Map<Connection>(request.Model);
+        entity.VaultIdentifier = request.Context.VaultIdentifier;
+        entity.UserId = request.Context.UserId;
+
+        await dbContext.Connections.AddAsync(entity, cancellationToken);
+        await dbContext.SaveChangesAsync(cancellationToken);
+        
+        var response = mapper.Map<ConnectionResponse>(entity);
+        return response;
     }
 }
