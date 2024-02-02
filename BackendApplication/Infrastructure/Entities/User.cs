@@ -9,12 +9,12 @@ public class User
     public int UserId { get; set; } // Primary key
     public string Username { get; set; }
     public string Password { get; set; }
+    
+    public string Email { get; set; }
     public Role Role { get; set; }
     public int PasswordRetryCount { get; set; }
     public bool IsActive { get; set; } = true;
-    
     public DateTime LastActivityDateTime { get; set; } = DateTime.UtcNow;
-
     public virtual ICollection<Connection> Connections { get; set; }
 }
 
