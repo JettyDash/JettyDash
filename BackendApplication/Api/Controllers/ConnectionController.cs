@@ -36,7 +36,7 @@ public class ConnectionController(IMediator mediator, IUserService user) : Contr
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
     public async Task<IActionResult> SaveHostConnection([FromBody] CreateHostConnectionRequest request, CancellationToken cancellationToken)
     {
-        var pipeline = new CreateHostConnectionPipeline(user.GetRole(), user.GetId());
+        var pipeline = new CreateHostConnectionPipeline(user.GetRole(), user.GetId(), user.GetUsername());
         var command = new CreateHostConnectionCommand(request, pipeline);
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
@@ -73,7 +73,7 @@ public class ConnectionController(IMediator mediator, IUserService user) : Contr
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
     public async Task<IActionResult> GetAllConnections(CancellationToken cancellationToken)
     {
-        var pipeline = new GetAllConnectionPipeline(user.GetRole(), user.GetId());
+        var pipeline = new GetAllConnectionPipeline(user.GetRole(), user.GetId(), user.GetUsername());
         var query = new GetAllConnectionQuery(pipeline);
         var result = await mediator.Send(query, cancellationToken);
         return Ok(result);
