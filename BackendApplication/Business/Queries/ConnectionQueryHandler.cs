@@ -1,13 +1,9 @@
 using Business.Cqrs;
-using Business.Validators;
 using AutoMapper;
-using Business.Services;
 using Infrastructure.DbContext;
 using Infrastructure.Entities;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Identity.Client;
-using Schemes.Dtos;
+using Schemes.DTOs;
 using Schemes.Mediatr;
 
 namespace Business.Queries;
