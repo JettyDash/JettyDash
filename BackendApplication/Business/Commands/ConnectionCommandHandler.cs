@@ -43,9 +43,7 @@ public class ConnectionCommandHandler(
         CancellationToken cancellationToken)
     {
         // Check if connection string is unique NOT IMPLEMENTED
-        // save vault
         await SaveConnectionToVault(request);
-        // save database
         var response = await SaveConnectionToDatabase(request, cancellationToken);
 
         return new ApiResponse<ConnectionResponse>(response);
@@ -69,28 +67,25 @@ public class ConnectionCommandHandler(
         // Check if connection exists if exists delete from vault and database
         throw new NotImplementedException();
     }
-    
+
     private async Task SaveConnectionToVault(CreateHostConnectionCommand request)
     {
-        var credentialKey = string.Format(Constants.VaultPath.Database,
-            request.Context.UserId,
+        var path = string.Format(Constants.VaultPath.Database,
+            request.Context.Username,
             request.Context.VaultIdentifier);
-            
-        Dictionary<string, string> values = new()
-        {
-            { credentialKey, request.Context.ConnectionString }
-        };
-        
+
+        var data = new VaultConnectionData(request.Context.ConnectionString);
+
         await vaultService.SaveOrUpdateCredentials(
-            path: vaultConfig.Value.DatabaseSecretsPath,
-            values: values,
+            path: path,
+            data: data,
             mountPoint: vaultConfig.Value.Mount
         );
-
     }
-    
+
     // SaveConnectionToDatabase
-    private async Task<ConnectionResponse> SaveConnectionToDatabase(CreateHostConnectionCommand request, CancellationToken cancellationToken)
+    private async Task<ConnectionResponse> SaveConnectionToDatabase(CreateHostConnectionCommand request,
+        CancellationToken cancellationToken)
     {
         var entity = mapper.Map<Connection>(request.Model);
         entity.VaultIdentifier = request.Context.VaultIdentifier;
@@ -98,7 +93,7 @@ public class ConnectionCommandHandler(
 
         await dbContext.Connections.AddAsync(entity, cancellationToken);
         await dbContext.SaveChangesAsync(cancellationToken);
-        
+
         var response = mapper.Map<ConnectionResponse>(entity);
         return response;
     }
