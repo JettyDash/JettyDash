@@ -5,7 +5,7 @@ namespace Business.Services;
 
 public interface IVaultService
 {
-    Task SaveOrUpdateCredentials<T>(string path, T values, string mountPoint);
+    Task SaveOrUpdateCredentials<T>(string path, T data, string mountPoint);
     Task<object> GetCredentialByPath(string path, string mountPoint);
     Task<string[]> GetAllCredentials(string path, string mountPoint);
 }
@@ -20,12 +20,12 @@ public class VaultService : IVaultService
     }
 
     // $"users/{username}/databases{databaseId}"
-    public async Task SaveOrUpdateCredentials<T>(string path, T values, string mountPoint)
+    public async Task SaveOrUpdateCredentials<T>(string path, T data, string mountPoint)
     {
         //   domainUrl/v1/:secret-mount-path/data/:path
         // https://127.0.0.1:8200/v1/secret/data/my-secret for v2 
         
-        await vaultClient.V1.Secrets.KeyValue.V2.WriteSecretAsync(path, values, mountPoint: mountPoint)
+        await vaultClient.V1.Secrets.KeyValue.V2.WriteSecretAsync(path, data, mountPoint: mountPoint)
             .ConfigureAwait(false);
     }
 
