@@ -9,6 +9,7 @@ public interface IUserService
 {
     int GetId();
     string GetRole();
+    string GetUsername();
     
 }
 
@@ -26,7 +27,19 @@ public class UserService(IHttpContextAccessor httpContextAccessor) : IUserServic
 
         return role;
     }
-    
+
+    public string GetUsername()
+    {
+        var username = httpContextAccessor.HttpContext?.User.FindFirst(Constants.ClaimTypes.Username)?.Value;
+        
+        if (username == null)
+        {
+            throw new HttpException(Constants.ErrorMessages.UsernameNotFound, 404);
+        }
+
+        return username;
+    }
+
     public int GetId()
     {
         var userId = httpContextAccessor.HttpContext?.User.FindFirst(Constants.ClaimTypes.UserId)?.Value;
