@@ -10,7 +10,6 @@ public class DbContextTransactionBehaviour<TRequest, TResponse>(BackendDbContext
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : ICommand<TResponse>
 {
-    // TODO: Only commands must be transactional
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
