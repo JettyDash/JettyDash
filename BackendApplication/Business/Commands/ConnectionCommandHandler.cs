@@ -61,7 +61,7 @@ public class ConnectionCommandHandler(
 
         
         // save vault
-        await vaultService.GetCredentialByPath(path:"DatabaseCredentials", mountPoint: "secret");
+        // await vaultService.GetCredentialByPath(path:"DatabaseCredentials", mountPoint: "secret");
 
         await vaultService.SaveOrUpdateCredentials(
             path: vaultConfig.Value.DatabaseSecretsPath,
