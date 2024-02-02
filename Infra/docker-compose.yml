@@ -26,11 +26,26 @@ services:
       VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_DEV_ROOT_TOKEN_ID}
       VAULT_ADDR: ${VAULT_DEV_LISTEN_ADDRESS}
     restart: always
-    
+    networks:
+      - vault
+      
+  setup-vault:
+    image: hashicorp/vault
+    container_name: setup-vault
+    depends_on:
+      - vault
+    entrypoint: ["sh", "-c", "sleep 10 && vault login -address=${VAULT_ADDR} ${VAULT_DEV_ROOT_TOKEN_ID} && vault secrets enable -path=DatabaseCredential kv"]
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: ${VAULT_DEV_ROOT_TOKEN_ID}
+      VAULT_ADDR: http://vault:8200
+    networks:
+      - vault
     
 volumes:
   mssql-volume:
 
 networks:
+  vault:
+    driver: bridge
   mssql-networks:
     driver: bridge
