@@ -1,7 +1,6 @@
-using System.Runtime.CompilerServices;
 using System.Text.Json;
 
-namespace Schemes.Dtos;
+namespace Schemes.DTOs;
 
 public class ApiResponse<T>
 {

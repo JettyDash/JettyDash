@@ -1,6 +1,6 @@
 using Schemes.Enums;
 
-namespace Schemes.Dtos.Pipelines;
+namespace Schemes.DTOs.Pipelines;
 
 public interface IContextualDto
 {

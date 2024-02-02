@@ -1,5 +1,5 @@
 
-namespace Schemes.Dtos;
+namespace Schemes.DTOs;
 
 
 public class CreateConnectionRequestBase
