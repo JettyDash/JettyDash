@@ -10,12 +10,12 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Schemes.Dtos;
 using Schemes.Exceptions;
-using Schemes.Token;
+using Schemes.Mediatr;
 
 namespace Business.Commands;
 
 public class TokenCommandHandler :
-    IRequestHandler<CreateTokenCommand, TokenResponse>
+    IAsyncCommandHandler<CreateTokenCommand, TokenResponse>
 {
     private readonly BackendDbContext dbContext;
     private readonly ITokenService tokenService;
