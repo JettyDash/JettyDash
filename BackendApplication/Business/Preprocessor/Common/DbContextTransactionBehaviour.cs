@@ -30,7 +30,6 @@ public class DbContextTransactionBehaviour<TRequest, TResponse>(BackendDbContext
                 throw new HttpException($"Transaction failed: {e.Message}", 500);
             }
         }
-        
         return await next();
     }
 }
