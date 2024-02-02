@@ -26,18 +26,6 @@ public class UserService(IHttpContextAccessor httpContextAccessor) : IUserServic
 
         return role;
     }
-
-    // public string GetUserEmail()
-    // {
-    //     var email = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Email)?.Value;
-    //     
-    //     if (email == null)
-    //     {
-    //         throw new HttpException(Constants.ErrorMessages.EmailNotFound, 404);
-    //     }
-    //
-    //     return email;
-    // }
     
     public int GetId()
     {
