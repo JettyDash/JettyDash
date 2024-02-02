@@ -32,9 +32,10 @@ public class CreateHostConnectionPipelineInitializer<TRequest, TResponse>
                 "Integrated Security=false;Encrypt=true;TrustServerCertificate=true;MultipleActiveResultSets=true;",
 
             DatabaseType.MySql =>
-                $"Server={model.Host};Port={model.Port};Database={model.DatabaseName};Uid={model.Username};Pwd={model.Password};Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Timeout=5;Connection Lifetime=180;",
+                $"Server={model.Host};Port={model.Port};Database={model.DatabaseName};Uid={model.Username};Pwd={model.Password}",
+                //;Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Timeout=5;Connection Lifetime=180
             DatabaseType.PostgreSql =>
-                $"User ID={model.Username};Password={model.Password};Host={model.Host};Port={model.Port};Database={model.DatabaseName};Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Lifetime=0;",
+                $"User ID={model.Username};Password={model.Password};Host={model.Host};Port={model.Port};Database={model.DatabaseName};Pooling=true;Minimum Pool Size=0;Maximum Pool Size=100;Connection Lifetime=180;",
             DatabaseType.Oracle =>
                 // $"User ID={model.Username};Password={model.Password};Host={model.Host};Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Lifetime=0;",
                 $"Data Source=(DESCRIPTION=(ADDRESS_LIST=(ADDRESS=(PROTOCOL=TCP)(HOST={model.Host})(PORT={model.Port})))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME={model.DatabaseName})));User Id={model.Username};Password={model.Password};Pooling=True;Connection Timeout=5;Connection Lifetime=180;",
