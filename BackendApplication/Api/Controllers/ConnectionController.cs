@@ -1,10 +1,10 @@
 using Business.Cqrs;
 using Business.Services;
 using Microsoft.AspNetCore.Authorization;
-using Schemes.Dtos;
+using Schemes.DTOs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Schemes.Dtos.Pipelines;
+using Schemes.DTOs.Pipelines;
 using Schemes.Enums;
 
 namespace Api.Controllers;
