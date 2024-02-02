@@ -9,13 +9,14 @@ public interface IContextualDto
 }
 
 
-public class ConnectionPipeline(string userRole, int userId) : IContextualDto
+public class ConnectionPipeline(string userRole, int userId, string username) : IContextualDto
 {
     public int UserId { get; set; } = userId;
     public string UserRole { get; set; } = userRole;
+    public string Username { get; set; } = username;
 }
 
-public class CreateHostConnectionPipeline(string userRole, int userId) : ConnectionPipeline(userRole, userId)
+public class CreateHostConnectionPipeline(string userRole, int userId, string username) : ConnectionPipeline(userRole, userId, username)
 {
     public string ConnectionString { get; set; } = string.Empty;
     public DatabaseType DatabaseType { get; set; } = DatabaseType.Unknown;
@@ -24,6 +25,6 @@ public class CreateHostConnectionPipeline(string userRole, int userId) : Connect
 
 
 
-public class GetAllConnectionPipeline(string userRole, int userId) : ConnectionPipeline(userRole, userId)
+public class GetAllConnectionPipeline(string userRole, int userId, string username) : ConnectionPipeline(userRole, userId, username)
 {
 }
