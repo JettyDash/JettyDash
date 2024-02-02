@@ -5,10 +5,8 @@ using Business.Cqrs;
 using Business.Services;
 using Infrastructure.DbContext;
 using Infrastructure.Entities;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using Schemes.Dtos;
+using Schemes.DTOs;
 using Schemes.Exceptions;
 using Schemes.Mediatr;
 
