@@ -3,14 +3,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.DbContext;
 
-public class BackendDbContext : Microsoft.EntityFrameworkCore.DbContext
+public class BackendDbContext(
+    DbContextOptions<BackendDbContext> options,
+    DbSet<User> users,
+    DbSet<Connection> connections)
+    : Microsoft.EntityFrameworkCore.DbContext(options)
 {
-    public BackendDbContext(DbContextOptions<BackendDbContext> options) : base(options)
-    {
-    }
-
-    public DbSet<User> Users { get; set; }
-    public DbSet<Connection> Connections { get; set; }
+    public DbSet<User> Users { get; set; } = users;
+    public DbSet<Connection> Connections { get; set; } = connections;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
