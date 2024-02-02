@@ -3,9 +3,8 @@ using Business.Cqrs;
 using Business.Services;
 using Infrastructure.DbContext;
 using Infrastructure.Entities;
-using MediatR;
 using Microsoft.Extensions.Options;
-using Schemes.Dtos;
+using Schemes.DTOs;
 using Schemes.Mediatr;
 using Schemes.Vault;
 
