@@ -3,6 +3,7 @@ using Api.Middlewares;
 using AutoMapper;
 using Business.Mapper;
 using Business.Preprocessor;
+using Business.Preprocessor.Common;
 using Business.Services;
 using Business.Validators;
 using FluentValidation;
@@ -14,7 +15,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Schemes.Config.Token;
-using Schemes.Dtos;
+using Schemes.DTOs;
 using Schemes.Vault;
 using VaultSharp;
 using VaultSharp.V1.AuthMethods;
@@ -66,7 +67,7 @@ public class Startup
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(assembly);
-                // cfg.AddOpenBehavior(typeof(ContextInitializer<, >));    
+                cfg.AddOpenBehavior(typeof(DbContextTransactionBehaviour<, >));    
                 cfg.AddBehavior(typeof(IPipelineBehavior<, >),typeof(CreateHostConnectionPipelineInitializer<, >));
                 cfg.AddBehavior(typeof(IPipelineBehavior<, >),typeof(CreateHostConnectionValidationBehaviour<, >));
                 
@@ -104,7 +105,7 @@ public class Startup
             });
         });
         
-
+        // JWT
         JwtConfig jwtConfig = Configuration.GetSection("JwtConfig").Get<JwtConfig>();
         services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
 
