@@ -1,6 +1,6 @@
 using Business.Cqrs;
 using MediatR;
-using Schemes.Dtos;
+using Schemes.DTOs;
 using Schemes.Enums;
 using Schemes.Exceptions;
 
