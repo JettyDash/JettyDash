@@ -10,6 +10,7 @@ public enum Role
 
 public enum DatabaseType
 {
+    Unknown,
     MySql=3306,
     PostgreSql=5432,
     SqlServer=1433,
