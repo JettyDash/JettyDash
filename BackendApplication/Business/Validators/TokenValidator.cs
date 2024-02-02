@@ -1,5 +1,5 @@
 using FluentValidation;
-using Schemes.Dtos;
+using Schemes.DTOs;
 
 namespace Business.Validators;
 
