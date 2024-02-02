@@ -5,9 +5,8 @@ using System.Text;
 using Infrastructure.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Schemes.Config.Token;
 using Schemes.Dtos;
-using Schemes.Exceptions;
-using Schemes.Token;
 
 namespace Business.Services;
 
