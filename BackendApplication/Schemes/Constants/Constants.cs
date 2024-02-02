@@ -14,7 +14,7 @@ public static class Constants
 
     public static class VaultPath
     {
-        public static readonly string Database = "users/{0}/databases/{1}";
+        public static readonly string Database = "{0}/{1}";
     }
     public static class ContentType
     {
@@ -29,6 +29,7 @@ public static class Constants
 
     public static class ErrorMessages
     {
+        public const string UsernameNotFound = "Username not found";
         public const string NoRecordFound = "No record found";
         public const string UserIdNotFound = "UserId not found";
         public const string RoleNotFound = "Role not found";
