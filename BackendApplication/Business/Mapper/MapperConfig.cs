@@ -1,6 +1,6 @@
 using AutoMapper;
 using Infrastructure.Entities;
-using Schemes.Dtos;
+using Schemes.DTOs;
 using Schemes.Enums;
 
 namespace Business.Mapper;
@@ -18,10 +18,6 @@ public class MapperConfig : Profile
             .ForMember(dest => dest.ConnectionType, opt => opt.MapFrom(src => ConnectionType.Host));
     
         CreateMap<Connection, ConnectionResponse>();
-        
-        // CreateMap<CreateUrlConnectionRequest, Connection>();
-        // CreateMap<UpdateUrlConnectionRequest, Connection>();
-        // CreateMap<UpdateHostConnectionRequest, Connection>();
         
         
 
