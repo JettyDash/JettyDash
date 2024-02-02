@@ -26,7 +26,7 @@ public class CreateHostConnectionPipelineInitializer<TRequest, TResponse>
         return databaseType switch
         {
             // Only SQL Authentication mode is supported
-            // TODO: trıust server certificate true to false
+            // TODO: trust server certificate true to false
             DatabaseType.SqlServer =>
                 $"Server={model.Host},{model.Port};Database={model.DatabaseName};User Id={model.Username};Password={model.Password};Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Timeout=5;Connection Lifetime=180;" +
                 "Integrated Security=false;Encrypt=true;TrustServerCertificate=true;MultipleActiveResultSets=true;",
@@ -64,7 +64,7 @@ public class CreateHostConnectionValidationBehaviour<TRequest, TResponse>(IMedia
         }
         
         // Check if connection is unique
-        
+        // get all connection strings of user in vault and compare with new one
         
         return await next();
 
