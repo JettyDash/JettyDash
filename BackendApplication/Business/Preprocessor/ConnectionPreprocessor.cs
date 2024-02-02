@@ -53,6 +53,7 @@ public class CreateHostConnectionValidationBehaviour<TRequest, TResponse>(IMedia
         RequestHandlerDelegate<TResponse> next,
         CancellationToken cancellationToken)
     {
+        // Check if connection string is valid
         var testConnectionCommand =
             new TestConnectionCommand(request.Context.ConnectionString, request.Context.DatabaseType);
         var result = await mediator.Send(testConnectionCommand, cancellationToken);
@@ -61,6 +62,10 @@ public class CreateHostConnectionValidationBehaviour<TRequest, TResponse>(IMedia
         {
             throw new HttpException(result.Message, 400);
         }
+        
+        // Check if connection is unique
+        
+        
         return await next();
 
     }
