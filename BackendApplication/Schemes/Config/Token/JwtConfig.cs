@@ -1,4 +1,4 @@
-namespace Schemes.Token;
+namespace Schemes.Config.Token;
 
 public class JwtConfig
 {
