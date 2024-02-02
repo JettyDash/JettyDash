@@ -6,7 +6,7 @@ using Infrastructure.Entities;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Schemes.Config.Token;
-using Schemes.Dtos;
+using Schemes.DTOs;
 
 namespace Business.Services;
 
