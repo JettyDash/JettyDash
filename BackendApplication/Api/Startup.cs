@@ -67,10 +67,10 @@ public class Startup
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(assembly);
-                cfg.AddOpenBehavior(typeof(DbContextTransactionBehaviour<, >));    
                 cfg.AddBehavior(typeof(IPipelineBehavior<, >),typeof(CreateHostConnectionPipelineInitializer<, >));
                 cfg.AddBehavior(typeof(IPipelineBehavior<, >),typeof(CreateHostConnectionValidationBehaviour<, >));
-                
+                cfg.AddOpenBehavior(typeof(DbContextTransactionBehaviour<, >));    
+
             });
         }
 
