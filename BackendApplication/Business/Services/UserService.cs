@@ -7,18 +7,15 @@ namespace Business.Services;
 
 public interface IUserService
 {
-    string? GetUserRole();
-    
-    // string? GetUserEmail();
-    
-    int GetUserId();
+    int GetId();
+    string GetRole();
     
 }
 
 
 public class UserService(IHttpContextAccessor httpContextAccessor) : IUserService
 {
-    public string GetUserRole()
+    public string GetRole()
     {
         var role = httpContextAccessor.HttpContext?.User.FindFirst(ClaimTypes.Role)?.Value;
         
@@ -42,7 +39,7 @@ public class UserService(IHttpContextAccessor httpContextAccessor) : IUserServic
     //     return email;
     // }
     
-    public int GetUserId()
+    public int GetId()
     {
         var userId = httpContextAccessor.HttpContext?.User.FindFirst(Constants.ClaimTypes.UserId)?.Value;
         
