@@ -1,3 +1,4 @@
+using System.Net;
 using System.Text;
 using Api.Middlewares;
 using AutoMapper;
@@ -152,6 +153,13 @@ public class Startup
 
         services.AddScoped<IValidator<UpdateUrlConnectionRequest>, UpdateUrlConnectionRequestValidator>();
         services.AddScoped<IValidator<UpdateHostConnectionRequest>, UpdateHostConnectionRequestValidator>();
+
+        services.AddHttpsRedirection(options =>
+        {
+            options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
+            options.HttpsPort = 7268;
+        });
+        
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -169,7 +177,10 @@ public class Startup
         app.UseCors(options =>
             options.WithOrigins("*").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
         app.UseAuthentication();
+        app.UseHttpsRedirection();
+
         app.UseRouting();
+
         app.UseAuthorization();
 
         app.UseEndpoints(endpoints =>
