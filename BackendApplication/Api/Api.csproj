@@ -5,8 +5,8 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>false</InvariantGlobalization>
-        <ServerUrls>https://localhost:7268;http://localhost:5268</ServerUrls>
-      <UserSecretsId>99372eba-fab1-40cb-9ad2-de749e62fb75</UserSecretsId>
+        <ServerUrls>https://localhost:5001;http://localhost:5000</ServerUrls>
+        <UserSecretsId>99372eba-fab1-40cb-9ad2-de749e62fb75</UserSecretsId>
   </PropertyGroup>
 
     <ItemGroup>
