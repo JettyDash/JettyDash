@@ -145,7 +145,7 @@ public class Startup
         // FluentValidation
         services.AddFluentValidationAutoValidation();
         // TODO: Open this when fe is ready
-        // ValidatorOptions.Global.DefaultRuleLevelCascadeMode = CascadeMode.Stop;
+        // ValidatorOptions.Global.Defaul   tRuleLevelCascadeMode = CascadeMode.Stop;
 
         services.AddScoped<IHandlerValidator, HandlerValidator>();
         services.AddScoped<IValidator<CreateUrlConnectionRequest>, CreateUrlConnectionRequestValidator>();
@@ -153,12 +153,7 @@ public class Startup
 
         services.AddScoped<IValidator<UpdateUrlConnectionRequest>, UpdateUrlConnectionRequestValidator>();
         services.AddScoped<IValidator<UpdateHostConnectionRequest>, UpdateHostConnectionRequestValidator>();
-
-        services.AddHttpsRedirection(options =>
-        {
-            options.RedirectStatusCode = (int)HttpStatusCode.TemporaryRedirect;
-            options.HttpsPort = 7268;
-        });
+        
         
     }
 
@@ -177,7 +172,7 @@ public class Startup
         app.UseCors(options =>
             options.WithOrigins("*").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
         app.UseAuthentication();
-        app.UseHttpsRedirection();
+        // app.UseHttpsRedirection();
 
         app.UseRouting();
 
