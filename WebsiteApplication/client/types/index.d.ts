@@ -1,10 +1,13 @@
-import { BADGE_CRITERIA } from "@/constants";
+interface NavItemHighlightProps {
+  width: number;
+  translateX: number;
+}
 
-export interface SidebarLink {
-  imgURL: string;
+interface SidebarLink {
   route: string;
   label: string;
 }
+
 
 export interface Job {
   id?: string;
