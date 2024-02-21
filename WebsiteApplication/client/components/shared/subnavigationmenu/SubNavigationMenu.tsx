@@ -20,8 +20,13 @@ export function SubNavigationMenu() {
     }
 
     function getNavItemHighlightProps(index: number): NavItemHighlightProps {
-        const widths = [85.14, 101.73, 85.97, 103.54, 106.08, 75.92];
-        const translateXs = [0, 85.14, 186.87, 272.84, 376.38, 482.46];
+        // px-2
+        // const widths = [85.14, 101.73, 85.97, 103.54, 106.08, 75.92];
+        // const translateXs = [0, 85.14, 186.87, 272.84, 376.38, 482.46];
+
+        const widths = [125.17, 141.77, 125.98, 143.58, 146.13, 115.94];
+        const translateXs = [0, 125.17, 266.94, 392.92, 536.5, 682.63];
+
         return { width: widths[index], translateX: translateXs[index] };
     }
 
