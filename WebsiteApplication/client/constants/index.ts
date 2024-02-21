@@ -8,66 +8,28 @@ export const themes = [
 
 export const sidebarLinks: SidebarLink[] = [
   {
-    imgURL: "/assets/icons/home.svg",
-    route: "/",
-    label: "Home",
+    route: "/overview",
+    label: "Overview",
   },
   {
-    imgURL: "/assets/icons/users.svg",
-    route: "/community",
-    label: "Community",
+    route: "/dashboards",
+    label: "Dashboards",
   },
   {
-    imgURL: "/assets/icons/star.svg",
-    route: "/collection",
-    label: "Collections",
+    route: "/visualizer",
+    label: "Visualizer",
   },
   {
-    imgURL: "/assets/icons/suitcase.svg",
-    route: "/jobs",
-    label: "Find Jobs",
+    route: "/datamodels",
+    label: "DataModels",
   },
   {
-    imgURL: "/assets/icons/tag.svg",
-    route: "/tags",
-    label: "Tags",
+    route: "/connections",
+    label: "Connections",
   },
   {
-    imgURL: "/assets/icons/user.svg",
-    route: "/profile",
-    label: "Profile",
-  },
-  {
-    imgURL: "/assets/icons/question.svg",
-    route: "/ask-question",
-    label: "Ask a question",
+    route: "/settings",
+    label: "Settings",
   },
 ];
 
-export const BADGE_CRITERIA = {
-  QUESTION_COUNT: {
-    BRONZE: 10,
-    SILVER: 50,
-    GOLD: 100,
-  },
-  ANSWER_COUNT: {
-    BRONZE: 10,
-    SILVER: 50,
-    GOLD: 100,
-  },
-  QUESTION_UPVOTES: {
-    BRONZE: 10,
-    SILVER: 50,
-    GOLD: 100,
-  },
-  ANSWER_UPVOTES: {
-    BRONZE: 10,
-    SILVER: 50,
-    GOLD: 100,
-  },
-  TOTAL_VIEWS: {
-    BRONZE: 1000,
-    SILVER: 10000,
-    GOLD: 100000,
-  },
-};
