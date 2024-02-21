@@ -8,7 +8,7 @@ import {Divider} from "@nextui-org/divider";
 const Navbar = () => {
     return (
         <nav
-            className="flex-between border-b-2 border-solid dark:border-dark-300 background-light900_dark200 fixed z-50 w-full shadow-light-300 dark:shadow-none sm:pl-12">
+            className="flex-between border-b-2 border-solid dark:border-dark-300 background-light900_dark200 fixed z-50 h-10 w-full shadow-light-300 dark:shadow-none pl-12">
             <div>
                 <Link href="/" className="flex items-center gap-1 ">
                     <Image
@@ -23,13 +23,13 @@ const Navbar = () => {
                     </p>
                 </Link>
             </div>
+
+            <div className="hidden lg:block">
+                <SubNavigationMenu/>
+            </div>
+
             <div className="flex flex-row flex-none gap-5 items-center">
 
-                <div className="hidden lg:block">
-                    <SubNavigationMenu/>
-                </div>
-
-                <Divider orientation="vertical" className="h-6 dark-300"/>
                 <div>
                     <Theme/>
                 </div>
