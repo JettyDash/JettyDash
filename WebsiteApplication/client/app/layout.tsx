@@ -3,6 +3,7 @@ import {Ubuntu} from "next/font/google";
 import type {Metadata} from "next";
 import "./globals.css";
 import {ThemeProvider} from "@/context/ThemeProvider";
+import {Providers} from "./providers";
 
 const ubuntu = Ubuntu({
     subsets: ["latin"],
@@ -26,7 +27,9 @@ export default function RootLayout({children,}: {
     return (
         <html lang="en">
         <body className={`${ubuntu.variable}`}>
-            <ThemeProvider>{children}</ThemeProvider>
+
+        <ThemeProvider><Providers>{children}</Providers></ThemeProvider>
+
         </body>
         </html>
     );
