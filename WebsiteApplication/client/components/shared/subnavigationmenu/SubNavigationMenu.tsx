@@ -60,8 +60,8 @@ export function SubNavigationMenu () {
 
 
     return (
-        <div className="sticky top-0 flex px-14rem  shadow-header-box">
-            <nav onMouseLeave={handleLeaveNavItem} className={`flex flex-row cursor-pointer`}>
+        <div className="sticky top-0 flex z-10">
+            <nav onMouseLeave={handleLeaveNavItem} className={`flex flex-row cursor-pointer `}>
                 { navItemHighlightPropsValues != null && (
                     <NavItemHighlight
                         width={navItemHighlightPropsValues.width}
@@ -69,22 +69,22 @@ export function SubNavigationMenu () {
                     />
                 )}
 
-                <a onMouseOver={() => handleHoverNavItem(0)} href="#" className="relative px-2 py-1 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
+                <a onMouseOver={() => handleHoverNavItem(0)} href="/overview" className="border-b-2 border-transparent hover:border-gray-400 transitiond-all duration-300 ease-in-out relative px-2 py-2 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
                     Overview
                 </a>
-                <a onMouseOver={() => handleHoverNavItem(1)} href="#" className="transitiond-all duration-300 ease-in-out relative px-2 py-1 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
+                <a onMouseOver={() => handleHoverNavItem(1)} href="/dashboards" className="border-b-2 border-transparent hover:border-gray-400 transitiond-all duration-300 ease-in-out relative px-2 py-2 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
                     Dashboards
                 </a>
-                <a onMouseOver={() => handleHoverNavItem(2)} href="#" className="transitiond-all duration-300 ease-in-out relative px-2 py-1 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
+                <a onMouseOver={() => handleHoverNavItem(2)} href="/visualizer" className="border-b-2 border-transparent hover:border-gray-400 transitiond-all duration-300 ease-in-out relative px-2 py-2 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
                     Visualizer
                 </a>
-                <a onMouseOver={() => handleHoverNavItem(3)} href="#" className="transitiond-all duration-300 ease-in-out relative px-2 py-1 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
+                <a onMouseOver={() => handleHoverNavItem(3)} href="/datamodels" className="border-b-2 border-transparent hover:border-gray-400 transitiond-all duration-300 ease-in-out relative px-2 py-2 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
                     DataModels
                 </a>
-                <a onMouseOver={() => handleHoverNavItem(4)} href="#" className="transitiond-all duration-300 ease-in-out relative px-2 py-1 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
+                <a onMouseOver={() => handleHoverNavItem(4)} href="/connections" className="border-b-2 border-transparent hover:border-gray-400 transitiond-all duration-300 ease-in-out relative px-2 py-2 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
                     Connections
                 </a>
-                <a onMouseOver={() => handleHoverNavItem(5)} href="#" className="transitiond-all duration-300 ease-in-out relative px-2 py-1 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
+                <a onMouseOver={() => handleHoverNavItem(5)} href="/settings" className="border-b-2 border-transparent hover:border-gray-400 transitiond-all duration-300 ease-in-out relative px-2 py-2 font-ubuntu text-dark-400 hover:text-dark-200 dark:text-stone-400 dark:hover:text-stone-100">
                     Settings
                 </a>
             </nav>
