@@ -3,19 +3,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Home | Dev Overflow",
+  title: "Connections | JettyDash",
 };
 
 export default async function Home({ }) {
-  // const { userId } = auth();
-  const userId = "1";
-
-  let result;
-
   return (
     <div>
-      <h1>Connection</h1>
-      <p>Welcome to Dev Overflow</p>
+      <h1>Connections</h1>
       <Link href={"google.com"}>Posts</Link>
     </div>
   );
