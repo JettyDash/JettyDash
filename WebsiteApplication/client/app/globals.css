@@ -70,6 +70,21 @@ body {
     filter: sepia(98%) hue-rotate(5deg) brightness(104%) contrast(106%) !important;
   }
 
+  .svg_underline {
+    content: '';
+    position: absolute;
+    bottom: -2px; /* Adjust this value for the offset */
+    left: 0;
+    width: 100%; /* Force it to cover the width of the text and SVG */
+    height: 1px; /* Adjust this value for the thickness of the underline */
+    background-color: #3291FF; /* This will inherit the color from the text */
+    opacity: 0;
+  }
+
+  .learnmore:hover .svg_underline {
+    opacity: 1; /* Scale the underline to fully display it on hover */
+  }
+
 
   .light-gradient {
     background: linear-gradient(
