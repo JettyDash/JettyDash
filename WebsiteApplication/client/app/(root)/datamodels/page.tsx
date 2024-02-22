@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "DataModels | JettyDash",
 };
 
-export default async function Home({ }) {
+export default async function DataModels({ }) {
   return (
     <div>
       <h1>DataModels</h1>
