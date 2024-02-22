@@ -2,7 +2,6 @@ import React from "react";
 import {Ubuntu} from "next/font/google";
 import type {Metadata} from "next";
 import "./globals.css";
-import {ThemeProvider} from "@/context/ThemeProvider";
 import {Providers} from "./providers";
 
 const ubuntu = Ubuntu({
@@ -25,10 +24,10 @@ export default function RootLayout({children,}: {
     children: React.ReactNode;
 }) {
     return (
-        <html lang="en">
+        <html lang="en" suppressHydrationWarning>
         <body className={`${ubuntu.variable}`}>
 
-        <ThemeProvider><Providers>{children}</Providers></ThemeProvider>
+        <Providers>{children}</Providers>
 
         </body>
         </html>
