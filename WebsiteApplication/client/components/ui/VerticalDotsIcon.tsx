@@ -1,6 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, SVGProps } from "react";
 
-interface VerticalDotsIconProps {
+interface VerticalDotsIconProps extends SVGProps<SVGSVGElement> {
     size?: number;
     width?: number;
     height?: number;
@@ -23,3 +23,4 @@ export const VerticalDotsIcon: FC<VerticalDotsIconProps> = ({ size = 24, width, 
         />
     </svg>
 );
+
