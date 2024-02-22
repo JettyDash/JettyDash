@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Overview",
 };
 
-export default async function Home({ }) {
+export default async function Overview({ }) {
   return (
     <div>
       <h1>Overview</h1>
