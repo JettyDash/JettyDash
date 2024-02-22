@@ -7,11 +7,6 @@ export const metadata: Metadata = {
 };
 
 export default async function Home({ }) {
-  // const { userId } = auth();
-  const userId = "1";
-
-  let result;
-
   return (
     <div>
       <h1>Home</h1>
