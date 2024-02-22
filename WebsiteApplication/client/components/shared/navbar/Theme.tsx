@@ -2,7 +2,8 @@
 
 import React from "react";
 
-import { useTheme } from "@/context/ThemeProvider";
+import { useTheme } from 'next-themes';
+
 import {
   Menubar,
   MenubarContent,
@@ -15,12 +16,12 @@ import Image from "next/image";
 import { themes } from "@/constants";
 
 const Theme = () => {
-  const { mode, setMode } = useTheme();
+  const { theme, setTheme } = useTheme();
   return (
     <Menubar className="relative border-none bg-transparent shadow-none">
       <MenubarMenu>
         <MenubarTrigger className="focus:bg-light-900 data-[state=open]:bg-light-900 dark:focus:bg-dark-200 dark:data-[state=open]:bg-dark-200">
-          {mode === "light" ? (
+          {theme === "light" ? (
             <Image
               src="assets/icons/sun.svg"
               alt="sun"
@@ -44,7 +45,7 @@ const Theme = () => {
               key={item.value}
               className="flex cursor-pointer items-center gap-4 px-2.5 py-2 focus:bg-light-800 dark:focus:bg-dark-400"
               onClick={() => {
-                setMode(item.value);
+                setTheme(item.value);
 
                 if (item.value !== "system") {
                   localStorage.theme = item.value;
@@ -58,11 +59,11 @@ const Theme = () => {
                 alt={item.value}
                 width={16}
                 height={16}
-                className={`${mode === item.value && "active-theme"}`}
+                className={`${theme === item.value && "active-theme"}`}
               />
               <p
                 className={`body-semibold text-light-500 ${
-                  mode === item.value
+                  theme === item.value
                     ? "text-light-500"
                     : "text-dark100_light900"
                 }`}
