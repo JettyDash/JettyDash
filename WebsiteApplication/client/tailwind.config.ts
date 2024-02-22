@@ -4,6 +4,7 @@ import {nextui} from "@nextui-org/react";
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
+  lightMode: ["class"],
   content: [
     "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
     "./pages/**/*.{ts,tsx}",
@@ -20,6 +21,18 @@ module.exports = {
       },
     },
     extend: {
+
+      flex: {
+        1: "1 1 0%",
+        2: "2 2 0%",
+        3: "3 3 0%",
+        4: "4 4 0%",
+        5: "5 5 0%",
+        6: "6 6 0%",
+        7: "7 7 0%",
+        8: "8 8 0%",
+        9: "9 9 0%",
+      },
       colors: {
         primary: {
           600: "#075FA5",
@@ -78,5 +91,44 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography"), nextui()],
+  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography"),
+    nextui({
+      themes: {
+        light: {
+          colors: {
+            background: "#F7F5F1", // or DEFAULT
+            // foreground: "#11181C", // or 50 to 900 DEFAULT
+            // primary: {
+            //   //... 50 to 900
+            //   foreground: "#FFFFFF",
+            //   DEFAULT: "#006FEE",
+            // },
+            // // ... rest of the colors
+          },
+        },
+        dark: {
+          colors: {
+            background: "#1C1B1B", // or DEFAULT
+            /*foreground: "#ECEDEE", // or 50 to 900 DEFAULT
+            primary: {
+              //... 50 to 900
+              foreground: "#FFFFFF",
+              DEFAULT: "#006FEE",
+            },*/
+          },
+        },
+        /*mytheme: {
+          // custom theme
+          extend: "dark",
+          colors: {
+            primary: {
+              DEFAULT: "#BEF264",
+              foreground: "#000000",
+            },
+            focus: "#BEF264",
+          },
+        },*/
+      },
+    })
+  ],
 };
