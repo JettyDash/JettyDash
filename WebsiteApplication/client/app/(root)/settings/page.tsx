@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Settings | JettyDash",
 };
 
-export default async function Home({ }) {
+export default async function Settings({ }) {
   return (
     <div>
       <h1>Settings</h1>
