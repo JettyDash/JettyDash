@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Visualizer | JettyDash",
 };
 
-export default async function Home({ }) {
+export default async function Visualizer({ }) {
   // const { userId } = auth();
   return (
     <div>
