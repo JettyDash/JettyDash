@@ -28,7 +28,7 @@ const Navbar = () => {
                 <SubNavigationMenu/>
             </div>
 
-            <div className="flex flex-row flex-none gap-5 items-center">
+            <div className="flex flex-row flex-none gap-5 items-center ">
 
                 <div>
                     <Theme/>
