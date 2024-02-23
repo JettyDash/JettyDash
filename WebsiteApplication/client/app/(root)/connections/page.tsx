@@ -5,6 +5,7 @@ import {Divider} from "@nextui-org/divider";
 import UserTable from "@/components/ui/usertable";
 import PostgresDbIcon from "@/components/icons/PostgresDbIcon";
 import MySqlDbIcon from "@/components/icons/MySqlDbIcon";
+import OracleDbIcon from "@/components/icons/OracleDbIcon";
 
 export const metadata: Metadata = {
     title: "JettyDash",
@@ -50,6 +51,7 @@ export default async function Connections({}) {
                 <div>
                     <PostgresDbIcon/>
                     <MySqlDbIcon/>
+                    <OracleDbIcon/>
 
 
 
