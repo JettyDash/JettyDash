@@ -21,7 +21,7 @@ import {
     SortDescriptor
 } from "@nextui-org/react";
 import {PlusIcon} from "../icons/PlusIcon";
-import {VerticalDotsIcon} from "./VerticalDotsIcon";
+import {VerticalDotsIcon} from "../icons/VerticalDotsIcon";
 import {ChevronDownIcon} from "../icons/ChevronDownIcon";
 import {SearchIcon} from "../icons/SearchIcon";
 import {columns, users, statusOptions} from "./data";
