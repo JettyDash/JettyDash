@@ -24,7 +24,7 @@ const Navbar = () => {
                 </Link>
             </div>
 
-            <div className="hidden lg:block">
+            <div className="">
                 <SubNavigationMenu/>
             </div>
 
