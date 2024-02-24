@@ -42,8 +42,8 @@ export function SubNavigationMenu() {
                         onMouseOver={() => handleHoverNavItem(index)}
                         href={link.route}
                         // aria-checked={pathname === link.route}
-                        data-state={pathname === link.route ? 'active' : ''}
                         className="tab"
+                        data-state={pathname === link.route ? 'active' : ''}
                     >
                         {link.label}
                     </a>
