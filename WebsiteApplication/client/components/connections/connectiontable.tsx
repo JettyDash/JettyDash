@@ -24,7 +24,7 @@ import {PlusIcon} from "../icons/PlusIcon";
 import {ChevronDownIcon} from "../icons/ChevronDownIcon";
 import {SearchIcon} from "../icons/SearchIcon";
 import {columns, connections, statusOptions} from "./data";
-import {capitalize} from "./utils";
+import {capitalize, formatDate} from "@/lib/utils";
 import {DeleteIcon, EditIcon, EyeIcon} from "@nextui-org/shared-icons";
 import {DatabaseType} from "@/constants";
 
@@ -37,11 +37,6 @@ const statusColorMap: Record<string, ChipProps["color"]> = {
 const INITIAL_VISIBLE_COLUMNS = ["name", "date", "status", "actions"];
 
 type Connection = typeof connections[0];
-
-// const getDatabaseComponent = (str: string): React.ReactNode => {
-//     const Component = DatabaseType[str] || DatabaseType["UNKNOWN"];
-//     return <Component />;
-// };
 
 const getDatabaseComponent = (str: string): React.ReactNode => (DatabaseType[str] || DatabaseType["UNKNOWN"])({});
 
@@ -104,6 +99,7 @@ export default function ConnectionTable() {
 
     const renderCell = useCallback((connection: Connection, columnKey: React.Key) => {
         const cellValue = connection[columnKey as keyof Connection];
+        const { formattedDate, formattedTime, dayName } = formatDate(connection.date);
 
         switch (columnKey) {
             case "name":
@@ -128,8 +124,8 @@ export default function ConnectionTable() {
             case "date":
                 return (
                     <div className="flex flex-col">
-                        <p className="text-bold text-small capitalize">{cellValue}</p>
-                        <p className="text-bold text-tiny capitalize text-default-500">{connection.date}</p>
+                        <p className="text-bold text-small capitalize">{formattedDate}</p>
+                        <p className="text-bold text-tiny capitalize text-default-500">{`${formattedTime + ' ' + dayName}`}</p>
                     </div>
                 );
             case "status":
