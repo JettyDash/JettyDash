@@ -12,7 +12,7 @@ public enum DatabaseType
 {
     Unknown,
     MySql=3306,
-    PostgreSql=5432,
+    PostgresSql=5432,
     SqlServer=1433,
     Oracle=1521,
 }
