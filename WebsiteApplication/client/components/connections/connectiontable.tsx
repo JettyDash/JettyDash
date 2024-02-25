@@ -1,5 +1,5 @@
 'use client';
-import React, {useEffect, useState, useMemo, useCallback} from "react";
+import React, {useState, useMemo, useCallback} from "react";
 import {
     Table,
     TableHeader,
@@ -21,24 +21,33 @@ import {
     SortDescriptor, Tooltip
 } from "@nextui-org/react";
 import {PlusIcon} from "../icons/PlusIcon";
-import {VerticalDotsIcon} from "../icons/VerticalDotsIcon";
+// import {VerticalDotsIcon} from "../icons/VerticalDotsIcon";
 import {ChevronDownIcon} from "../icons/ChevronDownIcon";
 import {SearchIcon} from "../icons/SearchIcon";
-import {columns, users, statusOptions} from "./data";
+import {columns, connections, statusOptions} from "./data";
 import {capitalize} from "./utils";
 import {DeleteIcon, EditIcon, EyeIcon} from "@nextui-org/shared-icons";
+import {DatabaseType} from "@/constants";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
     active: "success",
     paused: "danger",
-    vacation: "warning",
+    inactive: "warning",
 };
 
-const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
+const INITIAL_VISIBLE_COLUMNS = ["name", "date", "status", "actions"];
 
-type User = typeof users[0];
+type Connection = typeof connections[0];
 
-export default function UserTable() {
+// const getDatabaseComponent = (str: string): React.ReactNode => {
+//     const Component = DatabaseType[str] || DatabaseType["UNKNOWN"];
+//     return <Component />;
+// };
+
+const getDatabaseComponent = (str: string): React.ReactNode => (DatabaseType[str] || DatabaseType["UNKNOWN"])({});
+
+
+export default function ConnectionTable() {
     const [filterValue, setFilterValue] = useState("");
     const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
     const [visibleColumns, setVisibleColumns] = useState<Selection>(new Set(INITIAL_VISIBLE_COLUMNS));
@@ -50,7 +59,7 @@ export default function UserTable() {
     });
     const [page, setPage] = useState(1);
 
-    const pages = Math.ceil(users.length / rowsPerPage);
+    const pages = Math.ceil(connections.length / rowsPerPage);
 
     const hasSearchFilter = Boolean(filterValue);
 
@@ -61,21 +70,21 @@ export default function UserTable() {
     }, [visibleColumns]);
 
     const filteredItems = useMemo(() => {
-        let filteredUsers = [...users];
+        let filteredConnections = [...connections];
 
         if (hasSearchFilter) {
-            filteredUsers = filteredUsers.filter((user) =>
-                user.name.toLowerCase().includes(filterValue.toLowerCase()),
+            filteredConnections = filteredConnections.filter((connection) =>
+                connection.name.toLowerCase().includes(filterValue.toLowerCase()),
             );
         }
         if (statusFilter !== "all" && Array.from(statusFilter).length !== statusOptions.length) {
-            filteredUsers = filteredUsers.filter((user) =>
-                Array.from(statusFilter).includes(user.status),
+            filteredConnections = filteredConnections.filter((connection) =>
+                Array.from(statusFilter).includes(connection.status),
             );
         }
 
-        return filteredUsers;
-    }, [users, filterValue, statusFilter]);
+        return filteredConnections;
+    }, [connections, filterValue, statusFilter]);
 
     const items = useMemo(() => {
         const start = (page - 1) * rowsPerPage;
@@ -85,44 +94,50 @@ export default function UserTable() {
     }, [page, filteredItems, rowsPerPage]);
 
     const sortedItems = useMemo(() => {
-        return [...items].sort((a: User, b: User) => {
-            const first = a[sortDescriptor.column as keyof User] as number;
-            const second = b[sortDescriptor.column as keyof User] as number;
+        return [...items].sort((a: Connection, b: Connection) => {
+            const first = a[sortDescriptor.column as keyof Connection] as number;
+            const second = b[sortDescriptor.column as keyof Connection] as number;
             const cmp = first < second ? -1 : first > second ? 1 : 0;
 
             return sortDescriptor.direction === "descending" ? -cmp : cmp;
         });
     }, [sortDescriptor, items]);
 
-    const renderCell = useCallback((user: User, columnKey: React.Key) => {
-        const cellValue = user[columnKey as keyof User];
+    const renderCell = useCallback((connection: Connection, columnKey: React.Key) => {
+        const cellValue = connection[columnKey as keyof Connection];
 
         switch (columnKey) {
             case "name":
                 return (
+
+
                     <User
-                        avatarProps={{radius: "full", size: "sm", src: user.avatar}}
+                        avatarProps={{
+                            color: "primary",
+                            radius: "sm",
+                            size: "md",
+                            showFallback: true,
+                            fallback: getDatabaseComponent(connection.databaseType),}}
                         classNames={{
                             description: "text-default-500",
                         }}
-                        description={user.email}
+                        description={connection.databaseType}
                         name={cellValue}
                     >
-                        {user.email}
                     </User>
                 );
-            case "role":
+            case "date":
                 return (
                     <div className="flex flex-col">
                         <p className="text-bold text-small capitalize">{cellValue}</p>
-                        <p className="text-bold text-tiny capitalize text-default-500">{user.team}</p>
+                        <p className="text-bold text-tiny capitalize text-default-500">{connection.date}</p>
                     </div>
                 );
             case "status":
                 return (
                     <Chip
-                        className="capitalize border-none gap-1 text-default-600"
-                        color={statusColorMap[user.status]}
+                        className={`capitalize border-none gap-1 text-default-600 ${connection.status === 'active' ? 'animate-pulse' : ''}`}
+                        color={statusColorMap[connection.status]}
                         size="sm"
                         variant="dot"
                     >
@@ -138,33 +153,33 @@ export default function UserTable() {
                               <EyeIcon/>
                             </span>
                         </Tooltip>
-                        <Tooltip content='Edit user'>
+                        <Tooltip content='Edit connection'>
                             <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
                               <EditIcon/>
                             </span>
                         </Tooltip>
-                        <Tooltip color='danger' content='Delete user'>
+                        <Tooltip color='danger' content='Delete connection'>
                             <span className='cursor-pointer text-lg text-danger active:opacity-50'>
                               <DeleteIcon/>
                             </span>
                         </Tooltip>
                     </div>
-                            /*( TODO: onMobile
-                            <div className="relative flex justify-end items-center gap-2">
-                                    <Dropdown className="bg-background border-1 border-default-200">
-                                        <DropdownTrigger>
-                                            <Button isIconOnly radius="full" size="sm" variant="light">
-                                                <VerticalDotsIcon size={24} className="text-default-400"/>
-                                            </Button>
-                                        </DropdownTrigger>
-                                        <DropdownMenu>
-                                            <DropdownItem>View</DropdownItem>
-                                            <DropdownItem>Edit</DropdownItem>
-                                            <DropdownItem>Delete</DropdownItem>
-                                        </DropdownMenu>
-                                    </Dropdown>
-                                </div>
-                            )*/
+                    /*( TODO: onMobile
+                    <div className="relative flex justify-end items-center gap-2">
+                            <Dropdown className="bg-background border-1 border-default-200">
+                                <DropdownTrigger>
+                                    <Button isIconOnly radius="full" size="sm" variant="light">
+                                        <VerticalDotsIcon size={24} className="text-default-400"/>
+                                    </Button>
+                                </DropdownTrigger>
+                                <DropdownMenu>
+                                    <DropdownItem>View</DropdownItem>
+                                    <DropdownItem>Edit</DropdownItem>
+                                    <DropdownItem>Delete</DropdownItem>
+                                </DropdownMenu>
+                            </Dropdown>
+                        </div>
+                    )*/
                 );
             default:
                 return cellValue;
@@ -265,7 +280,7 @@ export default function UserTable() {
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
-                    <span className="text-default-400 text-small">Total {users.length} users</span>
+                    <span className="text-default-400 text-small">Total {connections.length} connections</span>
                     <label className="flex items-center text-default-400 text-small">
                         Rows per page:
                         <select
@@ -286,7 +301,7 @@ export default function UserTable() {
         visibleColumns,
         onSearchChange,
         onRowsPerPageChange,
-        users.length,
+        connections.length,
         hasSearchFilter,
     ]);
 
