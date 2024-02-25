@@ -1,6 +1,6 @@
 import type {Metadata} from "next";
 import {Divider} from "@nextui-org/divider";
-import UserTable from "@/components/ui/usertable";
+import UserTable from "@/components/connections/usertable";
 import PostgresDbIcon from "@/components/icons/PostgresDbIcon";
 import MySqlDbIcon from "@/components/icons/MySqlDbIcon";
 import OracleDbIcon from "@/components/icons/OracleDbIcon";
