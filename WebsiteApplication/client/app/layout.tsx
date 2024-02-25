@@ -3,6 +3,7 @@ import {Ubuntu} from "next/font/google";
 import type {Metadata} from "next";
 import "./globals.css";
 import {Providers} from "./providers";
+import { SpeedInsights } from '@vercel/speed-insights/next';
 
 const ubuntu = Ubuntu({
     subsets: ["latin"],
@@ -25,9 +26,11 @@ export default function RootLayout({children,}: {
 }) {
     return (
         <html lang="en" suppressHydrationWarning>
+
         <body className={`${ubuntu.variable}`}>
 
-        <Providers>{children}</Providers>
+        <Providers>{children}<SpeedInsights /></Providers>
+
 
         </body>
         </html>
