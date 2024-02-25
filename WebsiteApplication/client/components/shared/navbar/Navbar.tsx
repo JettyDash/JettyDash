@@ -24,7 +24,7 @@ const Navbar = () => {
                 </Link>
             </div>
 
-            <div className="">
+            <div className="max-lg:hidden">
                 <SubNavigationMenu/>
             </div>
 

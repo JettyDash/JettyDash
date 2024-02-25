@@ -1,5 +1,5 @@
 'use client';
-import React from "react";
+import React, {useEffect, useState, useMemo, useCallback} from "react";
 import {
     Table,
     TableHeader,
@@ -18,7 +18,7 @@ import {
     Pagination,
     Selection,
     ChipProps,
-    SortDescriptor
+    SortDescriptor, Tooltip
 } from "@nextui-org/react";
 import {PlusIcon} from "../icons/PlusIcon";
 import {VerticalDotsIcon} from "../icons/VerticalDotsIcon";
@@ -26,6 +26,7 @@ import {ChevronDownIcon} from "../icons/ChevronDownIcon";
 import {SearchIcon} from "../icons/SearchIcon";
 import {columns, users, statusOptions} from "./data";
 import {capitalize} from "./utils";
+import {DeleteIcon, EditIcon, EyeIcon} from "@nextui-org/shared-icons";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
     active: "success",
@@ -38,28 +39,28 @@ const INITIAL_VISIBLE_COLUMNS = ["name", "role", "status", "actions"];
 type User = typeof users[0];
 
 export default function UserTable() {
-    const [filterValue, setFilterValue] = React.useState("");
-    const [selectedKeys, setSelectedKeys] = React.useState<Selection>(new Set([]));
-    const [visibleColumns, setVisibleColumns] = React.useState<Selection>(new Set(INITIAL_VISIBLE_COLUMNS));
-    const [statusFilter, setStatusFilter] = React.useState<Selection>("all");
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
-    const [sortDescriptor, setSortDescriptor] = React.useState<SortDescriptor>({
+    const [filterValue, setFilterValue] = useState("");
+    const [selectedKeys, setSelectedKeys] = useState<Selection>(new Set([]));
+    const [visibleColumns, setVisibleColumns] = useState<Selection>(new Set(INITIAL_VISIBLE_COLUMNS));
+    const [statusFilter, setStatusFilter] = useState<Selection>("all");
+    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [sortDescriptor, setSortDescriptor] = useState<SortDescriptor>({
         column: "age",
         direction: "ascending",
     });
-    const [page, setPage] = React.useState(1);
+    const [page, setPage] = useState(1);
 
     const pages = Math.ceil(users.length / rowsPerPage);
 
     const hasSearchFilter = Boolean(filterValue);
 
-    const headerColumns = React.useMemo(() => {
+    const headerColumns = useMemo(() => {
         if (visibleColumns === "all") return columns;
 
         return columns.filter((column) => Array.from(visibleColumns).includes(column.uid));
     }, [visibleColumns]);
 
-    const filteredItems = React.useMemo(() => {
+    const filteredItems = useMemo(() => {
         let filteredUsers = [...users];
 
         if (hasSearchFilter) {
@@ -76,14 +77,14 @@ export default function UserTable() {
         return filteredUsers;
     }, [users, filterValue, statusFilter]);
 
-    const items = React.useMemo(() => {
+    const items = useMemo(() => {
         const start = (page - 1) * rowsPerPage;
         const end = start + rowsPerPage;
 
         return filteredItems.slice(start, end);
     }, [page, filteredItems, rowsPerPage]);
 
-    const sortedItems = React.useMemo(() => {
+    const sortedItems = useMemo(() => {
         return [...items].sort((a: User, b: User) => {
             const first = a[sortDescriptor.column as keyof User] as number;
             const second = b[sortDescriptor.column as keyof User] as number;
@@ -93,7 +94,7 @@ export default function UserTable() {
         });
     }, [sortDescriptor, items]);
 
-    const renderCell = React.useCallback((user: User, columnKey: React.Key) => {
+    const renderCell = useCallback((user: User, columnKey: React.Key) => {
         const cellValue = user[columnKey as keyof User];
 
         switch (columnKey) {
@@ -130,20 +131,40 @@ export default function UserTable() {
                 );
             case "actions":
                 return (
-                    <div className="relative flex justify-end items-center gap-2">
-                        <Dropdown className="bg-background border-1 border-default-200">
-                            <DropdownTrigger>
-                                <Button isIconOnly radius="full" size="sm" variant="light">
-                                    <VerticalDotsIcon size={24} className="text-default-400" />
-                                </Button>
-                            </DropdownTrigger>
-                            <DropdownMenu>
-                                <DropdownItem>View</DropdownItem>
-                                <DropdownItem>Edit</DropdownItem>
-                                <DropdownItem>Delete</DropdownItem>
-                            </DropdownMenu>
-                        </Dropdown>
+
+                    <div className='relative flex items-center gap-4'>
+                        <Tooltip content='Details'>
+                            <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
+                              <EyeIcon/>
+                            </span>
+                        </Tooltip>
+                        <Tooltip content='Edit user'>
+                            <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
+                              <EditIcon/>
+                            </span>
+                        </Tooltip>
+                        <Tooltip color='danger' content='Delete user'>
+                            <span className='cursor-pointer text-lg text-danger active:opacity-50'>
+                              <DeleteIcon/>
+                            </span>
+                        </Tooltip>
                     </div>
+                            /*( TODO: onMobile
+                            <div className="relative flex justify-end items-center gap-2">
+                                    <Dropdown className="bg-background border-1 border-default-200">
+                                        <DropdownTrigger>
+                                            <Button isIconOnly radius="full" size="sm" variant="light">
+                                                <VerticalDotsIcon size={24} className="text-default-400"/>
+                                            </Button>
+                                        </DropdownTrigger>
+                                        <DropdownMenu>
+                                            <DropdownItem>View</DropdownItem>
+                                            <DropdownItem>Edit</DropdownItem>
+                                            <DropdownItem>Delete</DropdownItem>
+                                        </DropdownMenu>
+                                    </Dropdown>
+                                </div>
+                            )*/
                 );
             default:
                 return cellValue;
@@ -151,12 +172,12 @@ export default function UserTable() {
     }, []);
 
 
-    const onRowsPerPageChange = React.useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    const onRowsPerPageChange = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
         setRowsPerPage(Number(e.target.value));
         setPage(1);
     }, []);
 
-    const onSearchChange = React.useCallback((value?: string) => {
+    const onSearchChange = useCallback((value?: string) => {
         if (value) {
             setFilterValue(value);
             setPage(1);
@@ -165,7 +186,7 @@ export default function UserTable() {
         }
     }, []);
 
-    const topContent = React.useMemo(() => {
+    const topContent = useMemo(() => {
         return (
             <div className="flex flex-col gap-4">
                 <div className="flex justify-between gap-3 items-end">
@@ -177,7 +198,7 @@ export default function UserTable() {
                         }}
                         placeholder="Search by name..."
                         size="sm"
-                        startContent={<SearchIcon className="text-default-300" />}
+                        startContent={<SearchIcon className="text-default-300"/>}
                         value={filterValue}
                         variant="bordered"
                         onClear={() => setFilterValue("")}
@@ -187,7 +208,7 @@ export default function UserTable() {
                         <Dropdown>
                             <DropdownTrigger className="hidden sm:flex">
                                 <Button
-                                    endContent={<ChevronDownIcon className="text-small" />}
+                                    endContent={<ChevronDownIcon className="text-small"/>}
                                     size="sm"
                                     variant="flat"
                                 >
@@ -212,7 +233,7 @@ export default function UserTable() {
                         <Dropdown>
                             <DropdownTrigger className="hidden sm:flex">
                                 <Button
-                                    endContent={<ChevronDownIcon className="text-small" />}
+                                    endContent={<ChevronDownIcon className="text-small"/>}
                                     size="sm"
                                     variant="flat"
                                 >
@@ -236,7 +257,7 @@ export default function UserTable() {
                         </Dropdown>
                         <Button
                             className="bg-foreground text-background"
-                            endContent={<PlusIcon />}
+                            endContent={<PlusIcon/>}
                             size="sm"
                         >
                             Add New
@@ -269,7 +290,7 @@ export default function UserTable() {
         hasSearchFilter,
     ]);
 
-    const bottomContent = React.useMemo(() => {
+    const bottomContent = useMemo(() => {
         return (
             <div className="py-2 px-2 flex justify-between items-center">
                 <Pagination
@@ -293,7 +314,7 @@ export default function UserTable() {
         );
     }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
-    const classNames = React.useMemo(
+    const classNames = useMemo(
         () => ({
             wrapper: ["max-h-[382px]", "max-w-3xl"],
             th: ["bg-transparent", "text-default-500", "border-b", "border-divider"],
@@ -344,7 +365,7 @@ export default function UserTable() {
                     </TableColumn>
                 )}
             </TableHeader>
-            <TableBody emptyContent={"No users found"} items={sortedItems}>
+            <TableBody emptyContent={"No database found"} items={sortedItems}>
                 {(item) => (
                     <TableRow key={item.id}>
                         {(columnKey) => <TableCell>{renderCell(item, columnKey)}</TableCell>}

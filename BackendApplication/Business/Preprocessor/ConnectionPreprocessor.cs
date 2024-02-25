@@ -34,7 +34,7 @@ public class CreateHostConnectionPipelineInitializer<TRequest, TResponse>
             DatabaseType.MySql =>
                 $"Server={model.Host};Port={model.Port};Database={model.DatabaseName};Uid={model.Username};Pwd={model.Password}",
                 //;Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Timeout=5;Connection Lifetime=180
-            DatabaseType.PostgreSql =>
+            DatabaseType.PostgresSql =>
                 $"User ID={model.Username};Password={model.Password};Host={model.Host};Port={model.Port};Database={model.DatabaseName};Pooling=true;Minimum Pool Size=0;Maximum Pool Size=100;Connection Lifetime=180;",
             DatabaseType.Oracle =>
                 // $"User ID={model.Username};Password={model.Password};Host={model.Host};Pooling=true;Min Pool Size=0;Max Pool Size=100;Connection Lifetime=0;",

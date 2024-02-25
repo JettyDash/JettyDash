@@ -1,3 +1,5 @@
+import React from "react";
+
 interface NavItemHighlightProps {
   width: number;
   translateX: number;
@@ -7,6 +9,10 @@ interface SidebarLink {
   route: string;
   label: string;
 }
+
+export type IDatabaseType = {
+  [key: string]: React.FC;
+};
 
 
 export interface Job {
