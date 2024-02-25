@@ -1,10 +1,27 @@
-import { SidebarLink } from "@/types";
+import {IDatabaseType, SidebarLink} from "@/types";
+import {UnknownDbIcon} from "@/components/icons/UnknownDbIcon";
+import MySqlDbIcon from "@/components/icons/MySqlDbIcon";
+import PostgresDbIcon from "@/components/icons/PostgresDbIcon";
+import OracleDbIcon from "@/components/icons/OracleDbIcon";
+import MsSqlDbIcon from "@/components/icons/MsSqlDbIcon";
+
+
 
 export const themes = [
   { value: "light", label: "Light", icon: "/assets/icons/sun.svg" },
   { value: "dark", label: "Dark", icon: "/assets/icons/moon.svg" },
   { value: "system", label: "System", icon: "/assets/icons/computer.svg" },
 ];
+
+
+export const DatabaseType: IDatabaseType = {
+    "MYSQL": MySqlDbIcon,
+    "POSTGRES": PostgresDbIcon,
+    "ORACLE": OracleDbIcon,
+    "MSSQL": MsSqlDbIcon,
+    "UNKNOWN": UnknownDbIcon
+};
+
 
 export const sidebarLinks: SidebarLink[] = [
   {
