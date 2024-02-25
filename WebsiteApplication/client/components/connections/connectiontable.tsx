@@ -21,7 +21,6 @@ import {
     SortDescriptor, Tooltip
 } from "@nextui-org/react";
 import {PlusIcon} from "../icons/PlusIcon";
-// import {VerticalDotsIcon} from "../icons/VerticalDotsIcon";
 import {ChevronDownIcon} from "../icons/ChevronDownIcon";
 import {SearchIcon} from "../icons/SearchIcon";
 import {columns, connections, statusOptions} from "./data";
@@ -301,7 +300,6 @@ export default function ConnectionTable() {
         visibleColumns,
         onSearchChange,
         onRowsPerPageChange,
-        connections.length,
         hasSearchFilter,
     ]);
 
