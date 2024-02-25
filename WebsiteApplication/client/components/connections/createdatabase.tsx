@@ -21,7 +21,7 @@ const Createdatabase = () => {
             <div className="flex flex-initial flex-col items-center justify-start p-0 gap-4">
                 <p className="text-gray-100 text-base font-medium">Create a database</p>
                 <p className="text-dark-400 text-base font-normal text-center max-w-[282px]">Create databases and stores
-                    that you can connect to your team's projects.</p>
+                    that you can connect to your team&apos;s projects.</p>
             </div>
         </div>
 
