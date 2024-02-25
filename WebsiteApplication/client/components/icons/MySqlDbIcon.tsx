@@ -5,7 +5,7 @@ interface MySqlDbIconProps extends React.SVGProps<SVGSVGElement> {
 
 const MySqlDbIcon: React.FC<MySqlDbIconProps> = (props)  => {
     return (
-        <div className="h-9 w-9">
+        <div className="h-10 w-10 scale-[0.90]">
 
             <svg
                 xmlns="http://www.w3.org/2000/svg"
