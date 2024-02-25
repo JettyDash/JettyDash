@@ -49,7 +49,7 @@ public class DapperService : IDapperService
         {
             DatabaseType.SqlServer => Task.FromResult<DbConnection>(new SqlConnection(_connectionString)),
             DatabaseType.MySql => Task.FromResult<DbConnection>(new MySqlConnection(_connectionString)),
-            DatabaseType.PostgreSql => Task.FromResult<DbConnection>(new NpgsqlConnection(_connectionString)),
+            DatabaseType.PostgresSql => Task.FromResult<DbConnection>(new NpgsqlConnection(_connectionString)),
             DatabaseType.Oracle => Task.FromResult<DbConnection>(new OracleConnection(_connectionString)),
             _ => throw new ArgumentOutOfRangeException(nameof(providerName), providerName, null)
         };
