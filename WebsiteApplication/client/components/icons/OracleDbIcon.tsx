@@ -5,7 +5,7 @@ interface OracleDbIconProps extends React.SVGProps<SVGSVGElement> {
 
 const OracleDbIcon: React.FC<OracleDbIconProps> = (props) => {
         return (
-            <div className="h-9 w-9">
+            <div className="h-10 w-10 scale-[0.90]">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" {...props}>
                     <g transform="matrix(.13938 0 0 .13938 193.13 195.724)">
 
