@@ -118,25 +118,33 @@ interface BadgeParam {
   }[];
 }
 
-export const assignBadges = (params: BadgeParam) => {
-  const badgeCounts: BadgeCounts = {
-    GOLD: 0,
-    SILVER: 0,
-    BRONZE: 0,
+
+export function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
+
+
+interface FormattedDateTime {
+  formattedDate: string;
+  formattedTime: string;
+  dayName: string;
+}
+
+export function formatDate(dateString: string): FormattedDateTime {
+  const date = new Date(dateString);
+
+  const formattedDate = `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`;
+
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  const formattedTime = `${hours}:${minutes}`;
+
+  const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const dayName = days[date.getDay()];
+
+  return {
+    formattedDate,
+    formattedTime,
+    dayName
   };
-
-  const { criteria } = params;
-
-  criteria.forEach((item) => {
-    const { type, count } = item;
-    const badgeLevels: any = BADGE_CRITERIA[type];
-
-    Object.keys(badgeLevels).forEach((level: any) => {
-      if (count >= badgeLevels[level]) {
-        badgeCounts[level as keyof BadgeCounts] += 1;
-      }
-    });
-  });
-
-  return badgeCounts;
-};
+}
