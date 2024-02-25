@@ -10,7 +10,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <main className="relative">
             <Navbar />
             <div>
-                <div className="flex w-full h-full flex-1 flex-col px-6 pb-6 pt-10 max-md:pb-14 sm:px-14">
+                <div className="flex flex-1 flex-col px-6 pb-6 pt-10 max-md:pb-14 sm:px-14">
                     <section className="mx-auto w-full">{children}</section>
                 </div>
             </div>
