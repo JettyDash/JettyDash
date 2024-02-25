@@ -1,11 +1,12 @@
 import type {Metadata} from "next";
 import {Divider} from "@nextui-org/divider";
-import UserTable from "@/components/connections/usertable";
+import ConnectionTable from "@/components/connections/connectiontable";
 import PostgresDbIcon from "@/components/icons/PostgresDbIcon";
 import MySqlDbIcon from "@/components/icons/MySqlDbIcon";
 import OracleDbIcon from "@/components/icons/OracleDbIcon";
 import React from "react";
 import MsSqlDbIcon from "@/components/icons/MsSqlDbIcon";
+import {UnknownDbIcon} from "@/components/icons/UnknownDbIcon";
 
 
 export const metadata: Metadata = {
@@ -52,7 +53,7 @@ export default async function Connections({}) {
 
                 <div
                     className="border border-solid border-light-300 bg-stone-100 shadow-md rounded-xl px-10 py-5 dark:border-dark-300 dark:bg-transparent">
-                    <UserTable/>
+                    <ConnectionTable/>
                 </div>
 
                 <div>
