@@ -3,7 +3,7 @@ import {RadioGroup} from "@nextui-org/react";
 import {CustomRadio} from "@/app/(root)/datamodels/customRadio";
 import Image from "next/image";
 
-const DatabaseCards = () => {
+export const DatabaseCards = () => {
     return (
         <RadioGroup orientation="horizontal" label="Plans">
             <CustomRadio className={"group"} classNames={{labelWrapper: "m-0"}} value="MYSQL">
@@ -38,4 +38,3 @@ const DatabaseCards = () => {
     );
 };
 
-export default Databased;
