@@ -4,6 +4,7 @@ import React from "react";
 import Theme from "./Theme";
 import {SubNavigationMenu} from "@/components/shared/subnavigationmenu/SubNavigationMenu";
 import {Divider} from "@nextui-org/divider";
+import {Tooltip} from "@nextui-org/react";
 
 const Navbar = () => {
     return (
@@ -34,12 +35,15 @@ const Navbar = () => {
                     <Theme/>
                 </div>
                 <Divider orientation="vertical" className="h-6 dark-300"/>
-                <div>
+
+                <Tooltip className="mt-3 h-15 w-32 bg-transparent text-wrap" placement="bottom-end" showArrow={false} content="All systems up and running 👌🏻">
+                    <div>
                     <span className="relative flex h-3 w-3 justify-center">
                       <span className="animate-ping absolute inline-flex h-3 w-3 rounded-full bg-green-400 opacity-75"></span>
                       <span className="relative self-center inline-flex rounded-full h-2 w-2 bg-green-500"></span>
                     </span>
-                </div>
+                    </div>
+                </Tooltip>
                 <Divider orientation="vertical" className="h-0"/>
 
 
