@@ -16,7 +16,7 @@ import {PlusIcon} from "@/components/icons/PlusIcon";
 import {Key} from "@react-types/shared";
 import {AnchorIcon, EditIcon} from "@nextui-org/shared-icons";
 import {Label} from "@radix-ui/react-menu";
-import {DatabaseCards} from "@/components/connections/databasecards";
+// import {DatabaseCards} from "@/components/connections/databasecards";
 
 
 export const CreateNewDatabase = () => {
