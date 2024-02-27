@@ -19,12 +19,14 @@ import {Tabs, Tab, Input, Link, Button, Card, CardBody, CardHeader} from "@nextu
 import React from "react";
 import {Key} from "@react-types/shared";
 import Image from "next/image";
+import {Database} from "lucide-react";
+import {DatabaseCards} from "@/components/connections/databasecards";
 export default function Dashboards({}) {
     const [selected, setSelected] = React.useState<Key>("login");
 
     return (
         <div className="flex flex-col w-full">
-            <Card className="max-w-full w-[340px] h-[400px]">
+            <Card className="max-w-full w-[440px] h-[600px]">
                 <CardHeader>
                     <Image className={"dark:invert"} width={"32"} height={"32"} src={"../../../assets/icons/global.svg"} alt={"global"}/>
                 </CardHeader>
@@ -39,6 +41,7 @@ export default function Dashboards({}) {
                     >
                         <Tab key="login" title="Login">
                             <form className="flex flex-col gap-4">
+                                <DatabaseCards imageSizeClasses={"h-10 w-10"} baseCardClasses={"size-24"} />
                                 <Input isRequired label="Email" placeholder="Enter your email" type="email"/>
                                 <Input
                                     isRequired
