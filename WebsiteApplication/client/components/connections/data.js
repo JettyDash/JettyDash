@@ -60,7 +60,7 @@ const connections = [
 const columns = [
     {name: "ID", uid: "id", sortable: true},
     {name: "NAME", uid: "name", sortable: true},
-    {name: "Date", uid: "date", sortable: true},
+    {name: "DATE", uid: "date", sortable: true},
     {name: "STATUS", uid: "status", sortable: true},
     {name: "ACTIONS", uid: "actions"},
 ];
