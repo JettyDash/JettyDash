@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Createdatabase = () => {
+const NoPrevDb = () => {
     return (
         <div className="flex flex-initial flex-col items-center justify-start p-0 gap-3 mt-2">
             <div className="flex items-center justify-center border-2 border-solid border-zinc-700 bg-black size-16 rounded-xl">
@@ -29,4 +29,4 @@ const Createdatabase = () => {
     );
 };
 
-export default Createdatabase;
+export default NoPrevDb;
