@@ -20,7 +20,7 @@ const Navbar = () => {
                     />
                     <p className="h2-bold font-ubuntu text-dark-100 dark:text-light-900 max-sm:hidden">
                         Jetty
-                        <span className="text-primary-500">Dash</span>
+                        <span className="text-[#009eff]">Dash</span>
                     </p>
                 </Link>
             </div>
