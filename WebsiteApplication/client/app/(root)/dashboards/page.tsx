@@ -18,12 +18,16 @@
 import {Tabs, Tab, Input, Link, Button, Card, CardBody, CardHeader} from "@nextui-org/react";
 import React from "react";
 import {Key} from "@react-types/shared";
+import Image from "next/image";
 export default function Dashboards({}) {
     const [selected, setSelected] = React.useState<Key>("login");
 
     return (
         <div className="flex flex-col w-full">
             <Card className="max-w-full w-[340px] h-[400px]">
+                <CardHeader>
+                    <Image className={"dark:invert"} width={"32"} height={"32"} src={"../../../assets/icons/global.svg"} alt={"global"}/>
+                </CardHeader>
                 <CardBody className="overflow-hidden">
                     <Tabs
                         fullWidth
