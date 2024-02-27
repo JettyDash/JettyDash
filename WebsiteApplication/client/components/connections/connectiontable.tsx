@@ -107,7 +107,7 @@ export default function ConnectionTable() {
 
                     <User
                         avatarProps={{
-                            color: "primary",
+                            className: "bg-background",
                             radius: "sm",
                             size: "md",
                             showFallback: true,
