@@ -20,13 +20,12 @@ import {
     ChipProps,
     SortDescriptor, Tooltip
 } from "@nextui-org/react";
-import {PlusIcon} from "../icons/PlusIcon";
-import {ChevronDownIcon} from "../icons/ChevronDownIcon";
-import {SearchIcon} from "../icons/SearchIcon";
 import {columns, connections, statusOptions} from "./data";
 import {capitalize, formatDate} from "@/lib/utils";
-import {DeleteIcon, EditIcon, EyeIcon} from "@nextui-org/shared-icons";
+import {DeleteIcon, EditIcon, EyeIcon, SearchIcon, ChevronDownIcon} from "@nextui-org/shared-icons";
 import {DatabaseType} from "@/constants";
+import {Unplug} from "lucide-react";
+import {CreateNewDatabase} from "@/components/connections/createnewdatabase";
 
 const statusColorMap: Record<string, ChipProps["color"]> = {
     active: "success",
@@ -148,6 +147,11 @@ export default function ConnectionTable() {
                               <EyeIcon/>
                             </span>
                         </Tooltip>
+                        <Tooltip content='Test connection'>
+                            <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
+                              <Unplug className="size-[18px]"/>
+                            </span>
+                        </Tooltip>
                         <Tooltip content='Edit connection'>
                             <span className='cursor-pointer text-lg text-default-400 active:opacity-50'>
                               <EditIcon/>
@@ -265,13 +269,8 @@ export default function ConnectionTable() {
                                 ))}
                             </DropdownMenu>
                         </Dropdown>
-                        <Button
-                            className="bg-foreground text-background"
-                            endContent={<PlusIcon/>}
-                            size="sm"
-                        >
-                            Add New
-                        </Button>
+                        <CreateNewDatabase/>
+
                     </div>
                 </div>
                 <div className="flex justify-between items-center">
