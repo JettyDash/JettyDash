@@ -21,6 +21,6 @@ import {DatabaseCards} from "@/components/connections/databasecards";
 
 export default function DataModels() {
     return (
-    <DatabaseCards />
+        <DatabaseCards imageSizeClasses={"h-10 w-10"} baseCardClasses={"size-24"} />
     );
 }
