@@ -1,17 +1,18 @@
 import React from "react";
 
 interface MySqlDbIconProps extends React.SVGProps<SVGSVGElement> {
+    divProps?: React.HTMLAttributes<HTMLDivElement>;
 }
 
-const MySqlDbIcon: React.FC<MySqlDbIconProps> = (props)  => {
+const MySqlDbIcon: React.FC<MySqlDbIconProps> = ({ divProps, ...svgProps })  => {
     return (
-        <div className="h-10 w-10 scale-[0.90]">
+        <div className="h-10 w-10 scale-[0.90]" {...divProps}>
 
             <svg
                 xmlns="http://www.w3.org/2000/svg"
                 xmlnsXlink="http://www.w3.org/1999/xlink"
                 viewBox="0 0 500 500"
-                {...props}
+                {...svgProps}
             >
                 <defs>
                     <linearGradient id="a" {...{["bx:pinned"]: "true"}}>
