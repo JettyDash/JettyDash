@@ -1,12 +1,7 @@
 import type {Metadata} from "next";
 import {Divider} from "@nextui-org/divider";
 import ConnectionTable from "@/components/connections/connectiontable";
-import PostgresDbIcon from "@/components/icons/PostgresDbIcon";
-import MySqlDbIcon from "@/components/icons/MySqlDbIcon";
-import OracleDbIcon from "@/components/icons/OracleDbIcon";
 import React from "react";
-import MsSqlDbIcon from "@/components/icons/MsSqlDbIcon";
-import {UnknownDbIcon} from "@/components/icons/UnknownDbIcon";
 
 
 export const metadata: Metadata = {
@@ -20,13 +15,12 @@ export const metadata: Metadata = {
 
 export default async function Connections({}) {
     return (
-        <div className="flex min-h-screen h-full">
+        <div className="flex h-full">
             <div className="flex-1"></div>
             <div className="flex-4 flex-col">
-                <div className="flex-between px-20 mt-7 pt-3">
+                <div className="flex-between px-20 mt-3 pt-3">
                     <div>
-                        <h1 className="h1-bold font-ubuntu text-dark-200 dark:text-stone-300">Create
-                            Connection</h1>
+                        <h1 className="h1-bold font-ubuntu text-dark-200 dark:text-stone-300">Your Connections</h1>
                         <p className="body-regular relative inline-flex font-ubuntu text-dark-500 dark:text-stone-400 mt-3 mr-1">Read
                             directly from
                             databases without storing any information.
@@ -49,21 +43,13 @@ export default async function Connections({}) {
 
 
                 </div>
-                <Divider orientation="horizontal" className="my-10 dark-300"/>
+                <Divider orientation="horizontal" className="my-5 dark-300"/>
 
                 <div
                     className="border border-solid border-light-300 bg-stone-100 shadow-md rounded-xl px-10 py-5 dark:border-dark-300 dark:bg-transparent">
                     <ConnectionTable/>
                 </div>
 
-                <div>
-                    <PostgresDbIcon/>
-                    <MySqlDbIcon/>
-                    <OracleDbIcon/>
-                    <MsSqlDbIcon/>
-
-
-                </div>
             </div>
             <div className="flex-1"></div>
         </div>
