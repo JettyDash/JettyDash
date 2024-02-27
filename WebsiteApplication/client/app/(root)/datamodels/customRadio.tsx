@@ -2,25 +2,23 @@
 import React from "react";
 import {RadioGroup, Radio, useRadio, VisuallyHidden, RadioProps, cn} from "@nextui-org/react";
 
-export const CustomRadio = (props: RadioProps) => {
+export const CustomRadio = (props:RadioProps) => {
     const {
         Component,
         children,
-        isSelected,
         description,
         getBaseProps,
-        getWrapperProps,
         getInputProps,
         getLabelProps,
         getLabelWrapperProps,
-        getControlProps,
     } = useRadio(props);
 
     return (
         <Component
             {...getBaseProps()}
             className={cn(
-                "h-24 w-24 group hover:bg-content2 flex-row-reverse",
+                `${props.classNames?.base}`,
+                "group hover:bg-content2 flex-row-reverse inline-flex items-center justify-center",
                 "max-w-[300px] cursor-pointer border-3 border-default rounded-lg gap-4 p-4",
                 "data-[selected=true]:border-primary",
             )}
