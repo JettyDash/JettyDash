@@ -34,11 +34,11 @@ module.exports = {
         9: "9 9 0%",
       },
       colors: {
-        primary: {
-          600: "#075FA5",
-          500: "#009eff",
-          100: "#FFF1E6",
-        },
+        // primary: {
+        //   600: "#075FA5",
+        //   500: "#009eff",
+        //   100: "#FFF1E6",
+        // },
         dark: {
           100: "#1C1B1B", // background blank, form padding blank
           200: "#272626", // Padding blank
