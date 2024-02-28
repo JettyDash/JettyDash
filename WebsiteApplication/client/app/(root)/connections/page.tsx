@@ -20,7 +20,7 @@ export default async function Connections({}) {
             <div className="flex-4 flex-col">
                 <div className="flex-between px-20 mt-3 pt-3">
                     <div>
-                        <h1 className="h1-bold font-ubuntu text-dark-200 dark:text-stone-300">Your Connections</h1>
+                        <h1 className="h1-bold font-ubuntu text-dark-200 dark:text-stone-300">Current Connections</h1>
                         <p className="body-regular relative inline-flex font-ubuntu text-dark-500 dark:text-stone-400 mt-3 mr-1">Read
                             directly from
                             databases without storing any information.
@@ -46,7 +46,7 @@ export default async function Connections({}) {
                 <Divider orientation="horizontal" className="my-5 dark-300"/>
 
                 <div
-                    className="border border-solid border-light-300 bg-stone-100 shadow-md rounded-xl px-10 py-5 dark:border-dark-300 dark:bg-transparent">
+                    className="border border-solid border-light-300 bg-stone-50 shadow-md rounded-xl px-10 py-5 dark:border-dark-300 dark:bg-stone-900">
                     <ConnectionTable/>
                 </div>
 
