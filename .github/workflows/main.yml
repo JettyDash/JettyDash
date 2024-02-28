@@ -23,6 +23,7 @@ env:
 on:
   # Allows manual workflow run (must in default branch to work)
   repository_dispatch:
+    types: trigger-workflow
   workflow_dispatch:
 
 jobs:
