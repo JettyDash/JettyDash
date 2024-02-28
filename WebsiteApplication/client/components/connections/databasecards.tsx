@@ -18,7 +18,7 @@ export const DatabaseCards: React.FC<DatabaseCardsProps> = ({ imageSizeClasses, 
     };
 
     return (
-        <RadioGroup onChange={handleSelectionChange} className={"gap-1 mt-10 mb-3"} isRequired={true} orientation="horizontal" description={<p>
+        <RadioGroup onChange={handleSelectionChange} className={"gap-1 my-3"} isRequired={true} orientation="horizontal" description={<p>
             Please select a database type <span className="text-red-500">*</span></p>}>
             <CustomRadio className={"group"} classNames={{base:baseCardClasses,  labelWrapper: "m-0"}} value="MYSQL">
                 <div className="flex flex-col items-center">
