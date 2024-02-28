@@ -1,13 +1,24 @@
-import {Button, Card, CardBody, CardFooter, Input, Link, Tab, Tabs, useDisclosure} from "@nextui-org/react";
+import {Button, Card, CardBody, CardFooter, Input, Link, Tab, Tabs, Textarea, useDisclosure} from "@nextui-org/react";
 import {DatabaseCards} from "@/components/connections/databasecards";
 import React from "react";
 import {Key} from "@react-types/shared";
+import {parseDatabaseAndServer} from "@/lib/utils";
 
 
 export const ConnectionForm = () => {
     const [selectedTab, setSelectedTab] = React.useState<Key>("host");
-    const [database, setDatabase] = React.useState<string>("")
+    const [databaseType, setDatabaseType] = React.useState<string>("")
     const [port, setPort] = React.useState<string>("1234"); // Add state for port number
+    const [databaseName, setDatabaseName] = React.useState<string>("")
+    const [host, setHost] = React.useState<string>("")
+    const [url, setUrl] = React.useState("");
+
+    const handleUrlChange = (value:string) => {
+        setUrl(value);
+        const {database, server} = parseDatabaseAndServer(value)
+        setDatabaseName(database)
+        setHost(server)
+    }
 
     const updatePort = (databaseType: string) => {
         switch (databaseType) {
@@ -29,8 +40,8 @@ export const ConnectionForm = () => {
         }
     };
     return (
-        <div className="flex flex-col w-full">
-            <Card className="max-w-full w-[440px] h-[560px]">
+        <div className="flex flex-col">
+            <Card radius={"none"} shadow={"none"} className="max-w-full w-[440px] h-[560px]">
                 <CardBody className="overflow-hidden">
                     <Tabs
                         fullWidth
@@ -42,10 +53,10 @@ export const ConnectionForm = () => {
                     >
 
                         <Tab key="host" title="Host">
-                            <form className="flex flex-col gap-4">
+                            <form className="flex flex-col gap-3">
                                 <DatabaseCards
                                     onDatabaseSelect={selectedDatabase => {
-                                        setDatabase(selectedDatabase);
+                                        setDatabaseType(selectedDatabase);
                                         updatePort(selectedDatabase); // Update port based on selected database
                                     }}
                                     imageSizeClasses={"h-10 w-10"}
@@ -103,59 +114,76 @@ export const ConnectionForm = () => {
                             </form>
                         </Tab>
                         <Tab key="url" title="Url">
-                            <form className="flex flex-col gap-4 h-[300px]">
-                                <Input isRequired label="Name" placeholder="Enter your names" type="password"/>
-                                <Input isRequired label="Email" placeholder="Enter your email" type="email"/>
-                                <Input
-                                    isRequired
-                                    label="Password"
-                                    placeholder="Enter your password"
-                                    type="password"
-                                />
-                                <p className="text-center text-small">
-                                    Already have an account?{" "}
-                                    <Link size="sm" onPress={() => setSelectedTab("host")}>
-                                        Host
+                            <form className="flex flex-col gap-3">
+                                <DatabaseCards
+                                    onDatabaseSelect={selectedDatabase => {
+                                        setDatabaseType(selectedDatabase);
+                                        updatePort(selectedDatabase); // Update port based on selected database
+                                    }}
+                                    imageSizeClasses={"h-10 w-10"}
+                                    baseCardClasses={"size-24"}/>
+
+                                <div className={"flex flex-col h-[124px]"}>
+                                    <Textarea
+                                        rows={3}
+                                        isRequired
+                                        label="Url"
+                                        value={url}
+                                        onValueChange={(value: string) => handleUrlChange(value)}
+                                        labelPlacement="outside"
+                                        placeholder="Enter your url eg. Server=myServerAddress;Port=1234;Database=myDataBase;Uid=myUsername;Pwd=myPassword;"
+                                        className="flex-1"
+                                    />
+                                    <p className="text-default-500 text-small"><b>Database:</b> {databaseName ?? "null"} <b>Host:</b> {host ?? "null"}</p>
+                                </div>
+
+                                <div className={"flex flex-row gap-2"}>
+                                    <Input
+                                        className={"flex-1"}
+                                        isRequired
+                                        label="Username"
+                                        placeholder="Enter your username"
+                                        type="text"/>
+                                    <Input
+                                        className={"flex-1"}
+                                        isRequired
+                                        label="Password"
+                                        placeholder="Enter your password"
+                                        type="password"
+                                    />
+                                </div>
+
+                                <p className="text-center text-small ">
+                                    Need a connection example?{" "}
+                                    <Link size="sm" onPress={() => setSelectedTab("Host")}>
+                                        Learn More
                                     </Link>
                                 </p>
 
                             </form>
                         </Tab>
+                        {/*<Tab key="url" title="Url">*/}
+                        {/*    <form className="flex flex-col gap-4 h-[300px]">*/}
+                        {/*        <Input isRequired label="Name" placeholder="Enter your names" type="password"/>*/}
+                        {/*        <Input isRequired label="Email" placeholder="Enter your email" type="email"/>*/}
+                        {/*        <Input*/}
+                        {/*            isRequired*/}
+                        {/*            label="Password"*/}
+                        {/*            placeholder="Enter your password"*/}
+                        {/*            type="password"*/}
+                        {/*        />*/}
+                        {/*        <p className="text-center text-small">*/}
+                        {/*            Already have an account?{" "}*/}
+                        {/*            <Link size="sm" onPress={() => setSelectedTab("host")}>*/}
+                        {/*                Host*/}
+                        {/*            </Link>*/}
+                        {/*        </p>*/}
+
+                            {/*</form>*/}
+                        {/*</Tab>*/}
                     </Tabs>
                 </CardBody>
-                <CardFooter className={"m-0"}>
-                    <div className="w-full inline-flex flex-col gap-1">
-                        {/*<Button*/}
-                        {/*    className={"flex-1"}*/}
-                        {/*    size={"md"}*/}
-                        {/*    variant="ghost"*/}
 
-                        {/*>*/}
-                        {/*    Cancel*/}
-                        {/*</Button>*/}
-                        {/*<div className={"flex flex-row gap-5"}>*/}
-                        <Button
-                            isDisabled={false}
-                            className={"flex-2"}
-                            size={"md"}
-                            variant="shadow"
-                            color="default" isLoading={false}
-                        >
-                            Test Connection
-                        </Button>
-                        <Button
-                            isDisabled={false}
-                            className={"flex-2"}
-                            size={"md"}
-                            variant="shadow"
-                            color="primary" isLoading={false}
-                        >
-                            Save Connection
-                        </Button>
-                        {/*</div>*/}
-                    </div>
-
-                </CardFooter>
             </Card>
         </div>
     );
