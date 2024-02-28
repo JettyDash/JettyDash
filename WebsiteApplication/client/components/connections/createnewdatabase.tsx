@@ -1,27 +1,53 @@
-import React from "react";
-import {
-    Modal,
-    ModalContent,
-    ModalHeader,
-    ModalBody,
-    ModalFooter,
-    Button,
-    useDisclosure,
-    Checkbox,
-    Input,
-    Link,
-    Card, CardBody, Tabs, Tab, RadioGroup, Radio
-} from "@nextui-org/react";
-import {PlusIcon} from "@/components/icons/PlusIcon";
-import {Key} from "@react-types/shared";
-import {AnchorIcon, EditIcon} from "@nextui-org/shared-icons";
-import {Label} from "@radix-ui/react-menu";
-// import {DatabaseCards} from "@/components/connections/databasecards";
+//
+// import type {Metadata} from "next";
+//
+// export const metadata: Metadata = {
+//     title: "Dashboards | JettyDash",
+// };
+//
+// export default async function Dashboards({ }) {
+//   return (
+//     <div>
+//       <h1>Dashboards</h1>
+//     </div>
+//   );
+// }
+//
 
+'use client';
+import {Tabs, Tab, Input, Link, Button, Card, CardBody, CardHeader, CardFooter, useDisclosure} from "@nextui-org/react";
+import React from "react";
+import {Key} from "@react-types/shared";
+import {DatabaseCards} from "@/components/connections/databasecards";
+import {PlusIcon} from "@/components/icons/PlusIcon";
 
 export const CreateNewDatabase = () => {
+    const [selectedTab, setSelectedTab] = React.useState<Key>("host");
+    const [database, setDatabase] = React.useState<string>("")
+    const [port, setPort] = React.useState<string>("1234"); // Add state for port number
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
-    const [selected, setSelected] = React.useState<Key>("login");
+
+    const updatePort = (databaseType: string) => {
+        switch (databaseType) {
+            case "MYSQL":
+                setPort("3306");
+                break;
+            case "POSTGRES":
+                setPort("5432");
+                break;
+            case "MSSQL":
+                setPort("1433");
+                break;
+            case "ORACLE":
+                setPort("1521");
+                break;
+            default:
+                setPort("1234");
+                break;
+        }
+    };
+
+
 
     return (
         <>
@@ -33,165 +59,136 @@ export const CreateNewDatabase = () => {
             >
                 Add New
             </Button>
-            <Modal
-                isOpen={isOpen}
-                onOpenChange={onOpenChange}
-                placement="top-center"
-            >
-                <ModalContent className="flex items-center bg-pink-600 w-[800px] h-[800px]">
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className="flex flex-col gap-1">New Connection</ModalHeader>
-                            <ModalBody className="bg-cyan-500 w-full h-full">
 
-                                    <Tabs
-                                        color="default"
-                                        className="overflow-hidden w-full h-full" /*w-[340px] h-[400px] */
-                                        fullWidth
-                                        size="sm"
-                                        aria-label="Tabs form"
-                                        selectedKey={selected}
-                                        onSelectionChange={setSelected}
-                                    >
-                                        <Tab key="login" title="Login" >
-                                            <form className="grid grid-cols-8 gap-3 w-full grid-rows-4">
+        <div className="flex flex-col w-full">
+            <Card className="max-w-full w-[440px] h-[560px]">
+                <CardBody className="overflow-hidden">
+                    <Tabs
+                        fullWidth
+                        variant="bordered"
+                        size="sm"
+                        aria-label="Tabs form"
+                        selectedKey={selectedTab}
+                        onSelectionChange={setSelectedTab}
+                    >
 
+                        <Tab key="host" title="Host">
+                            <form className="flex flex-col gap-4">
+                                <DatabaseCards
+                                    onDatabaseSelect={selectedDatabase => {
+                                        setDatabase(selectedDatabase);
+                                        updatePort(selectedDatabase); // Update port based on selected database
+                                    }}
+                                    imageSizeClasses={"h-10 w-10"}
+                                    baseCardClasses={"size-24"}/>
+                                <div className={"flex flex-row gap-2"} >
+                                    <Input
+                                        className={"flex-2"}
+                                        size="md"
+                                        isRequired
+                                        label="Database"
+                                        placeholder="Enter your database name eg. master"
+                                        type="text"
+                                    />
+                                    <Input
+                                        className={"flex-1"}
+                                        isRequired
+                                        label="Port"
+                                        placeholder={`eg. ${port}`}
+                                        type="text"
+                                    />
+                                </div>
+                                <div className={"flex"} >
+                                    <Input
+                                        className={"flex-1"}
+                                        size="md"
+                                        isRequired
+                                        label="Host"
+                                        placeholder="Enter your host eg. example-db.jettydash.com"
+                                        type="text"
+                                    />
+                                </div>
+                                <div className={"flex flex-row gap-2"} >
+                                    <Input
+                                        className={"flex-1"}
+                                        isRequired
+                                        label="Username"
+                                        placeholder="Enter your username"
+                                        type="text"/>
+                                    <Input
+                                        className={"flex-1"}
+                                        isRequired
+                                        label="Password"
+                                        placeholder="Enter your password"
+                                        type="password"
+                                    />
+                                </div>
 
-                                                {/*<div className="col-span-2">1</div>*/}
-                                                {/*<div className="col-span-2 col-start-3">2</div>*/}
-                                                {/*<div className="col-span-2 col-start-5">3</div>*/}
-                                                {/*<div className="col-span-2 col-start-7">4</div>*/}
-                                                {/*<div className="col-span-6 row-start-2">5</div>*/}
-                                                {/*<div className="col-span-8 col-start-1 row-start-3">6</div>*/}
-                                                {/*<div className="col-span-2 col-start-7 row-start-2">7</div>*/}
-                                                {/*<div className="col-span-4 row-start-4">8</div>*/}
-                                                {/*<div className="col-span-4 col-start-5 row-start-4">9</div>*/}
+                                <p className="text-center text-small ">
+                                    Need a connection example?{" "}
+                                    <Link size="sm" onPress={() => setSelectedTab("Url")}>
+                                        Learn More
+                                    </Link>
+                                </p>
 
-                                                    {/*<div className="col-span-2">1</div>*/}
-                                                    {/*<div className="col-span-2 col-start-3">2</div>*/}
-                                                    {/*<div className="col-span-2 col-start-5">3</div>*/}
-                                                    {/*<div className="col-span-2 col-start-7">4</div>*/}
-                                                <div id="cards" className="col-span-8 h-20">
-                                                    {/*<DatabaseCards/>*/}
-                                                </div>
+                            </form>
+                        </Tab>
+                        <Tab key="url" title="Url">
+                            <form className="flex flex-col gap-4 h-[300px]">
+                                <Input isRequired label="Name" placeholder="Enter your names" type="password"/>
+                                <Input isRequired label="Email" placeholder="Enter your email" type="email"/>
+                                <Input
+                                    isRequired
+                                    label="Password"
+                                    placeholder="Enter your password"
+                                    type="password"
+                                />
+                                <p className="text-center text-small">
+                                    Already have an account?{" "}
+                                    <Link size="sm" onPress={() => setSelectedTab("host")}>
+                                        Host
+                                    </Link>
+                                </p>
 
+                            </form>
+                        </Tab>
+                    </Tabs>
+                </CardBody>
+                <CardFooter className={"m-0"}>
+                    <div className="w-full inline-flex flex-col gap-1">
+                        {/*<Button*/}
+                        {/*    className={"flex-1"}*/}
+                        {/*    size={"md"}*/}
+                        {/*    variant="ghost"*/}
 
-                                                <Input
-                                                    className="h-5 col-span-6 row-start-2"
-                                                    variant="bordered"
-                                                    size="sm"
-                                                    isRequired
-                                                    label="Database"
-                                                    labelPlacement="outside"
-                                                    type="text"
-                                                />
-                                                <Input
-                                                    className="h-5 col-span-8 col-start-1 row-start-3"
-                                                    variant="bordered"
-                                                    size="sm"
-                                                    isRequired
-                                                    label="Host"
-                                                    labelPlacement="outside"
-                                                    type="text"
-                                                />
-                                                <Input
-                                                    className="h-5 col-span-2 col-start-7 row-start-2"
-                                                    variant="bordered"
-                                                    size="sm"
-                                                    isRequired
-                                                    label="Port"
-                                                    labelPlacement="outside"
-                                                    type="numeric"
-                                                />
-                                                <Input
-                                                    className="h-5 col-span-4 row-start-4"
-                                                    variant="bordered"
-                                                    size="sm"
-                                                    isRequired
-                                                    label="Username"
-                                                    labelPlacement="outside"
-                                                    type="username"
-                                                />
-                                                <Input
-                                                    className="h-5 col-span-4 col-start-5 row-start-4"
-                                                    variant="bordered"
-                                                    size="sm"
-                                                    isRequired
-                                                    label="Password"
-                                                    labelPlacement="outside"
-                                                    type="password"
-                                                />
-                                            </form>
-                                        </Tab>
-                                        <Tab key="sign-up" title="Sign up">
-                                            <form className="flex flex-col gap-2 w-[250px] h-[250px]">
-                                                <Input isRequired label="Name" placeholder="Enter your name"
-                                                       type="password"/>
-                                                <Input isRequired label="Email" placeholder="Enter your email"
-                                                       type="email"/>
-                                                <Input
-                                                    isRequired
-                                                    label="Password"
-                                                    placeholder="Enter your password"
-                                                    type="password"
-                                                />
-                                                <Link
-                                                    className="text-center text-small text-blue-800 text-weight-bold"
+                        {/*>*/}
+                        {/*    Cancel*/}
+                        {/*</Button>*/}
+                        {/*<div className={"flex flex-row gap-5"}>*/}
+                        <Button
+                            isDisabled={false}
+                            className={"flex-2"}
+                            size={"md"}
+                            variant="shadow"
+                            color="default" isLoading={false}
+                        >
+                            Test Connection
+                        </Button>
+                        <Button
+                            isDisabled={false}
+                            className={"flex-2"}
+                            size={"md"}
+                            variant="shadow"
+                            color="primary" isLoading={false}
+                        >
+                            Save Connection
+                        </Button>
+                        {/*</div>*/}
+                    </div>
 
-                                                    isExternal
-                                                    showAnchorIcon
-                                                    href="/docs"
-                                                    anchorIcon={<AnchorIcon />}
-                                                >
-                                                    Need Reference?{"  "}
-                                                </Link>
-
-                                            </form>
-                                        </Tab>
-                                    </Tabs>
-                                {/*<Input*/}
-                                {/*    autoFocus*/}
-                                {/*    endContent={*/}
-                                {/*        "ssdfsdf"*/}
-                                {/*    }*/}
-                                {/*    label="Email"*/}
-                                {/*    placeholder="Enter your email"*/}
-                                {/*    variant="bordered"*/}
-                                {/*/>*/}
-                                {/*<Input*/}
-                                {/*    endContent={*/}
-                                {/*        "5454"*/}
-                                {/*    }*/}
-                                {/*    label="Password"*/}
-                                {/*    placeholder="Enter your password"*/}
-                                {/*    type="password"*/}
-                                {/*    variant="bordered"*/}
-                                {/*/>*/}
-                                {/*<div className="flex py-2 px-1 justify-between">*/}
-                                {/*    <Checkbox*/}
-                                {/*        classNames={{*/}
-                                {/*            label: "text-small",*/}
-                                {/*        }}*/}
-                                {/*    >*/}
-                                {/*        Remember me*/}
-                                {/*    </Checkbox>*/}
-                                {/*    <Link color="primary" href="#" size="sm">*/}
-                                {/*        Forgot password?*/}
-                                {/*    </Link>*/}
-                                {/*</div>*/}
-                            </ModalBody>
-                            <ModalFooter>
-                                <Button color="danger" variant="flat" onPress={onClose}>
-                                    Close
-                                </Button>
-                                <Button onPress={onClose}>
-                                    Sign in
-                                </Button>
-                            </ModalFooter>
-                        </>
-                    )}
-                </ModalContent>
-            </Modal>
-        </>
-    );
-}
+                </CardFooter>
+            </Card>
+        </div>
+    </>
+            )
+};
