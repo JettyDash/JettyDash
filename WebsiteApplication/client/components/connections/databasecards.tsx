@@ -6,11 +6,20 @@ import Image from "next/image";
 interface DatabaseCardsProps {
     imageSizeClasses: string;
     baseCardClasses: string;
-}
+    onDatabaseSelect: (database: string) => void; // Add callback function
 
-export const DatabaseCards: React.FC<DatabaseCardsProps> = ({ imageSizeClasses, baseCardClasses }) => {
+}
+ // Assigning the handler function
+
+export const DatabaseCards: React.FC<DatabaseCardsProps> = ({ imageSizeClasses, baseCardClasses   , onDatabaseSelect }) => {
+    const handleSelectionChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const selectedDatabase = event.target.value;
+        onDatabaseSelect(selectedDatabase); // Pass selected database to parent
+    };
+
     return (
-        <RadioGroup className={"gap-1"} isRequired={true} orientation="horizontal" description={"Please select a database type"}>
+        <RadioGroup onChange={handleSelectionChange} className={"gap-1 mt-10 mb-3"} isRequired={true} orientation="horizontal" description={<p>
+            Please select a database type <span className="text-red-500">*</span></p>}>
             <CustomRadio className={"group"} classNames={{base:baseCardClasses,  labelWrapper: "m-0"}} value="MYSQL">
                 <div className="flex flex-col items-center">
                     <Image className={`${imageSizeClasses} group-hover:animate-pulse dark:invert`} height={"40"} width={"40"}
