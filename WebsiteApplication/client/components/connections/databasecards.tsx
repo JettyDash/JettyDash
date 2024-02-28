@@ -1,6 +1,6 @@
 import React from 'react';
 import {RadioGroup} from "@nextui-org/react";
-import {CustomRadio} from "@/app/(root)/datamodels/customRadio";
+import {CustomRadio} from "@/components/connections/customradio";
 import Image from "next/image";
 
 interface DatabaseCardsProps {
