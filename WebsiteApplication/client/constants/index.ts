@@ -38,7 +38,7 @@ export const sidebarLinks: SidebarLink[] = [
   },
   {
     route: "/datamodels",
-    label: "DataModels",
+    label: "  DataModels",
   },
   {
     route: "/connections",
