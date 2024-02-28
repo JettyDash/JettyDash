@@ -32,6 +32,7 @@ import React from "react";
 import {Key} from "@react-types/shared";
 import {DatabaseCards} from "@/components/connections/databasecards";
 import {PlusIcon} from "@/components/icons/PlusIcon";
+import {ConnectionForm} from "@/components/connections/connectionform";
 
 export const CreateNewDatabase = () => {
     const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -47,26 +48,52 @@ export const CreateNewDatabase = () => {
             >
                 Add New
             </Button>
-            <Modal
+            <Modal className={"w-full h-full"}
                 isOpen={isOpen}
                 onOpenChange={onOpenChange}
                 placement="bottom-center" // center on desktop, bottom on mobile
             >
-                <ModalContent className="flex items-center w-[800px] h-[600px]">
+                <ModalContent className="flex items-center w-[440px] h-[610px]">
                     {(onClose) => (
                         <>
                             <ModalHeader className="flex flex-col gap-1">New Connection</ModalHeader>
-                            <ModalBody className="w-full h-full">
+                            <ModalBody className="w-full h-[400px] m-0 p-0 items-center">
+                                <ConnectionForm/>
 
                             </ModalBody>
-                            <ModalFooter>
-                                <Button color="danger" variant="flat" onPress={onClose}>
-                                    Close
-                                </Button>
-                                <Button onPress={onClose}>
-                                    Sign in
-                                </Button>
+                            <ModalFooter className={"m-0 w-full"}>
+                                <div className="w-full inline-flex flex-col gap-1">
+                                    <Button
+                                        onPress={onClose}
+                                        isDisabled={false}
+                                        className={"flex-2"}
+                                        size={"lg"}
+                                        variant="shadow"
+                                        color="default" isLoading={false}
+                                    >
+
+                                        <span className={"text-small font-normal py-1"} >
+                                            Test Connection
+                                        </span>
+                                    </Button>
+                                    <Button
+                                        onPress={onClose}
+                                        isDisabled={false}
+                                        className={"flex-2"}
+                                        size={"lg"}
+                                        variant="shadow"
+                                        color="primary" isLoading={false}
+                                    >
+                                        <span className={"text-small font-normal py-1"} >
+                                            Save Connection
+                                        </span>
+                                    </Button>
+
+                                </div>
+
                             </ModalFooter>
+
+
                         </>
                     )}
                 </ModalContent>
