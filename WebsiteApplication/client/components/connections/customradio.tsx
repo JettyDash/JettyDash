@@ -1,6 +1,6 @@
 'use client';
 import React from "react";
-import {RadioGroup, Radio, useRadio, VisuallyHidden, RadioProps, cn} from "@nextui-org/react";
+import {useRadio, VisuallyHidden, RadioProps, cn} from "@nextui-org/react";
 
 export const CustomRadio = (props:RadioProps) => {
     const {
