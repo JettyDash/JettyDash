@@ -28,15 +28,6 @@ export function parseDatabaseAndServer(connectionString:string) {
   return { database, server };
 }
 
-// Example usage
-const connectionString = 'Driver={SQL Server Native Client 11.0};Server=myServerAddress;Database=myDataBase;Uid=myUsername;Pwd=myPassword;Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30;';
-
-const { database, server } = parseDatabaseAndServer(connectionString);
-console.log("Database:", database);
-console.log("Server:", server);
-
-
-
 export function capitalize(str: string) {
   return str.charAt(0).toUpperCase() + str.slice(1);
 }

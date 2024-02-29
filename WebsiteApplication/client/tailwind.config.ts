@@ -96,6 +96,7 @@ module.exports = {
       themes: {
         light: {
           colors: {
+            secondary: "#403E46",
             background: "#F7F5F1", // or DEFAULT
             // foreground: "#11181C", // or 50 to 900 DEFAULT
             // primary: {
