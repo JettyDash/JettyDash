@@ -1,4 +1,5 @@
 @import url("../styles/theme.css");
+@import url("../styles/LoadingIcon.css");
 
 @tailwind base;
 @tailwind components;
@@ -264,10 +265,12 @@ body {
 
 :root {
 }
-.light,[data-theme="light"] {
+
+.light, [data-theme="light"] {
     color-scheme: light;
 }
-.dark,[data-theme="dark"] {
+
+.dark, [data-theme="dark"] {
     color-scheme: dark;
 }
 
