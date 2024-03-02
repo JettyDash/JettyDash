@@ -1,44 +1,66 @@
-import {Button, Card, CardBody, CardFooter, Input, Link, Tab, Tabs, Textarea, useDisclosure} from "@nextui-org/react";
+import {Card, CardBody, Input, Link, Tab, Tabs, Textarea} from "@nextui-org/react";
 import {DatabaseCards} from "@/components/connections/databasecards";
 import React from "react";
-import {Key} from "@react-types/shared";
 import {parseDatabaseAndServer} from "@/lib/utils";
-
+import {useUrlFormStore, useHostFormStore, useTabStore} from "@/lib/stores/connectionformstore";
 
 export const ConnectionForm = () => {
-    const [selectedTab, setSelectedTab] = React.useState<Key>("host");
-    const [databaseType, setDatabaseType] = React.useState<string>("")
-    const [port, setPort] = React.useState<string>("1234"); // Add state for port number
-    const [databaseName, setDatabaseName] = React.useState<string>("")
-    const [host, setHost] = React.useState<string>("")
-    const [url, setUrl] = React.useState("");
+    const [selectedTab, setSelectedTab] = useTabStore(state => [state.selectedTab, state.setSelectedTab]);
+    const [defaultPort, setDefaultPort] = React.useState<string>("1234");
+    const [parsedServerFromUrl, setParsedServerFromUrl] = React.useState<string>("null");
+    const [parsedDatabaseFromUrl, setParsedDatabaseFromUrl] = React.useState<string>("null");
+    const [
+        setHostDatabaseName,
+        setHostDatabaseType,
+        setHostUsername,
+        setHostPassword,
+        setHost,
+        setPort
+    ] = useHostFormStore(state => [
+        state.setHostDatabaseName,
+        state.setHostDatabaseType,
+        state.setHostUsername,
+        state.setHostPassword,
+        state.setHost,
+        state.setPort
+    ]);
 
-    const handleUrlChange = (value:string) => {
-        setUrl(value);
-        const {database, server} = parseDatabaseAndServer(value)
-        setDatabaseName(database)
-        setHost(server)
-    }
+    const [
+        Url,
+        setUrlDatabaseName,
+        setUrlDatabaseType,
+        setUrlUsername,
+        setUrlPassword,
+        setUrl
+    ] = useUrlFormStore(state => [
+        state.Url,
+        state.setUrlDatabaseName,
+        state.setUrlDatabaseType,
+        state.setUrlUsername,
+        state.setUrlPassword,
+        state.setUrl
+    ]);
 
-    const updatePort = (databaseType: string) => {
+    const updateDefaultPort = (databaseType: string) => {
         switch (databaseType) {
             case "MYSQL":
-                setPort("3306");
+                setDefaultPort("3306");
                 break;
             case "POSTGRES":
-                setPort("5432");
+                setDefaultPort("5432");
                 break;
             case "MSSQL":
-                setPort("1433");
+                setDefaultPort("1433");
                 break;
             case "ORACLE":
-                setPort("1521");
+                setDefaultPort("1521");
                 break;
             default:
-                setPort("1234");
+                setDefaultPort("1234");
                 break;
         }
     };
+
     return (
         <div className="flex flex-col">
             <Card radius={"none"} shadow={"none"} className="max-w-full w-[440px] h-[560px]">
@@ -56,13 +78,14 @@ export const ConnectionForm = () => {
                             <form className="flex flex-col gap-3">
                                 <DatabaseCards
                                     onDatabaseSelect={selectedDatabase => {
-                                        setDatabaseType(selectedDatabase);
-                                        updatePort(selectedDatabase); // Update port based on selected database
+                                        setHostDatabaseType(selectedDatabase);
+                                        updateDefaultPort(selectedDatabase); // Update port based on selected database
                                     }}
                                     imageSizeClasses={"h-10 w-10"}
                                     baseCardClasses={"size-24"}/>
                                 <div className={"flex flex-row gap-2"}>
                                     <Input
+                                        onValueChange={(value: string) => setHostDatabaseName(value)}
                                         className={"flex-2"}
                                         size="md"
                                         isRequired
@@ -71,15 +94,17 @@ export const ConnectionForm = () => {
                                         type="text"
                                     />
                                     <Input
+                                        onValueChange={(value: string) => setPort(value)}
                                         className={"flex-1"}
                                         isRequired
                                         label="Port"
-                                        placeholder={`eg. ${port}`}
+                                        placeholder={`eg. ${defaultPort}`}
                                         type="text"
                                     />
                                 </div>
                                 <div className={"flex"}>
                                     <Input
+                                        onValueChange={(value: string) => setHost(value)}
                                         className={"flex-1"}
                                         size="md"
                                         isRequired
@@ -90,12 +115,14 @@ export const ConnectionForm = () => {
                                 </div>
                                 <div className={"flex flex-row gap-2"}>
                                     <Input
+                                        onValueChange={(value: string) => setHostUsername(value)}
                                         className={"flex-1"}
                                         isRequired
                                         label="Username"
                                         placeholder="Enter your username"
                                         type="text"/>
                                     <Input
+                                        onValueChange={(value: string) => setHostPassword(value)}
                                         className={"flex-1"}
                                         isRequired
                                         label="Password"
@@ -117,8 +144,8 @@ export const ConnectionForm = () => {
                             <form className="flex flex-col gap-3">
                                 <DatabaseCards
                                     onDatabaseSelect={selectedDatabase => {
-                                        setDatabaseType(selectedDatabase);
-                                        updatePort(selectedDatabase); // Update port based on selected database
+                                        setUrlDatabaseType(selectedDatabase);
+                                        updateDefaultPort(selectedDatabase); // Update port based on selected database
                                     }}
                                     imageSizeClasses={"h-10 w-10"}
                                     baseCardClasses={"size-24"}/>
@@ -128,23 +155,31 @@ export const ConnectionForm = () => {
                                         rows={3}
                                         isRequired
                                         label="Url"
-                                        value={url}
-                                        onValueChange={(value: string) => handleUrlChange(value)}
-                                        labelPlacement="outside"
+                                        value={Url}
+                                        onValueChange={(value: string) => {
+                                            setUrl(value);
+                                            const {database, server} = parseDatabaseAndServer(value);
+                                            setUrlDatabaseName(database);
+                                            setParsedDatabaseFromUrl(database);
+                                            setParsedServerFromUrl(server);
+                                        }}
+
                                         placeholder="Enter your url eg. Server=myServerAddress;Port=1234;Database=myDataBase;Uid=myUsername;Pwd=myPassword;"
                                         className="flex-1"
                                     />
-                                    <p className="text-default-500 text-small"><b>Database:</b> {databaseName ?? "null"} <b>Host:</b> {host ?? "null"}</p>
+                                    <p className="text-default-500 text-small">Database: {parsedDatabaseFromUrl ?? "not found"} Host: {parsedServerFromUrl ?? "not found"}</p>
                                 </div>
 
                                 <div className={"flex flex-row gap-2"}>
                                     <Input
+                                        onValueChange={(value: string) => setUrlUsername(value)}
                                         className={"flex-1"}
                                         isRequired
                                         label="Username"
                                         placeholder="Enter your username"
                                         type="text"/>
                                     <Input
+                                        onValueChange={(value: string) => setUrlPassword(value)}
                                         className={"flex-1"}
                                         isRequired
                                         label="Password"
@@ -162,25 +197,6 @@ export const ConnectionForm = () => {
 
                             </form>
                         </Tab>
-                        {/*<Tab key="url" title="Url">*/}
-                        {/*    <form className="flex flex-col gap-4 h-[300px]">*/}
-                        {/*        <Input isRequired label="Name" placeholder="Enter your names" type="password"/>*/}
-                        {/*        <Input isRequired label="Email" placeholder="Enter your email" type="email"/>*/}
-                        {/*        <Input*/}
-                        {/*            isRequired*/}
-                        {/*            label="Password"*/}
-                        {/*            placeholder="Enter your password"*/}
-                        {/*            type="password"*/}
-                        {/*        />*/}
-                        {/*        <p className="text-center text-small">*/}
-                        {/*            Already have an account?{" "}*/}
-                        {/*            <Link size="sm" onPress={() => setSelectedTab("host")}>*/}
-                        {/*                Host*/}
-                        {/*            </Link>*/}
-                        {/*        </p>*/}
-
-                            {/*</form>*/}
-                        {/*</Tab>*/}
                     </Tabs>
                 </CardBody>
 
