@@ -1,105 +1,166 @@
-//
-// import type {Metadata} from "next";
-//
-// export const metadata: Metadata = {
-//     title: "Dashboards | JettyDash",
-// };
-//
-// export default async function Dashboards({ }) {
-//   return (
-//     <div>
-//       <h1>Dashboards</h1>
-//     </div>
-//   );
-// }
-//
-
-'use client';
+"use client";
 import {
-    Tabs,
-    Tab,
-    Input,
-    Link,
-    Button,
-    Card,
-    CardBody,
-    CardHeader,
-    CardFooter,
-    useDisclosure,
-    Modal, ModalContent, ModalHeader, ModalBody, ModalFooter
+		Button,
+		Modal,
+		ModalBody,
+		ModalContent,
+		ModalFooter,
+		ModalHeader,
+		Spinner,
+		useDisclosure
 } from "@nextui-org/react";
 import React from "react";
-import {Key} from "@react-types/shared";
-import {DatabaseCards} from "@/components/connections/databasecards";
-import {PlusIcon} from "@/components/icons/PlusIcon";
-import {ConnectionForm} from "@/components/connections/connectionform";
+import { PlusIcon } from "@/components/icons/PlusIcon";
+import { ConnectionForm } from "@/components/connections/connectionform";
+import {
+		useHostFormButtonStore,
+		useHostFormStore,
+		useTabStore,
+		useUrlFormStore
+} from "@/lib/stores/connectionformstore";
+import { toast } from "sonner";
+import { testHostConnectionRequest } from "@/lib/actions/connection.action";
+
 
 export const CreateNewDatabase = () => {
-    const {isOpen, onOpen, onOpenChange} = useDisclosure();
+		const { isOpen, onOpen, onOpenChange } = useDisclosure();
+		const [selectedTab] = useTabStore(state => [state.selectedTab, state.setSelectedTab]);
+		const [isHostFormValid] = useHostFormStore(state => [state.isHostFormValid]);
+		const [isHostFormTestButtonLoading, isHostFormSaveButtonLoading] = useHostFormButtonStore(state => [state.isHostFormTestButtonLoading, state.isHostFormSaveButtonLoading]);
+		const [isUrlFormValid] = useUrlFormStore(state => [state.isUrlFormValid]);
+		const { ...params } = useHostFormStore.getState();
 
+		let handleIsValid = () => {
+				if (selectedTab === "host") {
+						return isHostFormValid();
+				} else {
+						return isUrlFormValid();
+				}
+		};
 
-    return (
-        <>
-            <Button
-                onPress={onOpen}
-                className="bg-foreground text-background"
-                endContent={<PlusIcon/>}
-                size="sm"
-            >
-                Add New
-            </Button>
-            <Modal className={"w-full h-full"}
-                isOpen={isOpen}
-                onOpenChange={onOpenChange}
-                placement="bottom-center" // center on desktop, bottom on mobile
-            >
-                <ModalContent className="flex items-center w-[440px] h-[610px]">
-                    {(onClose) => (
-                        <>
-                            <ModalHeader className="flex flex-col gap-1">New Connection</ModalHeader>
-                            <ModalBody className="w-full h-[400px] m-0 p-0 items-center">
-                                <ConnectionForm/>
+		const handleTestConnection = async () => {
+				try {
+						useHostFormButtonStore.setState({ isHostFormTestButtonLoading: true });
+						const promise = testHostConnectionRequest({ ...params });
+						useHostFormButtonStore.setState({ isHostFormTestButtonLoading: false });
+				} catch (error) {
+						toast.error("Connection Failed " + error);
+						useHostFormButtonStore.setState({ isHostFormTestButtonLoading: false });
+				}
+		};
 
-                            </ModalBody>
-                            <ModalFooter className={"m-0 w-full"}>
-                                <div className="w-full inline-flex flex-col gap-1">
-                                    <Button
-                                        onPress={onClose}
-                                        isDisabled={false}
-                                        className={"flex-2"}
-                                        size={"lg"}
-                                        variant="shadow"
-                                        color="default" isLoading={false}
-                                    >
+		return (
+				<>
+						<Button
+								onPress={onOpen}
+								className="bg-foreground text-background"
+								endContent={<PlusIcon />}
+								size="sm"
+						>
+								Add New
+						</Button>
+						<Modal
+								className={"w-full h-full"}
+								motionProps={{
+										variants: {
+												enter: {
+														y: 0,
+														opacity: 1,
+														transition: {
+																duration: 0.3,
+																ease: "easeOut"
+														}
+												},
+												exit: {
+														y: -20,
+														opacity: 0,
+														transition: {
+																duration: 0.2,
+																ease: "easeIn"
+														}
+												}
+										}
+								}}
+								isOpen={isOpen}
+								onOpenChange={onOpenChange}
+								placement="bottom-center" // center on desktop, bottom on mobile
+						>
+								<ModalContent className="flex items-center w-[440px] h-[630px]">
+										{(onClose) => (
+												<>
+														<ModalHeader className="flex flex-col gap-1">New Connection</ModalHeader>
+														<ModalBody className="w-full h-[400px] m-0 p-0 items-center">
+																<ConnectionForm />
 
-                                        <span className={"text-small font-normal py-1"} >
-                                            Test Connection
+														</ModalBody>
+														<ModalFooter className={"m-0 w-full"}>
+																<div className="w-full inline-flex flex-col gap-1">
+																		<Button
+																				// spinner={<Spinner size={"sm"} labelColor="foreground"/>}
+																				spinner={<Spinner size={"sm"} color="current" />}
+																				type={"submit"}
+																				onPress={() => {
+																						onClose();
+																				}}
+																				isLoading={false}
+																				isDisabled={!handleIsValid()}
+																				className={"flex-2"}
+																				size={"md"}
+																				variant="ghost"
+																				color={"secondary"}
+																		>
+
+                                        <span className={"text-small font-normal py-1"}>
+                                            Try an Example Connection
                                         </span>
-                                    </Button>
-                                    <Button
-                                        onPress={onClose}
-                                        isDisabled={false}
-                                        className={"flex-2"}
-                                        size={"lg"}
-                                        variant="shadow"
-                                        color="primary" isLoading={false}
-                                    >
-                                        <span className={"text-small font-normal py-1"} >
+																		</Button>
+																		<Button
+																				// spinner={<Spinner size={"sm"} labelColor="foreground"/>}
+																				spinner={<Spinner size={"sm"} color="current" />}
+																				type={"submit"}
+																				onPress={async () => {
+																						await handleTestConnection();
+																						// onClose();
+																				}}
+																				isLoading={isHostFormTestButtonLoading}
+																				isDisabled={!handleIsValid()}
+																				className={"flex-2"}
+																				size={"lg"}
+																				variant="shadow"
+																				color="default"
+																		>
+
+                    <span className={"text-small font-normal py-1"}>
+                        Test Connection
+                    </span>
+																		</Button>
+																		<Button
+																				spinner={<Spinner size={"sm"} color="current" />}
+																				type={"submit"}
+																				onPress={onClose}
+																				isLoading={isHostFormSaveButtonLoading}
+																				isDisabled={!handleIsValid()}
+																				className={"flex-2"}
+																				size={"lg"}
+																				variant="shadow"
+																				color="primary"
+																		>
+                                        <span className={"text-small font-normal py-1"}>
                                             Save Connection
                                         </span>
-                                    </Button>
+																		</Button>
 
-                                </div>
+																</div>
 
-                            </ModalFooter>
-
-
-                        </>
-                    )}
-                </ModalContent>
-            </Modal>
+														</ModalFooter>
 
 
-    </>
-            )
+												</>
+										)}
+								</ModalContent>
+						</Modal>
+
+
+				</>
+		);
 };
