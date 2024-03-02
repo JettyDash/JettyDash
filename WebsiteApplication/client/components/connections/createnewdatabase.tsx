@@ -11,7 +11,7 @@ import {
 } from "@nextui-org/react";
 import React from "react";
 import { PlusIcon } from "@/components/icons/PlusIcon";
-import { ConnectionForm } from "@/components/connections/connectionform";
+import { ConnectionForm } from "@/components/forms/connectionform";
 import {
 		useHostFormButtonStore,
 		useHostFormStore,
@@ -41,7 +41,7 @@ export const CreateNewDatabase = () => {
 		const handleTestConnection = async () => {
 				try {
 						useHostFormButtonStore.setState({ isHostFormTestButtonLoading: true });
-						const promise = testHostConnectionRequest({ ...params });
+						const promise = await testHostConnectionRequest({ ...params });
 						useHostFormButtonStore.setState({ isHostFormTestButtonLoading: false });
 				} catch (error) {
 						toast.error("Connection Failed " + error);
