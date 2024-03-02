@@ -8,7 +8,6 @@ export function Providers({children}: { children: React.ReactNode }) {
         <NextUIProvider>
             <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
                 {children}
-                {/*<ThemeProvider>{children}</ThemeProvider>*/}
             </NextThemesProvider>
         </NextUIProvider>
     )
