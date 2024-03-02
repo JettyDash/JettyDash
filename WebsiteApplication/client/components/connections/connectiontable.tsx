@@ -98,7 +98,7 @@ export default function ConnectionTable() {
 
     const renderCell = useCallback((connection: Connection, columnKey: React.Key) => {
         const cellValue = connection[columnKey as keyof Connection];
-        const { formattedDate, formattedTime, dayName } = formatDate(connection.date);
+        const {formattedDate, formattedTime, dayName} = formatDate(connection.date);
 
         switch (columnKey) {
             case "name":
@@ -111,7 +111,8 @@ export default function ConnectionTable() {
                             radius: "sm",
                             size: "md",
                             showFallback: true,
-                            fallback: getDatabaseComponent(connection.databaseType),}}
+                            fallback: getDatabaseComponent(connection.databaseType),
+                        }}
                         classNames={{
                             description: "text-default-500",
                         }}
@@ -234,7 +235,7 @@ export default function ConnectionTable() {
                                 aria-label="Table Columns"
                                 closeOnSelect={false}
                                 selectedKeys={statusFilter}
-                                selectionMode="multiple"
+                                // selectionMode="multiple"
                                 onSelectionChange={setStatusFilter}
                             >
                                 {statusOptions.map((status) => (
@@ -259,7 +260,7 @@ export default function ConnectionTable() {
                                 aria-label="Table Columns"
                                 closeOnSelect={false}
                                 selectedKeys={visibleColumns}
-                                selectionMode="multiple"
+                                // selectionMode="multiple"
                                 onSelectionChange={setVisibleColumns}
                             >
                                 {columns.map((column) => (
@@ -355,7 +356,7 @@ export default function ConnectionTable() {
             }}
             classNames={classNames}
             selectedKeys={selectedKeys}
-            selectionMode="multiple"
+            // selectionMode="multiple"
             sortDescriptor={sortDescriptor}
             topContent={topContent}
             topContentPlacement="outside"
