@@ -7,8 +7,6 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function parseDatabaseAndServer(connectionString:string) {
-  // Parsing connection string
-  // Getting connection options
   const connectionOptions = parseConnectionString(connectionString);
 
   let database, server;
