@@ -34,6 +34,7 @@ export default function RootLayout({ children }: {
 				<Providers>
 						{children}
 						<Toaster position="bottom-right"
+						         richColors={true}
 						         icons={{
 								         loading: <Loader visible={true} />
 						         }}
