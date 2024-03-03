@@ -16,8 +16,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Schemes.Config.Token;
+using Schemes.Config.Vault;
 using Schemes.DTOs;
-using Schemes.Vault;
 using VaultSharp;
 using VaultSharp.V1.AuthMethods;
 using VaultSharp.V1.AuthMethods.Token;
@@ -26,11 +26,18 @@ namespace Api;
 
 public class Startup
 {
-    public IConfiguration Configuration;
+    public readonly IConfiguration Configuration;
 
     public Startup(IConfiguration configuration)
     {
-        Configuration = configuration;
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddConfiguration(configuration); // Add existing configuration
+            // .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+        builder.AddEnvironmentVariables();
+
+        Configuration = builder.Build();
     }
 
     public void ConfigureServices(IServiceCollection services)
