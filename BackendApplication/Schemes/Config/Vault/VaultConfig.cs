@@ -1,4 +1,4 @@
-namespace Schemes.Vault;
+namespace Schemes.Config.Vault;
 
 public class VaultConfig
 {
