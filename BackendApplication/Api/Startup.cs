@@ -1,5 +1,5 @@
-using System.Net;
 using System.Text;
+using Api.Health;
 using Api.Middlewares;
 using AutoMapper;
 using Business.Mapper;
@@ -9,9 +9,12 @@ using Business.Services;
 using Business.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using HealthChecks.UI.Client;
+using HealthChecks.MySql;
 using Infrastructure.DbContext;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -33,7 +36,7 @@ public class Startup
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddConfiguration(configuration); // Add existing configuration
-            // .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+        // .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
 
         builder.AddEnvironmentVariables();
 
@@ -50,7 +53,7 @@ public class Startup
         IAuthMethodInfo authMethod = new TokenAuthMethodInfo(vaultConfig.Token);
         VaultClientSettings vaultClientSettings = new VaultClientSettings(vaultConfig.Address, authMethod);
         IVaultClient vaultClient = new VaultClient(vaultClientSettings);
-        
+
         services.AddSingleton(vaultClient);
         services.AddScoped<IVaultService, VaultService>();
 
@@ -64,7 +67,7 @@ public class Startup
         // Dapper
         services.AddSingleton<IDapperServiceFactory, DapperServiceFactory>();
 
-        
+
         services.AddHttpContextAccessor();
         services.AddScoped<ITokenService, TokenService>();
         services.AddScoped<IUserService, UserService>();
@@ -75,10 +78,9 @@ public class Startup
             services.AddMediatR(cfg =>
             {
                 cfg.RegisterServicesFromAssemblies(assembly);
-                cfg.AddBehavior(typeof(IPipelineBehavior<, >),typeof(CreateHostConnectionPipelineInitializer<, >));
-                cfg.AddBehavior(typeof(IPipelineBehavior<, >),typeof(CreateHostConnectionValidationBehaviour<, >));
-                cfg.AddOpenBehavior(typeof(DbContextTransactionBehaviour<, >));    
-
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CreateHostConnectionPipelineInitializer<,>));
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CreateHostConnectionValidationBehaviour<,>));
+                cfg.AddOpenBehavior(typeof(DbContextTransactionBehaviour<,>));
             });
         }
 
@@ -112,7 +114,7 @@ public class Startup
                 { securityScheme, new string[] { } }
             });
         });
-        
+
         // JWT
         JwtConfig jwtConfig = Configuration.GetSection("JwtConfig").Get<JwtConfig>();
         services.Configure<JwtConfig>(Configuration.GetSection("JwtConfig"));
@@ -146,7 +148,10 @@ public class Startup
         });
 
 
-        services.AddHealthChecks();
+        services.AddHealthChecks()
+            .AddCheck<HashiCorpVaultHealthCheck>("HashiCorpVaultHealthCheck")
+            .AddMySql(Configuration.GetConnectionString("DefaultConnection"));
+        
         services.AddControllers();
 
         // FluentValidation
@@ -160,8 +165,6 @@ public class Startup
 
         services.AddScoped<IValidator<UpdateUrlConnectionRequest>, UpdateUrlConnectionRequestValidator>();
         services.AddScoped<IValidator<UpdateHostConnectionRequest>, UpdateHostConnectionRequestValidator>();
-        
-        
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -173,7 +176,12 @@ public class Startup
             app.UseSwaggerUI();
         }
 
-        app.UseHealthChecks("/health");
+        app.UseHealthChecks("/health", new HealthCheckOptions
+        {
+            ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+
+        });
+
         app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
         app.UseCors(options =>
