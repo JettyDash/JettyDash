@@ -4,9 +4,9 @@ using Business.Services;
 using Infrastructure.DbContext;
 using Infrastructure.Entities;
 using Microsoft.Extensions.Options;
+using Schemes.Config.Vault;
 using Schemes.DTOs;
 using Schemes.Mediatr;
-using Schemes.Vault;
 
 namespace Business.Commands;
 
