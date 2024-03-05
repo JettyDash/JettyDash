@@ -14,8 +14,13 @@ namespace Api
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
-                    
+                    webBuilder.UseStartup<Startup>()
+                        .UseUrls("http://*:5000");
+                    // .ConfigureKestrel(opts =>
+                    // {
+                    // opts.ListenAnyIP(5000); // listen on http://*:5003
+                    // });
+
                 });
 
     }
