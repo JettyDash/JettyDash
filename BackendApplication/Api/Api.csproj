@@ -5,9 +5,19 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <InvariantGlobalization>false</InvariantGlobalization>
-        <ServerUrls>https://localhost:5001;http://localhost:5000</ServerUrls>
-        <UserSecretsId>99372eba-fab1-40cb-9ad2-de749e62fb75</UserSecretsId>
+<!--        <UserSecretsId>99372eba-fab1-40cb-9ad2-de749e62fb75</UserSecretsId>-->
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+<!--        <PublishAot>true</PublishAot>   -->
+<!--        <OutputType>Exe</OutputType>-->
+<!--        <PublishTrimmed>true</PublishTrimmed>-->
+<!--        <PublishReadyToRun>true</PublishReadyToRun>-->
+<!--        <PublishSingleFile>true</PublishSingleFile>-->
+<!--        <RuntimeIdentifier>linux-x64</RuntimeIdentifier>-->
+<!--        <SelfContained>false</SelfContained>-->
+<!--        <PublishDir>bin/publish/</PublishDir>-->
+<!--        <Optimize>true</Optimize>-->
+<!--        <GenerateAssemblyInfo>false</GenerateAssemblyInfo>-->
+<!--        <AssemblyName>Api</AssemblyName>-->
   </PropertyGroup>
 
     <ItemGroup>
@@ -22,8 +32,11 @@
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
+        <PackageReference Include="MySqlConnector" Version="2.3.5" />
+        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.1" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
         <PackageReference Include="VaultSharp" Version="1.13.0.1" />
+        <PackageReference Include="VaultSharp.Configuration" Version="0.1.6" />
         <PackageReference Include="VaultSharp.Extensions.Configuration" Version="1.0.2" />
     </ItemGroup>
 
