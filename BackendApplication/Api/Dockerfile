@@ -5,7 +5,6 @@ EXPOSE 5000
 EXPOSE 5001
 
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["Api/Api.csproj", "Api/"]
 COPY ["Business/Business.csproj", "Business/"]
@@ -14,11 +13,10 @@ COPY ["Schemes/Schemes.csproj", "Schemes/"]
 RUN dotnet restore "Api/Api.csproj"
 COPY . .
 WORKDIR "/src/Api"
-RUN dotnet build "Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "Api.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
