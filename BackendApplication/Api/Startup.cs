@@ -174,13 +174,16 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-
+        app.UseHsts();
+        app.UseHttpsRedirection();
+        
         app.UseHealthChecks("/health", new HealthCheckOptions
         {
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
         });
 
         app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
+        
 
         app.UseCors(options =>
             options.WithOrigins("*").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
@@ -193,6 +196,7 @@ public class Startup
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapHealthChecks("/health");
+            endpoints.MapControllers();
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
