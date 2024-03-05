@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 
@@ -7,7 +8,21 @@ namespace Api
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            
+            
+            var startTime = Stopwatch.GetTimestamp();
+
+            var host = CreateHostBuilder(args).Build();
+
+            var lifetime = host.Services.GetService<IHostApplicationLifetime>()!;
+            
+            lifetime.ApplicationStarted.Register(() =>
+            {
+                var elapsedTime = Stopwatch.GetElapsedTime(startTime).TotalMilliseconds;
+                Console.WriteLine($"Startup time: {elapsedTime}ms");
+            });
+
+            host.Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
