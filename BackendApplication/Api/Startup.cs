@@ -168,6 +168,7 @@ public class Startup
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
+        
         if (env.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
@@ -195,11 +196,17 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapGet("/", async context =>
+            {
+                await context.Response.WriteAsync($"App is running on {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}!");
+                
+            });
             endpoints.MapHealthChecks("/health");
             endpoints.MapControllers();
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
         });
+        
     }
 }
