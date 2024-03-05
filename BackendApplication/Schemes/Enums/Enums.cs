@@ -26,5 +26,8 @@ public enum ConnectionType
 public enum ConnectionStatus
 {
     Connected,
-    ConnectionFailed,
+    // ConnectionFailed,
+    Active,
+    Inactive,
+    Paused
 }
