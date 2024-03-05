@@ -10,7 +10,6 @@ using Business.Validators;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
-using HealthChecks.MySql;
 using Infrastructure.DbContext;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -22,8 +21,7 @@ using Schemes.Config.Token;
 using Schemes.Config.Vault;
 using Schemes.DTOs;
 using VaultSharp;
-using VaultSharp.V1.AuthMethods;
-using VaultSharp.V1.AuthMethods.Token;
+using VaultSharp.V1.AuthMethods.UserPass;
 
 namespace Api;
 
@@ -46,23 +44,24 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         // Vault
-        VaultConfig vaultConfig = Configuration.GetSection("VaultConfig").Get<VaultConfig>();
+        VaultConfig vaultConfig = Configuration.GetSection("VaultConfig").Get<VaultConfig>()!;
         services.Configure<VaultConfig>(Configuration.GetSection("VaultConfig"));
 
-        // Vault Authenticate
-        IAuthMethodInfo authMethod = new TokenAuthMethodInfo(vaultConfig.Token);
-        VaultClientSettings vaultClientSettings = new VaultClientSettings(vaultConfig.Address, authMethod);
-        IVaultClient vaultClient = new VaultClient(vaultClientSettings);
-
+        // Vault Authenticate with username and password
+        var credentials = new UserPassAuthMethodInfo(vaultConfig.Username, vaultConfig.Password);
+        IVaultClient vaultClient = new VaultClient(new VaultClientSettings(vaultConfig.Address, credentials));
         services.AddSingleton(vaultClient);
         services.AddScoped<IVaultService, VaultService>();
 
-
-        // Database yapılandırması        
+        // Database
         services.AddDbContext<BackendDbContext>(options =>
         {
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            // options.UseMySql(connectionString, serverVersion)
+                // (Configuration.GetConnectionString("DefaultConnection"));
+                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection")));
         });
+        // services.AddDbContext<BackendDbContext>(options =>
+            // options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
         // Dapper
         services.AddSingleton<IDapperServiceFactory, DapperServiceFactory>();
@@ -150,8 +149,8 @@ public class Startup
 
         services.AddHealthChecks()
             .AddCheck<HashiCorpVaultHealthCheck>("HashiCorpVaultHealthCheck")
-            .AddMySql(Configuration.GetConnectionString("DefaultConnection"));
-        
+            .AddMySql(Configuration.GetConnectionString("DefaultConnection"), name: "MySqlHealthCheck");
+
         services.AddControllers();
 
         // FluentValidation
@@ -179,7 +178,6 @@ public class Startup
         app.UseHealthChecks("/health", new HealthCheckOptions
         {
             ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-
         });
 
         app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
@@ -187,7 +185,6 @@ public class Startup
         app.UseCors(options =>
             options.WithOrigins("*").AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
         app.UseAuthentication();
-        // app.UseHttpsRedirection();
 
         app.UseRouting();
 
@@ -195,6 +192,7 @@ public class Startup
 
         app.UseEndpoints(endpoints =>
         {
+            endpoints.MapHealthChecks("/health");
             endpoints.MapControllerRoute(
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
