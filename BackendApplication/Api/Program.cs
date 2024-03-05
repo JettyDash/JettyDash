@@ -19,7 +19,7 @@ namespace Api
             lifetime.ApplicationStarted.Register(() =>
             {
                 var elapsedTime = Stopwatch.GetElapsedTime(startTime).TotalMilliseconds;
-                Console.WriteLine($"Startup time: {elapsedTime}ms");
+                Console.WriteLine($"Startup time: {elapsedTime}ms.");
             });
 
             host.Run();
@@ -30,11 +30,11 @@ namespace Api
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>()
-                        .UseUrls("http://*:5000");
-                    // .ConfigureKestrel(opts =>
-                    // {
-                    // opts.ListenAnyIP(5000); // listen on http://*:5003
-                    // });
+                        // .UseUrls("http://*:5000");
+                    .ConfigureKestrel(opts =>
+                    {
+                    opts.ListenAnyIP(5000); // listen on http://*:5003
+                    });
 
                 });
 
