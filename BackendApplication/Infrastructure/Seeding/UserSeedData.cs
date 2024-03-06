@@ -16,7 +16,7 @@ public static class UserSeedData
                 {
                     UserId = 1,
                     Username = "guest",
-                    Password = "null",
+                    Password = "84983C60F7DAADC1CB8698621F802C0D9F9A3C3C295C810748FB048115C186EC",
                     Email = "null",
                     Role = Role.Guest,
                     PasswordRetryCount = 0,

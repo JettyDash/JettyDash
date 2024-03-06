@@ -198,7 +198,7 @@ public class Startup
         {
             endpoints.MapGet("/", async context =>
             {
-                await context.Response.WriteAsync($"App is running on {Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}!");
+                await context.Response.WriteAsync($"App is running on {env.EnvironmentName} {DateTime.UtcNow}!");
                 
             });
             endpoints.MapHealthChecks("/health");
