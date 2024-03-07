@@ -6,7 +6,7 @@ using Schemes.Mediatr;
 namespace Business.Cqrs;
 
 
-public record TestConnectionCommand(string ConnectionString, DatabaseType DatabaseType) : ICommand<ApiResponse<ConnectionResponse>>;
+public record TestConnectionCommand(TestConnectionRequest Model) : ICommand<ApiResponse<ConnectionResponse>>;
 public record CreateUrlConnectionCommand(CreateUrlConnectionRequest Model) : ICommand<ApiResponse<ConnectionResponse>>;
 public record CreateHostConnectionCommand(CreateHostConnectionRequest Model, CreateHostConnectionPipeline Context) : ICommand<ApiResponse<ConnectionResponse>>;
 

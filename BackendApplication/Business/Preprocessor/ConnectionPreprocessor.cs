@@ -56,7 +56,11 @@ public class CreateHostConnectionValidationBehaviour<TRequest, TResponse>(IMedia
     {
         // Check if connection string is valid
         var testConnectionCommand =
-            new TestConnectionCommand(request.Context.ConnectionString, request.Context.DatabaseType);
+            new TestConnectionCommand(new TestConnectionRequest
+            {
+                ConnectionString = request.Context.ConnectionString, 
+                DatabaseType = request.Context.DatabaseType
+            });
         var result = await mediator.Send(testConnectionCommand, cancellationToken);
 
         if (result.Success == false)

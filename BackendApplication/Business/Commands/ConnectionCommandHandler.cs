@@ -6,6 +6,7 @@ using Infrastructure.Entities;
 using Microsoft.Extensions.Options;
 using Schemes.Config.Vault;
 using Schemes.DTOs;
+using Schemes.Enums;
 using Schemes.Mediatr;
 
 namespace Business.Commands;
@@ -26,7 +27,7 @@ public class ConnectionCommandHandler(
     public async Task<ApiResponse<ConnectionResponse>> Handle(TestConnectionCommand request,
         CancellationToken cancellationToken)
     {
-        var connection = dapperServiceFactory.Create(request.ConnectionString, request.DatabaseType);
+        var connection = dapperServiceFactory.Create(request.Model.ConnectionString, request.Model.DatabaseType);
 
         (bool result, string message) = await connection.TestConnection(cancellationToken);
 

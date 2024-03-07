@@ -16,9 +16,9 @@ public class ConnectionController(IMediator mediator, IUserService user) : Contr
 
     [HttpPost("[action]")]
     [Authorize(Roles = Constants.Roles.AdminOrPersonnelOrGuest)]
-    public async Task<IActionResult> TestConnection([FromBody] string connectionString, DatabaseType databaseType, CancellationToken cancellationToken)
+    public async Task<IActionResult> TestConnection([FromBody] TestConnectionRequest request, CancellationToken cancellationToken)
     {
-        var command = new TestConnectionCommand(connectionString, databaseType);
+        var command = new TestConnectionCommand(request);
         var result = await mediator.Send(command, cancellationToken);
         return Ok(result);
     }

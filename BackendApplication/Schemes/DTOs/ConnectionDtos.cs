@@ -1,6 +1,14 @@
 
+using Schemes.Enums;
+
 namespace Schemes.DTOs;
 
+
+public class TestConnectionRequest
+{
+    public string ConnectionString { get; set; }
+    public DatabaseType DatabaseType { get; set; }
+}
 
 public class CreateConnectionRequestBase
 { 
