@@ -56,12 +56,9 @@ public class Startup
         // Database
         services.AddDbContext<BackendDbContext>(options =>
         {
-            // options.UseMySql(connectionString, serverVersion)
-                // (Configuration.GetConnectionString("DefaultConnection"));
-                options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+                // options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection")));
         });
-        // services.AddDbContext<BackendDbContext>(options =>
-            // options.UseMySql(Configuration.GetConnectionString("DefaultConnection")));
 
         // Dapper
         services.AddSingleton<IDapperServiceFactory, DapperServiceFactory>();
@@ -149,7 +146,8 @@ public class Startup
 
         services.AddHealthChecks()
             .AddCheck<HashiCorpVaultHealthCheck>("HashiCorpVaultHealthCheck")
-            .AddMySql(Configuration.GetConnectionString("DefaultConnection"), name: "MySqlHealthCheck");
+            .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"), name: "SqlServerDbHealthCheck");
+            // .AddMySql(Configuration.GetConnectionString("DefaultConnection"), name: "MySqlHealthCheck");
 
         services.AddControllers();
 
