@@ -23,8 +23,8 @@ public class BackendDbContext : Microsoft.EntityFrameworkCore.DbContext
     {
         modelBuilder.ApplyConfiguration(new UserConfiguration());
         modelBuilder.ApplyConfiguration(new ConnectionConfiguration());
-        // modelBuilder.SeedUsers(); // Call the seeding method
-        // modelBuilder.SeedConnections(); // Call the seeding method
+        modelBuilder.SeedUsers(); // Call the seeding method
+        modelBuilder.SeedConnections(); // Call the seeding method
 
         base.OnModelCreating(modelBuilder);
 
