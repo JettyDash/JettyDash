@@ -76,7 +76,7 @@ public class Startup
                 cfg.RegisterServicesFromAssemblies(assembly);
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CreateHostConnectionPipelineInitializer<,>));
                 cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(CreateHostConnectionValidationBehaviour<,>));
-                cfg.AddOpenBehavior(typeof(DbContextTransactionBehaviour<,>));
+                cfg.AddOpenBehavior(typeof(DbContextTransactionBehaviour<,>)); // Atomic transaction for each requestsh
             });
         }
 
