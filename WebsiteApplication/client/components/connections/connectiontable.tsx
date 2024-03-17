@@ -53,7 +53,7 @@ export default function ConnectionTable() {
 		});
 		const [page, setPage] = useState(1);
 
-		const pages = Math.ceil(connections.length / rowsPerPage);
+		const pages = connections ? Math.ceil(connections.length / rowsPerPage) : 1;
 
 		const hasSearchFilter = Boolean(filterValue);
 
