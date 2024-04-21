@@ -6,6 +6,8 @@ import { Providers } from "./providers";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Toaster } from "sonner";
 import Loader from "@/components/icons/LoadingIcon";
+import { Analytics } from "@vercel/analytics/next";
+
 
 const ubuntu = Ubuntu({
 		subsets: ["latin"],
@@ -40,6 +42,7 @@ export default function RootLayout({ children }: {
 						         }}
 						/>
 						<SpeedInsights />
+						<Analytics />
 				</Providers>
 
 
