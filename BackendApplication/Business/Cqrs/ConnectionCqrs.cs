@@ -1,6 +1,6 @@
-using Schemes.DTOs;
-using Schemes.DTOs.Pipelines;
-using Schemes.Enums;
+using Schemes.Dto;
+using Schemes.Dto.Pipeline;
+using Schemes.Enum;
 using Schemes.Mediatr;
 
 namespace Business.Cqrs;
