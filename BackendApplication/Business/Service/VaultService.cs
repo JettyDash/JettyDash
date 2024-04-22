@@ -1,4 +1,4 @@
-// using Schemes.Exceptions;
+// using Schemes.Exception;
 // using VaultSharp;
 //
 // namespace Business.Service;
@@ -36,7 +36,7 @@
 //
 //         if (secret == null)
 //         {
-//             throw new HttpException(Constants.ErrorMessages.CredentialNotFound, 404);
+//             throw new HttpException(Constant.ErrorMessages.CredentialNotFound, 404);
 //         }
 //
 //         return secret.Data;
@@ -49,7 +49,7 @@
 //
 //         if (secret == null)
 //         {
-//             throw new HttpException(Constants.ErrorMessages.CredentialNotFound, 404);
+//             throw new HttpException(Constant.ErrorMessages.CredentialNotFound, 404);
 //         }
 //
 //         return secret.Data.Keys.ToArray();
