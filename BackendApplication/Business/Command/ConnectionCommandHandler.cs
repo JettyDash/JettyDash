@@ -1,21 +1,16 @@
 using AutoMapper;
 using Business.Cqrs;
-using Business.Services;
+using Business.Service;
 using Infrastructure.DbContext;
-using Infrastructure.Entities;
-using Microsoft.Extensions.Options;
-// using Schemes.Config.Vault;
-using Schemes.DTOs;
-using Schemes.Enums;
+using Infrastructure.Entity;
+using Schemes.Dto;
 using Schemes.Mediatr;
 
-namespace Business.Commands;
+namespace Business.Command;
 
 public class ConnectionCommandHandler(
-    // IOptions<VaultConfig> vaultConfig,
     BackendDbContext dbContext,
     IMapper mapper,
-    // IVaultService vaultService,
     IDapperServiceFactory dapperServiceFactory) :
     IAsyncCommandHandler<TestConnectionCommand, ApiResponse<ConnectionResponse>>,
     IAsyncCommandHandler<CreateUrlConnectionCommand, ApiResponse<ConnectionResponse>>,
@@ -71,7 +66,7 @@ public class ConnectionCommandHandler(
 
     // private async Task SaveConnectionToVault(CreateHostConnectionCommand request)
     // {
-    //     var path = string.Format(Constants.VaultPath.Database,
+    //     var path = string.Format(Constant.VaultPath.Database,
     //         request.Context.Username,
     //         request.Context.VaultIdentifier);
     //
