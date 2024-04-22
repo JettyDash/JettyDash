@@ -1,7 +1,7 @@
 using System.Text.Json;
 using Schemes.Exceptions;
 
-namespace Api.Middlewares;
+namespace Api.Middleware;
 
 public class GlobalExceptionHandlerMiddleware(RequestDelegate next)
 {
