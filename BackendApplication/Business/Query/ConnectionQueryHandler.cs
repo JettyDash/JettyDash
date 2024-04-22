@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Schemes.DTOs;
 using Schemes.Mediatr;
 
-namespace Business.Queries;
+namespace Business.Query;
 
 public class ConnectionQueryHandler(BackendDbContext dbContext, IMapper mapper)
     : IAsyncQueryHandler<GetAllConnectionQuery, ApiResponse<List<ConnectionResponse>>>

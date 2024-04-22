@@ -1,4 +1,4 @@
-namespace Schemes.Constants;
+namespace Schemes.Constant;
 
 public static class Constants
 {

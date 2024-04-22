@@ -1,4 +1,4 @@
-namespace Schemes.DTOs;
+namespace Schemes.Dto;
 
 public class TokenRequest
 {

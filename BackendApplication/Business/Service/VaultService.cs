@@ -1,7 +1,7 @@
 // using Schemes.Exceptions;
 // using VaultSharp;
 //
-// namespace Business.Services;
+// namespace Business.Service;
 //
 // public interface IVaultService
 // {

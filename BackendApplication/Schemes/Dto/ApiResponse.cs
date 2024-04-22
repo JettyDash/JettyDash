@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace Schemes.DTOs;
+namespace Schemes.Dto;
 
 public class ApiResponse<T>
 {

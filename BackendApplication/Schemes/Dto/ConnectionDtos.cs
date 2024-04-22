@@ -1,7 +1,7 @@
 
 using Schemes.Enums;
 
-namespace Schemes.DTOs;
+namespace Schemes.Dto;
 
 
 public class TestConnectionRequest

@@ -1,0 +1,40 @@
+version: '3.9'
+
+services:
+  
+  backend:
+    build: ./BackendApplication
+    container_name: backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./BackendApplication:/app
+    depends_on:
+      - postgres
+    networks:
+      - backend-network
+    environment:
+      CONNECTION STRINGS__DEFAULT CONNECTION:
+        "Host=${DATABASE_HOST:postgres};
+        Port=${DATABASE_PORT:5432};Database=${DATABASE_DB:postgres};
+        Username=${DATABASE_USER:postgres};Password=${DATABASE_PASSWORD:password}"
+  
+  postgres:
+    image: postgres:14-alpine
+    container_name: postgres
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - ~/apps/postgres:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+
+
+networks:
+  backend-network:
+    - driver: bridge
+volumes:
+  postgres-data:
