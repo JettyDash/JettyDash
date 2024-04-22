@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Schemes.Enums;
+using Schemes.Enum;
 
-namespace Infrastructure.Entities;
+namespace Infrastructure.Entity;
 
 public class User
 {
