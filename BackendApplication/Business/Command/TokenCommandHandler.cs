@@ -2,15 +2,16 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Business.Cqrs;
-using Business.Services;
+using Business.Service;
 using Infrastructure.DbContext;
-using Infrastructure.Entities;
+using Infrastructure.Entity;
 using Microsoft.EntityFrameworkCore;
-using Schemes.DTOs;
+using Schemes.Constant;
+using Schemes.Dto;
 using Schemes.Exceptions;
 using Schemes.Mediatr;
 
-namespace Business.Commands;
+namespace Business.Command;
 
 public class TokenCommandHandler :
     IAsyncCommandHandler<CreateTokenCommand, TokenResponse>
