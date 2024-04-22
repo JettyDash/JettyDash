@@ -1,4 +1,4 @@
-using Schemes.DTOs;
+using Schemes.Dto;
 using Schemes.Mediatr;
 
 namespace Business.Cqrs;
