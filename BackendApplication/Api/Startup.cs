@@ -1,12 +1,11 @@
 using System.Text;
-// using Api.Health;
-using Api.Middlewares;
+using Api.Middleware;
 using AutoMapper;
 using Business.Mapper;
 using Business.Preprocessor;
 using Business.Preprocessor.Common;
-using Business.Services;
-using Business.Validators;
+using Business.Service;
+using Business.Validator;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using HealthChecks.UI.Client;
@@ -18,10 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Schemes.Config.Token;
-// using Schemes.Config.Vault;
-using Schemes.DTOs;
-// using VaultSharp;
-// using VaultSharp.V1.AuthMethods.UserPass;
+using Schemes.Dto;
 
 namespace Api;
 
@@ -33,8 +29,7 @@ public class Startup
     {
         var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddConfiguration(configuration); // Add existing configuration
-        // .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+            .AddConfiguration(configuration);
 
         builder.AddEnvironmentVariables();
 
@@ -43,24 +38,12 @@ public class Startup
 
     public void ConfigureServices(IServiceCollection services)
     {
-        // Vault
-        // VaultConfig vaultConfig = Configuration.GetSection("VaultConfig").Get<VaultConfig>()!;
-        // services.Configure<VaultConfig>(Configuration.GetSection("VaultConfig"));
-
-        // Vault Authenticate with username and password
-        // var credentials = new UserPassAuthMethodInfo(vaultConfig.Username, vaultConfig.Password);
-        // IVaultClient vaultClient = new VaultClient(new VaultClientSettings(vaultConfig.Address, credentials));
-        // services.AddSingleton(vaultClient);
-        // services.AddScoped<IVaultService, VaultService>();
-
-        // Database
         services.AddDbContext<BackendDbContext>(options =>
         {
-            options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
-                // options.UseMySql(Configuration.GetConnectionString("DefaultConnection"), ServerVersion.AutoDetect(Configuration.GetConnectionString("DefaultConnection")));
+            // options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"));
         });
 
-        // Dapper
         services.AddSingleton<IDapperServiceFactory, DapperServiceFactory>();
 
 
@@ -145,9 +128,8 @@ public class Startup
 
 
         services.AddHealthChecks()
-            // .AddCheck<HashiCorpVaultHealthCheck>("HashiCorpVaultHealthCheck")
-            .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"), name: "SqlServerDbHealthCheck");
-            // .AddMySql(Configuration.GetConnectionString("DefaultConnection"), name: "MySqlHealthCheck");
+            .AddNpgSql(Configuration.GetConnectionString("DefaultConnection"), name: "PostgreDbHealthCheck");
+            // .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"), name: "SqlServerDbHealthCheck");
 
         services.AddControllers();
 
