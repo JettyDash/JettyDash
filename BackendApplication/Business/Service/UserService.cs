@@ -2,7 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Schemes.Exceptions;
 
-namespace Business.Services;
+namespace Business.Service;
 
 
 public interface IUserService
