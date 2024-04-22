@@ -4,9 +4,9 @@ using Microsoft.Data.SqlClient;
 using MySqlConnector;
 using Npgsql;
 using Oracle.ManagedDataAccess.Client;
-using Schemes.Enums;
+using Schemes.Enum;
 
-namespace Business.Services;
+namespace Business.Service;
 
 public interface IDapperServiceFactory
 {
@@ -56,10 +56,6 @@ public class DapperService : IDapperService
     }
     
     
-    /// <summary>
-    /// Test connection 
-    /// </summary>
-    /// <returns></returns>
     public async Task<(bool, string Message)> TestConnection(CancellationToken cancellationToken = default)
     {
         try
