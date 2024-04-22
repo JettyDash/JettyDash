@@ -1,13 +1,12 @@
 using Business.Cqrs;
-using Business.Services;
+using Business.Service;
 using Microsoft.AspNetCore.Authorization;
-using Schemes.DTOs;
+using Schemes.Dto;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Schemes.DTOs.Pipelines;
-using Schemes.Enums;
+using Schemes.Dto.Pipeline;
 
-namespace Api.Controllers;
+namespace Api.Controller;
 
 [Route("api/[controller]")]
 [ApiController]
