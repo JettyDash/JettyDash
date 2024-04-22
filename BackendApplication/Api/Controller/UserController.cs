@@ -3,9 +3,10 @@ using Business.Cqrs;
 using Microsoft.AspNetCore.Authorization;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Schemes.DTOs;
+using Schemes.Constant;
+using Schemes.Dto;
 
-namespace Api.Controllers;
+namespace Api.Controller;
 
 [Route("api/[controller]")]
 [ApiController]
