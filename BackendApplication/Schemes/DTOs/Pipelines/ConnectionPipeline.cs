@@ -20,7 +20,7 @@ public class CreateHostConnectionPipeline(string userRole, int userId, string us
 {
     public string ConnectionString { get; set; } = string.Empty;
     public DatabaseType DatabaseType { get; set; } = DatabaseType.Unknown;
-    public string VaultIdentifier { get; set; } = string.Empty;
+    // public string VaultIdentifier { get; set; } = string.Empty;
 }
 
 
