@@ -1,8 +1,8 @@
 using FluentValidation;
-using Schemes.DTOs;
-using Schemes.Enums;
+using Schemes.Dto;
+using Schemes.Enum;
 
-namespace Business.Validators;
+namespace Business.Validator;
 
 public class CreateConnectionRequestBaseValidator<T> : AbstractValidator<T> where T : CreateConnectionRequestBase
 {
