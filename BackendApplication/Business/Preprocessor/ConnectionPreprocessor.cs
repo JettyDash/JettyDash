@@ -15,7 +15,7 @@ public class CreateHostConnectionPipelineInitializer<TRequest, TResponse>
     { 
         request.Context.DatabaseType = Enum.Parse<DatabaseType>(request.Model.DatabaseType);
         request.Context.ConnectionString = CreateConnectionStringFromUrl(request.Model, request.Context.DatabaseType );
-        request.Context.VaultIdentifier = Guid.NewGuid().ToString().ToUpper();
+        // request.Context.VaultIdentifier = Guid.NewGuid().ToString().ToUpper();
 
         return next();
 
