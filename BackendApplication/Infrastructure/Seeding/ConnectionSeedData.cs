@@ -15,7 +15,7 @@ public static class ConnectionSeedData
                 {
                     UserId = 1,
                     ConnectionId = 1,
-                    VaultIdentifier = String.Empty,
+                    // VaultIdentifier = String.Empty,
                     ConnectionType = ConnectionType.Host,
                     DatabaseName = "Real Time firebird",
                     DatabaseType = DatabaseType.Unknown,
@@ -27,7 +27,7 @@ public static class ConnectionSeedData
                 {
                     UserId = 1,
                     ConnectionId = 2,
-                    VaultIdentifier = String.Empty,
+                    // VaultIdentifier = String.Empty,
                     ConnectionType = ConnectionType.Host,
                     DatabaseName = "active_users_only",
                     DatabaseType = DatabaseType.PostgresSql,
@@ -39,7 +39,7 @@ public static class ConnectionSeedData
                 {
                     UserId = 1,
                     ConnectionId = 3,
-                    VaultIdentifier = String.Empty,
+                    // VaultIdentifier = String.Empty,
                     ConnectionType = ConnectionType.Url,
                     DatabaseName = "not_so_active_users",
                     DatabaseType = DatabaseType.PostgresSql,
@@ -51,7 +51,7 @@ public static class ConnectionSeedData
                 {
                     UserId = 1,
                     ConnectionId = 4,
-                    VaultIdentifier = String.Empty,
+                    // VaultIdentifier = String.Empty,
                     ConnectionType = ConnectionType.Host,
                     DatabaseName = "players",
                     DatabaseType = DatabaseType.SqlServer,
@@ -63,7 +63,7 @@ public static class ConnectionSeedData
                 {
                     UserId = 1,
                     ConnectionId = 5,
-                    VaultIdentifier = String.Empty,
+                    // VaultIdentifier = String.Empty,
                     ConnectionType = ConnectionType.Url,
                     DatabaseName = "nobody_cares_about_this_database",
                     DatabaseType = DatabaseType.MySql,
@@ -75,7 +75,7 @@ public static class ConnectionSeedData
                 {
                     UserId = 1,
                     ConnectionId = 6,
-                    VaultIdentifier = String.Empty,
+                    // VaultIdentifier = String.Empty,
                     ConnectionType = ConnectionType.Host,
                     DatabaseName = "rfma",
                     DatabaseType = DatabaseType.Oracle,
@@ -87,7 +87,7 @@ public static class ConnectionSeedData
                 {
                     UserId = 1,
                     ConnectionId = 7,
-                    VaultIdentifier = String.Empty,
+                    // VaultIdentifier = String.Empty,
                     ConnectionType = ConnectionType.Url,
                     DatabaseName = "kelebekler",
                     DatabaseType = DatabaseType.MySql,

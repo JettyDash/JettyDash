@@ -38,9 +38,9 @@
 <!--        <PackageReference Include="MySqlConnector" Version="2.3.5" />-->
 <!--        <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.1" />-->
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-        <PackageReference Include="VaultSharp" Version="1.13.0.1" />
-        <PackageReference Include="VaultSharp.Configuration" Version="0.1.6" />
-        <PackageReference Include="VaultSharp.Extensions.Configuration" Version="1.0.2" />
+<!--        <PackageReference Include="VaultSharp" Version="1.13.0.1" />-->
+<!--        <PackageReference Include="VaultSharp.Configuration" Version="0.1.6" />-->
+<!--        <PackageReference Include="VaultSharp.Extensions.Configuration" Version="1.0.2" />-->
     </ItemGroup>
 
     <ItemGroup>
