@@ -1,4 +1,4 @@
-namespace Schemes.Enums;
+namespace Schemes.Enum;
 
 
 public enum Role
