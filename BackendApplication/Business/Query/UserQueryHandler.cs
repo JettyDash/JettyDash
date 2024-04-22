@@ -1,14 +1,14 @@
 using Business.Cqrs;
 using AutoMapper;
-using Business.Validators;
+using Business.Validator;
 using Infrastructure.DbContext;
-using Infrastructure.Entities;
+using Infrastructure.Entity;
 using Microsoft.EntityFrameworkCore;
-using Schemes.DTOs;
+using Schemes.Dto;
 using Schemes.Exceptions;
 using Schemes.Mediatr;
 
-namespace Business.Queries;
+namespace Business.Query;
 public class UserQueryHandler(BackendDbContext dbContext, IMapper mapper, IHandlerValidator validate)
     :
         IAsyncQueryHandler<GetAllUserQuery, ApiResponse<List<UserResponse>>>,
