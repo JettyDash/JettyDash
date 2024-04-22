@@ -1,9 +1,9 @@
 using Business.Cqrs;
 using AutoMapper;
 using Infrastructure.DbContext;
-using Infrastructure.Entities;
+using Infrastructure.Entity;
 using Microsoft.EntityFrameworkCore;
-using Schemes.DTOs;
+using Schemes.Dto;
 using Schemes.Mediatr;
 
 namespace Business.Query;
