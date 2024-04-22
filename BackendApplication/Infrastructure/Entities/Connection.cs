@@ -7,7 +7,7 @@ namespace Infrastructure.Entities;
 public class Connection
 {
     public int ConnectionId { get; set; }
-    public string VaultIdentifier { get; set; }
+    // public string VaultIdentifier { get; set; }
     public ConnectionType ConnectionType { get; set; }
     public int UserId { get; set; }
     public string DatabaseName { get; set; }
@@ -27,7 +27,7 @@ public class ConnectionConfiguration : IEntityTypeConfiguration<Connection>
         
         builder.Property(e => e.UserId).IsRequired();
         
-        builder.Property(e => e.VaultIdentifier).IsRequired().HasMaxLength(255);
+        // builder.Property(e => e.VaultIdentifier).IsRequired().HasMaxLength(255);
 
         builder.Property(e => e.ConnectionType).IsRequired().HasConversion<string>();
 
