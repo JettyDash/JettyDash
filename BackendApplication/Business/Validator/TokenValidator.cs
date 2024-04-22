@@ -1,7 +1,7 @@
 using FluentValidation;
-using Schemes.DTOs;
+using Schemes.Dto;
 
-namespace Business.Validators;
+namespace Business.Validator;
 
 public class CreateTokenValidator : AbstractValidator<TokenRequest>
 {
