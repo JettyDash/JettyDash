@@ -4,7 +4,7 @@ using Business.Services;
 using Infrastructure.DbContext;
 using Infrastructure.Entities;
 using Microsoft.Extensions.Options;
-using Schemes.Config.Vault;
+// using Schemes.Config.Vault;
 using Schemes.DTOs;
 using Schemes.Enums;
 using Schemes.Mediatr;
@@ -12,10 +12,10 @@ using Schemes.Mediatr;
 namespace Business.Commands;
 
 public class ConnectionCommandHandler(
-    IOptions<VaultConfig> vaultConfig,
+    // IOptions<VaultConfig> vaultConfig,
     BackendDbContext dbContext,
     IMapper mapper,
-    IVaultService vaultService,
+    // IVaultService vaultService,
     IDapperServiceFactory dapperServiceFactory) :
     IAsyncCommandHandler<TestConnectionCommand, ApiResponse<ConnectionResponse>>,
     IAsyncCommandHandler<CreateUrlConnectionCommand, ApiResponse<ConnectionResponse>>,
@@ -44,7 +44,7 @@ public class ConnectionCommandHandler(
         CancellationToken cancellationToken)
     {
         // Check if connection string is unique NOT IMPLEMENTED
-        await SaveConnectionToVault(request);
+        // await SaveConnectionToVault(request);
         var response = await SaveConnectionToDatabase(request, cancellationToken);
 
         return new ApiResponse<ConnectionResponse>(response);
@@ -69,27 +69,27 @@ public class ConnectionCommandHandler(
         throw new NotImplementedException();
     }
 
-    private async Task SaveConnectionToVault(CreateHostConnectionCommand request)
-    {
-        var path = string.Format(Constants.VaultPath.Database,
-            request.Context.Username,
-            request.Context.VaultIdentifier);
-
-        var data = new VaultConnectionData(request.Context.ConnectionString);
-
-        await vaultService.SaveOrUpdateCredentials(
-            path: path,
-            data: data,
-            mountPoint: vaultConfig.Value.Mount
-        );
-    }
+    // private async Task SaveConnectionToVault(CreateHostConnectionCommand request)
+    // {
+    //     var path = string.Format(Constants.VaultPath.Database,
+    //         request.Context.Username,
+    //         request.Context.VaultIdentifier);
+    //
+    //     var data = new VaultConnectionData(request.Context.ConnectionString);
+    //
+    //     await vaultService.SaveOrUpdateCredentials(
+    //         path: path,
+    //         data: data,
+    //         mountPoint: vaultConfig.Value.Mount
+    //     );
+    // }
 
     // SaveConnectionToDatabase
     private async Task<ConnectionResponse> SaveConnectionToDatabase(CreateHostConnectionCommand request,
         CancellationToken cancellationToken)
     {
         var entity = mapper.Map<Connection>(request.Model);
-        entity.VaultIdentifier = request.Context.VaultIdentifier;
+        // entity.VaultIdentifier = request.Context.VaultIdentifier;
         entity.UserId = request.Context.UserId;
 
         await dbContext.Connections.AddAsync(entity, cancellationToken);
