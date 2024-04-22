@@ -1,10 +1,10 @@
 using System.Linq.Expressions;
-using Business.Services;
+using Business.Service;
 using Infrastructure.DbContext;
 using Microsoft.EntityFrameworkCore;
 using Schemes.Exceptions;
 
-namespace Business.Validators;
+namespace Business.Validator;
 
 
 public interface IHandlerValidator
