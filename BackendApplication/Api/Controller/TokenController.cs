@@ -1,9 +1,9 @@
 using Business.Cqrs;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Schemes.DTOs;
+using Schemes.Dto;
 
-namespace Api.Controllers;
+namespace Api.Controller;
 
 
 [Route("api/[controller]")]
