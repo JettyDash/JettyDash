@@ -1,10 +1,10 @@
 using FluentValidation;
-using Schemes.DTOs;
-using Schemes.Enums;
+using Schemes.Dto;
+using Schemes.Enum;
 
 // using VaultSharp.V1.SecretsEngines.Database;
 
-namespace Business.Validators;
+namespace Business.Validator;
 
 public class CreateUserValidator : AbstractValidator<CreateUserRequest>
 {
