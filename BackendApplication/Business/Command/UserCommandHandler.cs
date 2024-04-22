@@ -1,14 +1,14 @@
 using System.Security.Cryptography;
 using System.Text;
 using Business.Cqrs;
-using Business.Validators;
+using Business.Validator;
 using AutoMapper;
 using Infrastructure.DbContext;
-using Infrastructure.Entities;
-using Schemes.DTOs;
+using Infrastructure.Entity;
+using Schemes.Dto;
 using Schemes.Mediatr;
 
-namespace Business.Commands;
+namespace Business.Command;
 
 public class UserCommandHandler :
     IAsyncCommandHandler<CreateUserCommand, ApiResponse<UserResponse>>,
