@@ -1,5 +1,5 @@
 using System.Text;
-using Api.Health;
+// using Api.Health;
 using Api.Middlewares;
 using AutoMapper;
 using Business.Mapper;
@@ -18,10 +18,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Schemes.Config.Token;
-using Schemes.Config.Vault;
+// using Schemes.Config.Vault;
 using Schemes.DTOs;
-using VaultSharp;
-using VaultSharp.V1.AuthMethods.UserPass;
+// using VaultSharp;
+// using VaultSharp.V1.AuthMethods.UserPass;
 
 namespace Api;
 
@@ -44,14 +44,14 @@ public class Startup
     public void ConfigureServices(IServiceCollection services)
     {
         // Vault
-        VaultConfig vaultConfig = Configuration.GetSection("VaultConfig").Get<VaultConfig>()!;
-        services.Configure<VaultConfig>(Configuration.GetSection("VaultConfig"));
+        // VaultConfig vaultConfig = Configuration.GetSection("VaultConfig").Get<VaultConfig>()!;
+        // services.Configure<VaultConfig>(Configuration.GetSection("VaultConfig"));
 
         // Vault Authenticate with username and password
-        var credentials = new UserPassAuthMethodInfo(vaultConfig.Username, vaultConfig.Password);
-        IVaultClient vaultClient = new VaultClient(new VaultClientSettings(vaultConfig.Address, credentials));
-        services.AddSingleton(vaultClient);
-        services.AddScoped<IVaultService, VaultService>();
+        // var credentials = new UserPassAuthMethodInfo(vaultConfig.Username, vaultConfig.Password);
+        // IVaultClient vaultClient = new VaultClient(new VaultClientSettings(vaultConfig.Address, credentials));
+        // services.AddSingleton(vaultClient);
+        // services.AddScoped<IVaultService, VaultService>();
 
         // Database
         services.AddDbContext<BackendDbContext>(options =>
@@ -145,7 +145,7 @@ public class Startup
 
 
         services.AddHealthChecks()
-            .AddCheck<HashiCorpVaultHealthCheck>("HashiCorpVaultHealthCheck")
+            // .AddCheck<HashiCorpVaultHealthCheck>("HashiCorpVaultHealthCheck")
             .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"), name: "SqlServerDbHealthCheck");
             // .AddMySql(Configuration.GetConnectionString("DefaultConnection"), name: "MySqlHealthCheck");
 
