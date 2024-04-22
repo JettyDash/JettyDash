@@ -2,13 +2,13 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Infrastructure.Entities;
+using Infrastructure.Entity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Schemes.Config.Token;
-using Schemes.DTOs;
+using Schemes.Dto;
 
-namespace Business.Services;
+namespace Business.Service;
 
 public interface ITokenService
 {
