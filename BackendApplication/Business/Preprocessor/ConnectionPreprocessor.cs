@@ -2,7 +2,7 @@ using Business.Cqrs;
 using MediatR;
 using Schemes.Dto;
 using Schemes.Enum;
-using Schemes.Exceptions;
+using Schemes.Exception;
 
 namespace Business.Preprocessor;
 
