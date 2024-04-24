@@ -1,6 +1,6 @@
-namespace Schemes.Exceptions;
+namespace Schemes.Exception;
 
-public class HttpException : Exception
+public class HttpException : System.Exception
 {
     public int StatusCode { get; }
 
