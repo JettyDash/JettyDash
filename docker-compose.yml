@@ -18,19 +18,29 @@ services:
         ${ASPNETCORE_ENVIRONMENT}
       ASPNETCORE_URLS:
         ${ASPNETCORE_URLS}
-      ConnectionStrings__DefaultConnection:
-        ${CONNECTION_STRINGS__DEFAULT_CONNECTION}
-      JwtConfig__Secret:
-        ${JWT_CONFIG__SECRET}
-      JwtConfig__Issuer:
-        ${JWT_CONFIG__ISSUER}
-      JwtConfig__Audience:
-        ${JWT_CONFIG__AUDIENCE}
-      JwtConfig__AccessExpiration:
-        ${JWT_CONFIG_ACCESS_EXPIRATION}
-      JwtConfig__RefreshExpiration:
-        ${JWT_CONFIG_REFRESH_EXPIRATION}
+      CONNECTIONSTRINGS__DEFAULTCONNECTION:
+        ${CONNECTIONSTRINGS__DEFAULTCONNECTION}
+      JWTCONFIG__SECRET:
+        ${JWTCONFIG__SECRET}
+      JWTCONFIG__ISSUER:
+        ${JWTCONFIG__ISSUER}
+      JWTCONFIG__AUDIENCE:
+        ${JWTCONFIG__AUDIENCE}
+      JWTCONFIG__ACCESSTOKENEXPIRATION:
+        ${JWTCONFIG__ACCESSTOKENEXPIRATION}
+      JWTCONFIG__REFRESHTOKENEXPIRATION:
+        ${JWTCONFIG__REFRESHTOKENEXPIRATION}
   
+  nextjs:
+    build: ./WebsiteApplication/
+    container_name: nextjs
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    environment:
+      - NODE_ENV=production
+    restart: always
   
   
   postgres:
