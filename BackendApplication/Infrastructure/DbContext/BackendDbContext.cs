@@ -1,4 +1,4 @@
-using Infrastructure.Entities;
+using Infrastructure.Entity;
 using Infrastructure.Seeding;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,11 +8,6 @@ public class BackendDbContext : Microsoft.EntityFrameworkCore.DbContext
 {
     public BackendDbContext(DbContextOptions<BackendDbContext> options) : base(options)
     {
-        //DropCreateDatabaseIfModelChanges 
-        // Database.SetInitializer<BackendDbContext>(new CreateDatabaseIfNotExists<SchoolDBContext>());
-        // options.SetInitializer<BackendDbContext>(new SchoolDBInitializer());
-        // Database.SetInitializer<BackendDbContext>(new DropCreateDatabaseIfModelChanges<BackendDbContext>());
-
 
     }
 

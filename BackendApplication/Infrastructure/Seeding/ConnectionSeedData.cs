@@ -1,6 +1,6 @@
-using Infrastructure.Entities;
+using Infrastructure.Entity;
 using Microsoft.EntityFrameworkCore;
-using Schemes.Enums;
+using Schemes.Enum;
 
 namespace Infrastructure.Seeding;
 

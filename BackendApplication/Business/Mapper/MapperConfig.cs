@@ -1,7 +1,7 @@
 using AutoMapper;
-using Infrastructure.Entities;
-using Schemes.DTOs;
-using Schemes.Enums;
+using Infrastructure.Entity;
+using Schemes.Dto;
+using Schemes.Enum;
 
 namespace Business.Mapper;
 
