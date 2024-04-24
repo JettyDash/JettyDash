@@ -5,7 +5,6 @@ using Schemes.Enum;
 namespace Infrastructure.Seeding;
 
 
-
 public static class ConnectionSeedData
     {
         public static void SeedConnections(this ModelBuilder modelBuilder)
@@ -15,36 +14,33 @@ public static class ConnectionSeedData
                 {
                     UserId = 1,
                     ConnectionId = 1,
-                    // VaultIdentifier = String.Empty,
                     ConnectionType = ConnectionType.Host,
                     DatabaseName = "Real Time firebird",
                     DatabaseType = DatabaseType.Unknown,
                     Status = ConnectionStatus.Connected,
-                    CreationDate = DateTime.Parse("2023-08-12T20:13:46.384Z"),
+                    CreationDate = new DateTime(2023, 08, 12, 20, 13, 46, 384, DateTimeKind.Utc),
                     LastUpdateTime = default,
                 },
                 new Connection
                 {
                     UserId = 1,
                     ConnectionId = 2,
-                    // VaultIdentifier = String.Empty,
                     ConnectionType = ConnectionType.Host,
                     DatabaseName = "active_users_only",
                     DatabaseType = DatabaseType.PostgresSql,
                     Status = ConnectionStatus.Active,
-                    CreationDate = DateTime.Parse("2024-01-12T20:15:46.384Z"),
+                    CreationDate = new DateTime(2024, 01, 12, 20, 15, 46, 384, DateTimeKind.Utc),
                     LastUpdateTime = default,
                 },
                 new Connection
                 {
                     UserId = 1,
                     ConnectionId = 3,
-                    // VaultIdentifier = String.Empty,
                     ConnectionType = ConnectionType.Url,
                     DatabaseName = "not_so_active_users",
                     DatabaseType = DatabaseType.PostgresSql,
                     Status = ConnectionStatus.Paused,
-                    CreationDate = DateTime.Parse("2023-09-11T20:14:56.384Z"),
+                    CreationDate = new DateTime(2023, 09, 11, 20, 14, 56, 384, DateTimeKind.Utc),
                     LastUpdateTime = default,
                 },
                 new Connection
@@ -56,7 +52,7 @@ public static class ConnectionSeedData
                     DatabaseName = "players",
                     DatabaseType = DatabaseType.SqlServer,
                     Status = ConnectionStatus.Active,
-                    CreationDate = DateTime.Parse("2022-09-11T20:22:22.384Z"),
+                    CreationDate = new DateTime(2022, 09, 11, 20, 22, 22, 384, DateTimeKind.Utc),
                     LastUpdateTime = default,
                 },
                 new Connection
@@ -68,7 +64,7 @@ public static class ConnectionSeedData
                     DatabaseName = "nobody_cares_about_this_database",
                     DatabaseType = DatabaseType.MySql,
                     Status = ConnectionStatus.Inactive,
-                    CreationDate = DateTime.Parse("2021-01-09T20:22:22.384Z"),
+                    CreationDate = new DateTime(2021, 01, 09, 20, 22, 22, 384, DateTimeKind.Utc),
                     LastUpdateTime = default,
                 },
                 new Connection
@@ -80,7 +76,7 @@ public static class ConnectionSeedData
                     DatabaseName = "rfma",
                     DatabaseType = DatabaseType.Oracle,
                     Status = ConnectionStatus.Paused,
-                    CreationDate = DateTime.Parse("2011-01-09T20:22:22.384Z"),
+                    CreationDate = new DateTime(2011, 01, 09, 20, 22, 22, 384, DateTimeKind.Utc),
                     LastUpdateTime = default,
                 },
                 new Connection
@@ -92,7 +88,7 @@ public static class ConnectionSeedData
                     DatabaseName = "kelebekler",
                     DatabaseType = DatabaseType.MySql,
                     Status = ConnectionStatus.Paused,
-                    CreationDate = DateTime.Parse("2008-01-09T20:22:22.384Z"),
+                    CreationDate = new DateTime(2008, 01, 09, 20, 22, 22, 384, DateTimeKind.Utc),
                     LastUpdateTime = default,
                 }
             );
