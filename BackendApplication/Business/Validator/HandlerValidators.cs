@@ -2,7 +2,7 @@ using System.Linq.Expressions;
 using Business.Service;
 using Infrastructure.DbContext;
 using Microsoft.EntityFrameworkCore;
-using Schemes.Exceptions;
+using Schemes.Exception;
 
 namespace Business.Validator;
 
