@@ -1,5 +1,5 @@
 using System.Text.Json;
-using Schemes.Exceptions;
+using Schemes.Exception;
 
 namespace Api.Middleware;
 
