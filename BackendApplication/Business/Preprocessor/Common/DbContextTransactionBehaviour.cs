@@ -1,7 +1,7 @@
 using Business.Cqrs;
 using Infrastructure.DbContext;
 using MediatR;
-using Schemes.Exceptions;
+using Schemes.Exception;
 using Schemes.Mediatr;
 
 namespace Business.Preprocessor.Common;
