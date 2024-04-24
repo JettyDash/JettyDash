@@ -129,7 +129,6 @@ public class Startup
 
         services.AddHealthChecks()
             .AddNpgSql(Configuration.GetConnectionString("DefaultConnection"), name: "PostgreDbHealthCheck");
-            // .AddSqlServer(Configuration.GetConnectionString("DefaultConnection"), name: "SqlServerDbHealthCheck");
 
         services.AddControllers();
 
@@ -155,8 +154,6 @@ public class Startup
             app.UseSwagger();
             app.UseSwaggerUI();
         }
-        app.UseHsts();
-        app.UseHttpsRedirection();
         
         app.UseHealthChecks("/health", new HealthCheckOptions
         {
