@@ -61,7 +61,7 @@ public class TokenService : ITokenService
         var accessTokenExpiration = DateTime.Now.AddMinutes(jwtConfig.AccessTokenExpiration);
 
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtConfig.Secret));
-        var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
+        SigningCredentials signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
         var jwtSecurityToken = new JwtSecurityToken(
             issuer: jwtConfig.Issuer,
             expires: accessTokenExpiration,
