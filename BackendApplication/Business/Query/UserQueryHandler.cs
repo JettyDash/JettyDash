@@ -5,7 +5,7 @@ using Infrastructure.DbContext;
 using Infrastructure.Entity;
 using Microsoft.EntityFrameworkCore;
 using Schemes.Dto;
-using Schemes.Exceptions;
+using Schemes.Exception;
 using Schemes.Mediatr;
 
 namespace Business.Query;
