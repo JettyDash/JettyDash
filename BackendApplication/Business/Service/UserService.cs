@@ -1,6 +1,6 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using Schemes.Exceptions;
+using Schemes.Exception;
 
 namespace Business.Service;
 
