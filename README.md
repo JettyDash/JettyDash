@@ -33,5 +33,3 @@ JWTCONFIG__AUDIENCE=BackendApplication.Api
 JWTCONFIG__ACCESSTOKENEXPIRATION=20
 JWTCONFIG__REFRESHTOKENEXPIRATION=10080
 ```
-
-This Markdown structure organizes your configuration into sections, making it easy for readers to understand and navigate.
